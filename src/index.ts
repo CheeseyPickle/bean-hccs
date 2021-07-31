@@ -280,9 +280,6 @@ function setup() {
   // All combat handled by our consult script (hccs_combat.ash).
   cliExecute('ccs bean-hccs');
 
-  // Turn off Lil' Doctor quests.
-  setChoice(1340, 3);
-
   // fiddle with backup camera (reverser and ML)
   cliExecute('backupcamera reverser on');
   cliExecute('backupcamera ml');
@@ -307,13 +304,13 @@ function setup() {
   }
 
   // get clan consults
-  // setClan('Bonus Adventures from Hell');
-  // if (getPropertyInt('_clanFortuneConsultUses') < 3) {
-  //   while (getPropertyInt('_clanFortuneConsultUses') < 3) {
-  //     cliExecute('fortune cheesefax');
-  //     cliExecute('wait 5');
-  //   }
-  // }
+  setClan('Redemption City');
+  if (getPropertyInt('_clanFortuneConsultUses') < 3) {
+    while (getPropertyInt('_clanFortuneConsultUses') < 3) {
+      cliExecute('fortune d0rfl');
+      cliExecute('wait 5');
+    }
+  }
 
   cliExecute('boombox meat');
   cliExecute('mcd 10');
@@ -329,8 +326,6 @@ function setup() {
   ensureItem(1, $item`toy accordion`);
   cliExecute(`acquire bitchin meatcar`);
 
-  // lathe wand
-  visitUrl('shop.php?whichshop=lathe&action=buyitem&quantity=1&whichrow=1162&pwd');
 
   if (!get('_floundryItemCreated')) {
     cliExecute('acquire fish hatchet');
@@ -339,40 +334,20 @@ function setup() {
   autosell(1, $item`Newbiesport™ tent`);
 }
 
-function getPizzaIngredients() {
-  if (availableAmount($item`cherry`) > 0) return;
-
-  // Put on some regen gear
+  // Put on some gear
   equip($item`Fourth of May Cosplay Saber`);
-  equip($item`familiar scrapbook`); // maxmize scrap drops during saber YRs
+  equip($item`latte lovers member's mug`);
   equip($item`Cargo Cultist Shorts`);
-  equip($slot`acc1`, $item`Eight Days a Week Pill Keeper`);
-  equip($slot`acc2`, $item`Powerful Glove`);
-  equip($slot`acc3`, $item`Lil' Doctor™ bag`);
+  equip($slot`acc1`, $item`backup camera`);
+  equip($slot`acc2`, $item`Beach Comb`);
 
-  useFamiliar($familiar`Plastic Pirate Skull`); // maxmize scrap drops
+  useFamiliar($familiar`Plastic Pirate Skull`); // survivability, I guess
 
   setProperty('choiceAdventure1387', '3'); // set saber to drop items
-
-  // Saber for CEA ingredients (CER* and MAL* pizzas)
-  adventureMacro(
-    $location`The Haunted Kitchen`,
-    Macro.step('mark start')
-      .if_('monstername "possessed silverware drawer"', Macro.trySkill('use the force'))
-      .trySkill('CHEAT CODE: Replace Enemy')
-      .step('goto start')
-  );
-  if (handlingChoice()) runChoice(3);
-  autosell(1, $item`corn holder`);
 
   // Saber tomato (reagent potion)
   mapAndSaberMonster($location`The Haunted Pantry`, $monster`possessed can of tomatoes`);
 
-  // Saber irate sombrero (DIF pizza)
-  mapAndSaberMonster($location`South of The Border`, $monster`irate mariachi`);
-  autosell(1, $item`bottle of tequila`);
-  autosell(1, $item`half-sized guitar`);
-  autosell(1, $item`mariachi G-string`);
 
   // Cherry and grapefruit in skeleton store (Saber YR)
   if (getProperty('questM23Meatsmith') === 'unstarted') {
@@ -391,37 +366,9 @@ function getPizzaIngredients() {
 }
 
 function useStatGains() {
-  if (!haveEffect($effect`Different Way of Seeing Things`)) {
-    ensureSewerItem(1, $item`disco ball`);
-    cliExecute('acquire full meat tank');
-    cliExecute('acquire seal tooth');
-    cliExecute('acquire volleyball');
-
-    use($item`seal tooth`);
-    use($item`volleyball`);
-
-    useFamiliar($familiar`Pocket Professor`);
-
-    eatPizza(
-      $item`disco ball`,
-      $item`irate sombrero`,
-      $item`full meat tank`,
-      $item`blood-faced volleyball`
-    );
-
-    availableAmount($item`Pocket Professor memory chip`) === 0 && abort("didn't get memory chip");
-    equip($slot`familiar`, $item`Pocket Professor memory chip`);
-  }
-
-  if (get('getawayCampsiteUnlocked') && haveEffect($effect`That's Just Cloud-Talk, Man`) === 0) {
-    visitUrl('place.php?whichplace=campaway&action=campaway_sky');
-  }
-
   ensureEffect($effect`Inscrutable Gaze`);
   ensureEffect($effect`Thaumodynamic`);
   ensurePullEffect($effect`Category`, $item`abstraction: category`);
-
-  equip($item`familiar scrapbook`); // make use of exp boosts
 
   // Prep Sweet Synthesis.
   if (haveSkill($skill`Sweet Synthesis`)) {
@@ -444,6 +391,7 @@ function useStatGains() {
     synthesisPlanner.synthesize($effect`Synthesis: Smart`);
   }
 
+  // uh oh, I might need some more IOTMs
   if (Math.round(numericModifier('mysticality experience percent')) < 125) {
     throw 'Insufficient +stat%.';
   }
