@@ -345,10 +345,6 @@ function setup() {
 
   setProperty('choiceAdventure1387', '3'); // set saber to drop items
 
-  // Saber tomato (reagent potion)
-  mapAndSaberMonster($location`The Haunted Pantry`, $monster`possessed can of tomatoes`);
-
-
   // Cherry and grapefruit in skeleton store (Saber YR)
   if (getProperty('questM23Meatsmith') === 'unstarted') {
     visitUrl('shop.php?whichshop=meatsmith&action=talk');
@@ -359,7 +355,8 @@ function setup() {
   if (!containsText($location`The Skeleton Store`.noncombatQueue, 'Skeletons In Store')) {
     throw 'Something went wrong at skeleton store.';
   }
-  mapAndSaberMonster($location`The Skeleton Store`, $monster`novelty tropical skeleton`);
+  // REMINDER: I, uh, don't have map. Set up banishes somehow
+  // mapAndSaberMonster($location`The Skeleton Store`, $monster`novelty tropical skeleton`);
   autosell(availableAmount($item`lemon`), $item`lemon`);
   autosell(availableAmount($item`orange`), $item`orange`);
   autosell(availableAmount($item`strawberry`), $item`strawberry`);
