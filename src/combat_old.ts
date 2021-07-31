@@ -102,7 +102,7 @@ export class Macro extends LibramMacro {
         'runaway'
       )
       .trySkill(
-        'Spring-Loaded Front Bumper, Reflex Hammer, KGB tranquilizer dart, Throw Latte on Opponent, Snokebomb'
+        'Spring-Loaded Front Bumper, Reflex Hammer, KGB tranquilizer dart, Throw Latte on Opponent, Snokebomb, Feel Hatred'
       )
       .tryItem('Louder Than Bomb, tattered scrap of paper, GOTO, green smoke bomb')
       .abort();
