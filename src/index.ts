@@ -429,7 +429,7 @@ function buffBeforeGoblins() {
   autosell(availableAmount($item`ointment of the occult`), $item`ointment of the occult`);
 
   // MAL pizza
-  if (!haveEffect($effect`Mallowed Out`)) {
+  /* if (!haveEffect($effect`Mallowed Out`)) {
     // pull giant pearl to ensure 100 turns
     if (availableAmount($item`giant pearl`) === 0 && !haveEffect($effect`Mallowed Out`)) {
       if (!pullIfPossible(1, $item`giant pearl`, 24000)) {
@@ -444,28 +444,30 @@ function buffBeforeGoblins() {
       $item`little paper umbrella`,
       $item`giant pearl`
     );
-  }
+  } */
 
   ensureEffect($effect`Favored by Lyle`);
   ensureEffect($effect`Starry-Eyed`);
-  ensureEffect($effect`Triple-Sized`);
+  // ensureEffect($effect`Triple-Sized`);
   ensureEffect($effect`Feeling Excited`);
   ensureEffect($effect`Uncucumbered`); // boxing daycare
   ensureSong($effect`The Magical Mojomuscular Melody`);
   ensureNpcEffect($effect`Glittering Eyelashes`, 5, $item`glittery mascara`);
   ensureEffect($effect`Hulkien`);
-  ensurePullEffect($effect`Perspicacious Pressure`, $item`pressurized potion of perspicacity`);
+  // ensurePullEffect($effect`Perspicacious Pressure`, $item`pressurized potion of perspicacity`);
   ensureEffect($effect`Lapdog`);
 
   // Plan is for these buffs to fall all the way through to item -> hot res -> fam weight.
-  ensureEffect($effect`Fidoxene`);
+  // ensureEffect($effect`Fidoxene`);
   ensureEffect($effect`Billiards Belligerence`);
   ensureEffect($effect`Do I Know You From Somewhere?`);
   ensureEffect($effect`You Learned Something Maybe!`);
-
+  
+  /*
   if (!haveEffect($effect`Holiday Yoked`)) {
     adventureWithCarolGhost($effect`Holiday Yoked`);
   }
+  */
 
   // eat the sausage gotten earlier to restore MP
   if (myMp() < 100) {
@@ -498,23 +500,21 @@ function buffBeforeGoblins() {
   //   cliExecute("drink Bee's Knees");
   // }
 
-  ensureEffect($effect`Blessing of your favorite Bird`); // Should be 75% myst for now.
+  // ensureEffect($effect`Blessing of your favorite Bird`); // Should be 75% myst for now.
   ensureSong($effect`Polka of Plenty`);
   haveSkill($skill`Song of Bravado`) && ensureEffect($effect`Song of Bravado`);
 }
 
 function doFreeFights() {
-  equip($item`fresh coat of paint`);
-  equip($item`unwrapped knock-off retro superhero cape`);
-  equip($item`weeping willow wand`);
-  equip($item`familiar scrapbook`);
+  cliExecute('fold makeshift garbage shirt');
+  equip($item`makeshift garbage shirt`);
+  equip($item`Fourth of May Cosplay Saber`);
+  equip($item`latte lovers member's mug`);
   equip($item`Cargo Cultist Shorts`);
-  equip($slot`acc1`, $item`Retrospecs`);
-  equip($slot`acc2`, $item`hewn moon-rune spoon`);
-  equip($slot`acc3`, $item`backup camera`);
+  equip($slot`acc1`, $item`Beach Comb`);
+  equip($slot`acc2`, $item`backup camera`);
 
   useFamiliar($familiar`Hovering Sombrero`);
-  equip($slot`familiar`, $item`miniature crystal ball`);
 
   // Get buff things
   ensureSewerItem(1, $item`turtle totem`);
@@ -540,11 +540,9 @@ function doFreeFights() {
   // mood.skill($skill`Feel Excitement`);
   // mood.execute();
 
-  cliExecute('retrocape mysticality');
-
-  equip($item`familiar scrapbook`);
 
   // kill the mushroom and chew mushroom tea
+  /*
   if (!get('_mushroomGardenVisited')) {
     Macro.skill($skill`Barrage of Tears`)
       .skill($skill`Spittoon Monsoon`)
@@ -562,6 +560,7 @@ function doFreeFights() {
     ensureCreateItem(1, $item`mushroom tea`);
     chew($item`mushroom tea`); // get Mush-Maw (+20 ML), 1 spleen
   }
+  */
 
   // kill a Kramco to prep the back-up camera
   if (sausageFightGuaranteed()) {
@@ -578,7 +577,7 @@ function doFreeFights() {
   }
 
   // 10x back-up sausage fight @ The Dire Warren with Sombrero
-  equip($item`familiar scrapbook`);
+  equip($item`latte lovers member's mug`);
 
   while (get('_backUpUses') < 10) {
     upkeepHpAndMp();
@@ -600,7 +599,6 @@ function doFreeFights() {
   // Professor chain off the last back-up
   equip($item`Fourth of May Cosplay Saber`);
   useFamiliar($familiar`Pocket Professor`);
-  equip($slot`familiar`, $item`Pocket Professor memory chip`);
 
   if (myFamiliarWeight() < 65) abort('not maxing fam weight');
 
@@ -623,10 +621,10 @@ function postGoblins() {
   useSkill(1, $skill`Bowl Full of Jelly`);
   useSkill(1, $skill`Eye and a Twist`);
   useSkill(1, $skill`Pastamastery`);
-  useSkill(1, $skill`Spaghetti Breakfast`);
-  useSkill(1, $skill`Grab a Cold One`);
+  // useSkill(1, $skill`Spaghetti Breakfast`);
+  // useSkill(1, $skill`Grab a Cold One`);
   useSkill(1, $skill`Acquire Rhinestones`);
-  useSkill(1, $skill`Prevent Scurvy and Sobriety`);
+  // useSkill(1, $skill`Prevent Scurvy and Sobriety`);
   haveSkill($skill`Perfect Freeze`) && useSkill(1, $skill`Perfect Freeze`);
   useSkill(1, $skill`Chubby and Plump`);
   useSkill(1, $skill`Summon Crimbo Candy`);
@@ -642,7 +640,7 @@ function doHpTest() {
     cliExecute("shrug Carlweather's Cantata of Confrontation");
   }
 
-  maximize('hp', false);
+  maximize('hp, -muscle', false);
 
   // QUEST - Donate Blood (HP)
   if (myMaxhp() - myBuffedstat($stat`muscle`) - 3 < 1770) {
@@ -657,8 +655,8 @@ function doMoxTest() {
   else ensurePotionEffect($effect`Expert Oiliness`, $item`oil of expertise`);
 
   // Sauceror has 75% moxie bird
-  use(1, $item`Bird-a-Day Calendar`);
-  ensureEffect($effect`Blessing of the Bird`);
+  // use(1, $item`Bird-a-Day Calendar`);
+  // ensureEffect($effect`Blessing of the Bird`);
 
   ensureEffect($effect`Big`);
   // ensureEffect($effect`Song of Bravado`);
@@ -673,7 +671,7 @@ function doMoxTest() {
   if (haveEffect($effect`Unrunnable Face`) === 0) {
     tryUse(1, $item`runproof mascara`);
   }
-  cliExecute('retrocape moxie');
+  // cliExecute('retrocape moxie');
 
   maximize('moxie', false);
 
@@ -695,7 +693,7 @@ function doMusTest() {
   // ensureEffect($effect`Quiet Determination`);
   // ensureEffect($effect`Disdain of the War Snapper`);
   ensureNpcEffect($effect`Go Get 'Em, Tiger!`, 5, $item`Ben-Gal™ balm`);
-  cliExecute('retrocape muscle');
+  // cliExecute('retrocape muscle');
 
   haveFamiliar($familiar`Left-Hand Man`) && useFamiliar($familiar`Left-Hand Man`);
   maximize('muscle', false);
@@ -721,12 +719,13 @@ function doItemTest() {
 
   // cyclops eyedrops
   if (!haveEffect($effect`One Very Clear Eye`)) {
-    cliExecute('pillkeeper semirare');
+    eat(1, $item`optimal dog`);
     adv1($location`The Limerick Dungeon`);
     use($item`cyclops eyedrops`);
   }
 
   // Create CER pizza
+  /*
   if (!haveEffect($effect`Certainty`)) {
     equip($slot`hat`, $item`none`);
     ensureSewerItem(1, $item`ravioli hat`);
@@ -737,9 +736,7 @@ function doItemTest() {
       $item`ravioli hat`,
       $item`Pocket Professor memory chip` // get that cracker
     );
-
-    ensureItem(1, $item`cracker`);
-    equip($slot`familiar`, $item`cracker`);
+    */
   }
 
   !get('_clanFortuneBuffUsed') && cliExecute('fortune buff item');
@@ -770,15 +767,13 @@ function doFamiliarTest() {
   ensureEffect($effect`Empathy`);
 
   // These should have fallen through all the way from leveling.
-  ensureEffect($effect`Fidoxene`);
+  // ensureEffect($effect`Fidoxene`);
   ensureEffect($effect`Billiards Belligerence`);
 
-  useFamiliar($familiar`Exotic Parrot`);
+  useFamiliar($familiar`Pocket Professor`);
   equip($item`Fourth of May Cosplay Saber`);
-  equip($item`familiar scrapbook`);
-  equip($slot`acc2`, $item`hewn moon-rune spoon`);
-  equip($slot`acc3`, $item`Beach Comb`);
-  equip($slot`familiar`, $item`cracker`);
+  equip($item`latte lovers member's mug`);
+  equip($slot`acc1`, $item`Beach Comb`);
   // maximize('familiar weight', false);
 
   doTest(Test.FAMILIAR);
@@ -790,6 +785,7 @@ function doWeaponTest() {
   }
 
   // OU pizza (pulverize saucepan for useless powder)
+  /*
   if (!haveEffect($effect`Outer Wolf™`)) {
     ensureItem(1, $item`tenderizing hammer`);
     ensureItem(1, $item`cool whip`);
@@ -801,10 +797,13 @@ function doWeaponTest() {
       $item`scrumptious reagent`
     );
   }
-
+  */
+  
+  /*
   if (haveEffect($effect`Do You Crush What I Crush?`) === 0) {
     adventureWithCarolGhost($effect`Do You Crush What I Crush?`);
   }
+  */
 
   if (!haveEffect($effect`In a Lather`)) {
     useSkill($skill`The Ode to Booze`);
@@ -842,10 +841,10 @@ function doWeaponTest() {
   }
 
   eat(1, $item`glass of raw eggs`);
-
+  
+  cliExecute('fold broken champagne bottle');
   equip($item`fish hatchet`);
-  equip($item`astral trousers`);
-  equip($slot`acc1`, $item`Powerful Glove`);
+  equip($item`broken champagne bottle`);
 
   // maximize('weapon damage, weapon damage percent', false);
 
@@ -872,9 +871,11 @@ function doSpellTest() {
     ensureEffect($effect`Full Bottle in front of Me`);
   }
 
+  /*
   if (haveEffect($effect`Do You Crush What I Crush?`) === 0) {
     adventureWithCarolGhost($effect`Do You Crush What I Crush?`);
   }
+  */
 
   useSkill(1, $skill`Spirit of Cayenne`);
 
@@ -887,8 +888,6 @@ function doSpellTest() {
 
   // Deep Dark Visions
   useFamiliar($familiar`Exotic Parrot`);
-
-  cliExecute('retrocape vampire hold');
 
   // Mafia sometimes can't figure out that multiple +weight things would get us to next tier.
   maximize('hot res, 0.01 familiar weight', false);
@@ -913,9 +912,6 @@ function doSpellTest() {
     useSkill(1, $skill`Deep Dark Visions`);
   }
 
-  equip($item`weeping willow wand`);
-  equip($slot`acc1`, $item`Powerful Glove`);
-  equip($slot`acc2`, $item`hewn moon-rune spoon`);
   availableAmount($item`psychic's amulet`) > 0 && equip($slot`acc3`, $item`psychic's amulet`);
   // maximize('spell damage', false);
 
@@ -946,11 +942,6 @@ function doHotResTest() {
     setAutoAttack(0);
   }
 
-  // Make sure no moon spoon.
-  equip($slot`acc1`, $item`Eight Days a Week Pill Keeper`);
-  equip($slot`acc2`, $item`Powerful Glove`);
-  equip($slot`acc3`, $item`Lil' Doctor™ Bag`);
-
   ensureItem(1, $item`tenderizing hammer`);
   cliExecute('smash * ratty knitted cap');
   cliExecute('smash * red-hot sausage fork');
@@ -972,9 +963,9 @@ function doHotResTest() {
     ensurePotionEffect($effect`Sleazy Hands`, $item`lotion of sleaziness`);
   }
 
-  ensureEffect($effect`Rainbowolin`);
+  // ensureEffect($effect`Rainbowolin`);
   ensureEffect($effect`Elemental Saucesphere`);
-  ensureEffect($effect`Astral Shell`);
+  // ensureEffect($effect`Astral Shell`);
   ensureEffect($effect`Blood Bond`);
   ensureEffect($effect`Leash of Linguini`);
   ensureEffect($effect`Empathy`);
@@ -991,13 +982,13 @@ function doHotResTest() {
 
   useFamiliar($familiar`Exotic Parrot`);
 
-  cliExecute('retrocape vampire hold');
   equip($item`Fourth of May Cosplay Saber`);
-  equip($item`unwrapped knock-off retro superhero cape`);
+  equip($item`fish hatchet`);
   equip($item`lava-proof pants`);
+  equip($slot`acc1`, $item`Brutal Brogues`);
+  equip($slot`acc2`, $item`Beach Comb`);
   equip($slot`acc3`, $item`heat-resistant gloves`);
-  availableAmount($item`psychic's amulet`) > 0 && equip($item`psychic's amulet`);
-  equip($slot`familiar`, $item`cracker`);
+  availableAmount($item`psychic's amulet`) > 0 && equip($slot`acc2`, $item`psychic's amulet`);
 
   // Mafia sometimes can't figure out that multiple +weight things would get us to next tier.
   // maximize('hot res, 0.01 familiar weight', false);
@@ -1015,17 +1006,17 @@ function doNonCombatTest() {
 
   ensureEffect($effect`The Sonata of Sneakiness`);
   ensureEffect($effect`Smooth Movements`);
-  ensureEffect($effect`Invisible Avatar`);
+  // ensureEffect($effect`Invisible Avatar`);
   ensureEffect($effect`Feeling Lonely`);
   ensureEffect($effect`A Rose by Any Other Material`);
   ensureEffect($effect`Throwing Some Shade`);
 
   wishEffect($effect`Disquiet Riot`);
 
-  // cliExecute('acquire porkpie-mounted popper');
-  // equip($item`porkpie-mounted popper`);
+  cliExecute('acquire porkpie-mounted popper');
+  equip($item`porkpie-mounted popper`);
   equip($item`fish hatchet`);
-  equip($slot`acc2`, $item`hewn moon-rune spoon`);
+  equip($item`pantogram pants`)
 
   doTest(Test.NONCOMBAT);
 }
@@ -1136,6 +1127,7 @@ export function main() {
   cliExecute('refresh all');
 
   // Tune moon sign to Wombat (for meat farming).
+  /*
   if (!get('moonTuned')) {
     // Unequip spoon.
     equip($slot`acc1`, $item`Retrospecs`);
@@ -1145,4 +1137,5 @@ export function main() {
     // Actually tune the moon.
     visitUrl('inv_use.php?whichitem=10254&doit=96&whichsign=7');
   }
+  */
 }
