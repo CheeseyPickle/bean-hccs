@@ -735,11 +735,8 @@ function doWeaponTest() {
 function doSpellTest() {
   ensureEffect($effect`Simmering`);
 
-  ensureEffect($effect`Song of Sauce`);
   ensureEffect($effect`AAA-Charged`);
   ensureEffect($effect`Carol of the Hells`);
-  // ensureEffect($effect`Arched Eyebrow of the Archmage`);
-  // ensureSong($effect`Jackasses' Symphony of Destruction`);
 
   // Pool buff
   if (get('_poolGames') < 3) {
@@ -751,12 +748,6 @@ function doSpellTest() {
     ensureSewerItem(1, $item`mariachi hat`);
     ensureEffect($effect`Full Bottle in front of Me`);
   }
-
-  /*
-  if (haveEffect($effect`Do You Crush What I Crush?`) === 0) {
-    adventureWithCarolGhost($effect`Do You Crush What I Crush?`);
-  }
-  */
 
   useSkill(1, $skill`Spirit of Cayenne`);
 
