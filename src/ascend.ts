@@ -13,9 +13,8 @@ visitUrl('afterlife.php?action=buydeli&whichitem=5046');
 // Belt
 visitUrl('afterlife.php?action=buyarmory&whichitem=5042');
 
-// TODO: Find out which number Wallaby is
-// Pastamancer, Blender, Male, CS
+// Pastamancer, Wallaby, Male, CS
 visitUrl(
-  'afterlife.php?action=ascend&confirmascend=1&whichsign=8&gender=1&whichclass=3&whichpath=25&asctype=2&nopetok=1&noskillsok=1&pwd',
+  'afterlife.php?action=ascend&confirmascend=1&whichsign=2&gender=1&whichclass=3&whichpath=25&asctype=2&nopetok=1&noskillsok=1&pwd',
   true
 );
