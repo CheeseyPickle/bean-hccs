@@ -406,7 +406,7 @@ function useStatGains() {
     abort('I think we failed to use a red rocket somewhere...');
   }
 
-  // Bastille for mys effect and brogues. Also mys stats, duh
+  // Bastille for mys effect and brogues. Also mys stats, of course
   cliExecute('bastille myst brutalist');
 
   // Scavenge for gym equipment

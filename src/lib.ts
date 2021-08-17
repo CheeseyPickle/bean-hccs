@@ -14,6 +14,7 @@ import {
   getProperty,
   handlingChoice,
   haveEffect,
+  haveEquipped,
   haveSkill,
   myFamiliar,
   myMaxmp,
@@ -340,7 +341,7 @@ const songSlots = [
 const allKnownSongs = ([] as Effect[]).concat(...songSlots);
 const allSongs = Skill.all()
   .filter(
-    (skill) => toStringAsh((skill.class as unknown) as string) === 'Accordion Thief' && skill.buff
+    (skill) => toStringAsh(skill.class as unknown as string) === 'Accordion Thief' && skill.buff
   )
   .map((skill) => toEffect(skill));
 export function openSongSlot(song: Effect) {
@@ -428,6 +429,14 @@ export function adventureWithCarolGhost(effect: Effect) {
 
   // hit an NC or something, try again
   if (!haveEffect(effect)) {
-      adventureWithCarolGhost(effect);
+    adventureWithCarolGhost(effect);
   }
+}
+
+export function runawayAvailable() {
+  return (
+    (haveEquipped($item`latte lovers member's mug`) && get('_latteBanishUsed')) ||
+    get('_feelHatredUsed') < 3 ||
+    (myMp() >= 50 && get('_snokebombUsed') < 3)
+  );
 }

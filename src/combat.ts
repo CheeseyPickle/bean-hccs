@@ -25,6 +25,13 @@ const COMBAT_MACROS = {
         .trySkill($skill`Snokebomb`)
     ).trySkill($skill`Use the Force`);
   },
+
+  latteRun: function (): Macro {
+    return Macro.trySkill($skill`Gulp Latte`)
+      .trySkill($skill`Throw Latte on Opponent`)
+      .trySkill($skill`Feel Hatred`)
+      .trySkill($skill`Snokebomb`);
+  },
 };
 
 function main(): void {
