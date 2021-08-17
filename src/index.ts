@@ -27,7 +27,6 @@ import {
   myClass,
   myFamiliar,
   myFullness,
-  myGardenType,
   myHp,
   myInebriety,
   myLevel,
@@ -55,7 +54,6 @@ import {
 import {
   $class,
   $effect,
-  $effects,
   $familiar,
   $item,
   $location,
@@ -91,7 +89,6 @@ import {
   tryUse,
   wishEffect,
 } from './lib';
-import { SynthesisPlanner } from './synthesis';
 
 enum Test {
   HP = 1,
@@ -242,11 +239,6 @@ function doTest(testNum: Test) {
   }
 }
 
-// Sweet Synthesis plan.
-// This is the sequence of synthesis effects; we will, if possible, come up with a plan for allocating candy to each of these.
-const synthesisPlanner = new SynthesisPlanner(
-  $effects`Synthesis: Learning, Synthesis: Smart, Synthesis: Collection`
-);
 
 function setup() {
   setPropertyInt('bb_ScriptStartCS', gametimeToInt());
@@ -412,27 +404,6 @@ function useStatGains() {
   ensurePullEffect($effect`Category`, $item`abstraction: category`);
 
   equip($item`familiar scrapbook`); // make use of exp boosts
-
-  // Prep Sweet Synthesis.
-  if (haveSkill($skill`Sweet Synthesis`)) {
-    if (myGardenType() === 'peppermint') {
-      cliExecute('garden pick');
-    } else {
-      print(
-        'WARNING: This script is built for peppermint garden. Switch gardens or find other candy.',
-        'red'
-      );
-    }
-
-    if (getPropertyInt('_candySummons') === 0) {
-      useSkill(1, $skill`Summon Crimbo Candy`);
-    }
-
-    useSkill(1, $skill`Chubby and Plump`);
-
-    synthesisPlanner.synthesize($effect`Synthesis: Learning`);
-    synthesisPlanner.synthesize($effect`Synthesis: Smart`);
-  }
 
   if (Math.round(numericModifier('mysticality experience percent')) < 125) {
     throw 'Insufficient +stat%.';
