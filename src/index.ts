@@ -16,7 +16,6 @@ import {
   familiarWeight,
   gametimeToInt,
   getProperty,
-  handlingChoice,
   haveEffect,
   haveFamiliar,
   haveSkill,
@@ -32,6 +31,7 @@ import {
   myInebriety,
   myLevel,
   myMaxhp,
+  myMeat,
   myMp,
   mySpleenUse,
   myTurncount,
@@ -68,6 +68,7 @@ import {
   Macro,
   set,
 } from 'libram';
+import { COMBAT_MACROS } from './combat';
 import {
   adventureWithCarolGhost,
   eatPizza,
@@ -81,7 +82,6 @@ import {
   ensureSong,
   getPropertyBoolean,
   getPropertyInt,
-  mapAndSaberMonster,
   myFamiliarWeight,
   pullIfPossible,
   sausageFightGuaranteed,
@@ -197,11 +197,11 @@ function doGuaranteedGoblin() {
     ensureSong($effect`The Magical Mojomuscular Melody`);
 
     useFamiliar($familiar`Left-Hand Man`);
-    equip($slot`hat`, $item`wad of used tape`);
-    equip($slot`back`, $item`Catherine Wheel`);
-    equip($slot`weapon`, $item`Fourth of May Cosplay Saber`);
+    equip($item`wad of used tape`);
+    equip($item`Catherine Wheel`);
+    equip($item`Fourth of May Cosplay Saber`);
     equip($slot`off-hand`, $item`Kramco Sausage-o-Matic™`);
-    equip($slot`pants`, $item`pantogram pants`);
+    equip($item`pantogram pants`);
     equip($slot`acc1`, $item`Beach Comb`);
     equip($slot`acc2`, $item`backup camera`);
     equip($slot`familiar`, $item`latte lovers member's mug`);
@@ -212,23 +212,8 @@ function doGuaranteedGoblin() {
         .attack()
         .repeat()
     );
-  }
-
-  if (myMp() >= 50) {
-    const lovePotion = $item`Love Potion #0`;
-    const loveEffect = $effect`Tainted Love Potion`;
-    useSkill($skill`Love Mixology`);
-    visitUrl(`desc_effect.php?whicheffect=${loveEffect.descid}`);
-    if (
-      !(
-        numericModifier(loveEffect, 'mysticality') > 10 &&
-        numericModifier(loveEffect, 'muscle') > -30 &&
-        numericModifier(loveEffect, 'moxie') > -30 &&
-        numericModifier(loveEffect, 'maximum hp percent') > -0.001
-      )
-    ) {
-      use(1, lovePotion);
-    }
+    // unequip the latte from LHM
+    equip($slot`familiar`, $item`none`);
   }
 }
 
@@ -331,6 +316,9 @@ function setup() {
   // get a FR hat
   create($item`FantasyRealm Rogue's Mask`);
 
+  // fold a wad of tape
+  cliExecute('fold wad of used tape');
+
   // Summon pants w/ mys, spooky res, weapon dmg, -combat, mp
   // FIXME: I...have no idea if this url will actually work.
   visitUrl('inv_use.php?pwd&whichitem=9573');
@@ -362,39 +350,18 @@ function setup() {
 }
 
 function getIngredients() {
-  if (availableAmount($item`cherry`) > 0) return;
-
   // Put on some regen gear
+  equip($item`wad of used tape`);
+  equip($item`Catherine Wheel`);
   equip($item`Fourth of May Cosplay Saber`);
-  equip($item`familiar scrapbook`); // maxmize scrap drops during saber YRs
+  equip($item`latte lovers member's mug`); // for the banish
   equip($item`Cargo Cultist Shorts`);
-  equip($slot`acc1`, $item`Eight Days a Week Pill Keeper`);
-  equip($slot`acc2`, $item`Powerful Glove`);
-  equip($slot`acc3`, $item`Lil' Doctor™ bag`);
+  equip($slot`acc1`, $item`backup camera`);
+  equip($slot`acc2`, $item`Beach Comb`);
 
-  useFamiliar($familiar`Plastic Pirate Skull`); // maxmize scrap drops
+  useFamiliar($familiar`Plastic Pirate Skull`); // delevels things so I don't die
 
   setProperty('choiceAdventure1387', '3'); // set saber to drop items
-
-  // Saber for CEA ingredients (CER* and MAL* pizzas)
-  adventureMacro(
-    $location`The Haunted Kitchen`,
-    Macro.step('mark start')
-      .if_('monstername "possessed silverware drawer"', Macro.trySkill('use the force'))
-      .trySkill('CHEAT CODE: Replace Enemy')
-      .step('goto start')
-  );
-  if (handlingChoice()) runChoice(3);
-  autosell(1, $item`corn holder`);
-
-  // Saber tomato (reagent potion)
-  mapAndSaberMonster($location`The Haunted Pantry`, $monster`possessed can of tomatoes`);
-
-  // Saber irate sombrero (DIF pizza)
-  mapAndSaberMonster($location`South of the Border`, $monster`irate mariachi`);
-  autosell(1, $item`bottle of tequila`);
-  autosell(1, $item`half-sized guitar`);
-  autosell(1, $item`mariachi G-string`);
 
   // Cherry and grapefruit in skeleton store (Saber YR)
   if (getProperty('questM23Meatsmith') === 'unstarted') {
@@ -406,9 +373,15 @@ function getIngredients() {
   if (!containsText($location`The Skeleton Store`.noncombatQueue, 'Skeletons In Store')) {
     throw 'Something went wrong at skeleton store.';
   }
-  mapAndSaberMonster($location`The Skeleton Store`, $monster`novelty tropical skeleton`);
-  autosell(availableAmount($item`lemon`), $item`lemon`);
-  autosell(availableAmount($item`orange`), $item`orange`);
+  ensureItem(1, $item`red rocket`);
+  do {
+    adventureMacro(
+      $location`The Skeleton Store`,
+      Macro.tryItem($item`red rocket`).step(
+        COMBAT_MACROS.banishAndSaber('novelty tropical skeleton')
+      )
+    );
+  } while (availableAmount($item`cherry`) === 0);
   autosell(availableAmount($item`strawberry`), $item`strawberry`);
 }
 
@@ -463,14 +436,20 @@ function buffBeforeGoblins() {
 
   autosell(availableAmount($item`ointment of the occult`), $item`ointment of the occult`);
 
+  // +myst stuff
   ensureEffect($effect`Favored by Lyle`);
   ensureEffect($effect`Feeling Excited`);
   ensureEffect($effect`Uncucumbered`); // boxing daycare
   ensureSong($effect`The Magical Mojomuscular Melody`);
   ensureNpcEffect($effect`Glittering Eyelashes`, 1, $item`glittery mascara`);
-  ensureEffect($effect`Lapdog`);
+  wishEffect($effect`A Contender`);
+  ensurePullEffect($effect`New and Improved`, $item`warbear rejuvenation potion`);
 
+  // Levelling stuff
+  ensureEffect($effect`Lapdog`);
   ensureEffect($effect`You Learned Something Maybe!`);
+  create($item`peppermint twist`);
+  ensureEffect($effect`Peppermint Twisted`);
 
   // eat the sausage gotten earlier to restore MP
   if (myMp() < 100) {
@@ -497,12 +476,11 @@ function buffBeforeGoblins() {
     }
   }
 
-  // if (!haveEffect($effect`On the Trolley`)) {
-  //   if (myMeat() < 500) abort("Don't have money for Bee's Knees.");
-  //   useSkill($skill`The Ode to Booze`);
-  //   cliExecute("drink Bee's Knees");
-  // }
-
+  if (!haveEffect($effect`On the Trolley`)) {
+    if (myMeat() < 500) abort("Don't have money for Bee's Knees.");
+    useSkill($skill`The Ode to Booze`);
+    cliExecute("drink Bee's Knees");
+  }
 }
 
 function doFreeFights() {
@@ -635,6 +613,37 @@ function postGoblins() {
 
   autosell(3, $item`magical ice cubes`);
   autosell(3, $item`little paper umbrella`);
+}
+
+function doWireTest() {
+  if (myMp() >= 50) {
+    const lovePotion = $item`Love Potion #0`;
+    const loveEffect = $effect`Tainted Love Potion`;
+    useSkill($skill`Love Mixology`);
+    visitUrl(`desc_effect.php?whicheffect=${loveEffect.descid}`);
+    if (
+      !(
+        numericModifier(loveEffect, 'mysticality') > 10 &&
+        numericModifier(loveEffect, 'muscle') > -30 &&
+        numericModifier(loveEffect, 'moxie') > -30 &&
+        numericModifier(loveEffect, 'maximum hp percent') > -0.001
+      )
+    ) {
+      use(1, lovePotion);
+    }
+  }
+
+  // maximize max MP before doing the test
+  useFamiliar($familiar`Left-Hand Man`);
+  equip($item`wad of used tape`);
+  equip($item`Catherine Wheel`);
+  equip($item`Fourth of May Cosplay Saber`);
+  equip($slot`off-hand`, $item`Kramco Sausage-o-Matic™`);
+  equip($item`pantogram pants`);
+  equip($slot`acc1`, $item`backup camera`);
+  equip($slot`acc2`, $item`Beach Comb`);
+  equip($slot`familiar`, $item`Abracandalabra`);
+  doTest(Test.COIL_WIRE);
 }
 
 function doHpTest() {
@@ -1039,7 +1048,7 @@ export function main() {
     setup();
     getIngredients();
     doGuaranteedGoblin();
-    doTest(Test.COIL_WIRE);
+    doWireTest();
   }
 
   if (myTurncount() < 60) throw 'Something went wrong coiling wire.';
