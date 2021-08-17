@@ -1,54 +1,54 @@
 import {
-  getProperty,
-  toInt,
-  setProperty,
-  familiarWeight,
-  myFamiliar,
-  weightAdjustment,
+  abort,
   availableAmount,
   buy,
-  use,
-  retrieveItem,
-  haveEffect,
-  cliExecute,
-  print,
-  myMp,
-  myMaxmp,
-  eat,
-  totalTurnsPlayed,
-  getClanName,
-  visitUrl,
-  getFuel,
-  create,
-  haveSkill,
-  useSkill,
-  toUrl,
   buyUsingStorage,
+  cliExecute,
+  create,
+  eat,
   equip,
+  equippedItem,
+  familiarWeight,
+  getClanName,
+  getFuel,
+  getProperty,
+  handlingChoice,
+  haveEffect,
+  haveSkill,
+  myFamiliar,
+  myMaxmp,
+  myMp,
+  print,
   pullsRemaining,
+  retrieveItem,
+  runChoice,
+  runCombat,
+  setProperty,
   shopAmount,
   storageAmount,
   takeShop,
-  toString as toStringAsh,
   toEffect,
-  runCombat,
-  runChoice,
-  handlingChoice,
+  toInt,
+  toString as toStringAsh,
+  totalTurnsPlayed,
+  toUrl,
+  use,
   useFamiliar,
-  abort,
-  equippedItem,
+  useSkill,
+  visitUrl,
+  weightAdjustment,
 } from 'kolmafia';
 import {
   $effect,
   $effects,
-  $item,
-  $skill,
-  Macro,
   $familiar,
+  $item,
+  $location,
+  $skill,
   $slot,
   adventureMacroAuto,
-  $location,
   get,
+  Macro,
 } from 'libram';
 
 export function getPropertyInt(name: string) {
@@ -246,7 +246,7 @@ export function ensureAsdonEffect(ef: Effect) {
 }
 
 export function eatPizza(...ingredients: Item[]) {
-  let ingrs = ingredients.map((ingr) => toInt(ingr)).join();
+  const ingrs = ingredients.map((ingr) => toInt(ingr)).join();
   visitUrl(`campground.php?action=makepizza&pizza=${ingrs}`);
   ensureItem(1, $item`diabolic pizza`);
   eat($item`diabolic pizza`);
@@ -276,7 +276,7 @@ export function mapMonster(location: Location, monster: Monster) {
 export function mapAndSaberMonster(location: Location, monster: Monster) {
   mapMonster(location, monster);
 
-  withMacro(Macro.skill($skill`use the force`), runCombat);
+  withMacro(Macro.skill($skill`Use the Force`), runCombat);
   if (handlingChoice()) runChoice(3);
 }
 
@@ -397,7 +397,7 @@ export function adventureWithCarolGhost(effect: Effect) {
     abort('Attempting to Carol Ghost with previous effect active.');
   }
 
-  let offHand = equippedItem($slot`off-hand`);
+  const offHand = equippedItem($slot`off-hand`);
   let location = $location`Noob Cave`;
   equip($item`familiar scrapbook`); // ensure no kramco
 
@@ -416,11 +416,11 @@ export function adventureWithCarolGhost(effect: Effect) {
   if (get('_reflexHammerUsed') >= 3 && get('_chestXRayUsed') >= 3)
     throw 'No free-kill for Carol Ghost!';
   useFamiliar($familiar`Ghost of Crimbo Carols`);
-  equip($slot`acc3`, $item`Lil' Doctor™ Bag`);
+  equip($slot`acc3`, $item`Lil' Doctor™ bag`);
   adventureMacroAuto(
     location,
     Macro.externalIf(get('_reflexHammerUsed') < 3, Macro.skill($skill`Reflex Hammer`)).skill(
-      $skill`chest x-ray`
+      $skill`Chest X-Ray`
     )
   );
 

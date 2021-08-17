@@ -1,98 +1,95 @@
 import { canAdv } from 'canadv.ash';
 import {
-  useFamiliar,
-  equip,
-  availableAmount,
-  use,
+  abort,
+  adv1,
   autosell,
-  haveEffect,
+  availableAmount,
+  chatPrivate,
+  chew,
   cliExecute,
-  print,
-  visitUrl,
+  containsText,
+  drink,
   eat,
-  useSkill,
-  numericModifier,
+  equip,
+  equippedItem,
+  familiarWeight,
+  gametimeToInt,
+  getProperty,
+  handlingChoice,
+  haveEffect,
+  haveFamiliar,
+  haveSkill,
+  inMultiFight,
+  maximize,
+  myAdventures,
   myBasestat,
   myBuffedstat,
-  containsText,
-  setProperty,
-  getProperty,
-  myLevel,
-  runChoice,
-  myTurncount,
-  myHp,
-  myMaxhp,
-  myGardenType,
   myClass,
-  adv1,
-  runCombat,
-  handlingChoice,
-  haveSkill,
-  maximize,
-  drink,
-  myMp,
-  myAdventures,
-  wait,
-  chatPrivate,
-  haveFamiliar,
-  abort,
-  toInt,
-  restoreHp,
-  setAutoAttack,
-  gametimeToInt,
-  chew,
-  inMultiFight,
-  familiarWeight,
   myFamiliar,
-  weightAdjustment,
   myFullness,
+  myGardenType,
+  myHp,
   myInebriety,
+  myLevel,
+  myMaxhp,
+  myMp,
   mySpleenUse,
-  myMeat,
+  myTurncount,
+  numericModifier,
+  print,
+  restoreHp,
+  runChoice,
+  runCombat,
+  setAutoAttack,
+  setProperty,
+  toInt,
   toSlot,
-  equippedItem,
+  use,
+  useFamiliar,
   userConfirm,
+  useSkill,
+  visitUrl,
+  wait,
+  weightAdjustment,
 } from 'kolmafia';
 import {
-  $familiar,
-  $item,
+  $class,
   $effect,
   $effects,
+  $familiar,
+  $item,
+  $location,
+  $monster,
   $skill,
   $slot,
-  $location,
   $stat,
-  $monster,
-  $class,
-  get,
-  Mood,
-  Macro,
   adventureMacro,
   adventureMacroAuto,
+  get,
+  Macro,
   set,
 } from 'libram';
 import {
+  adventureWithCarolGhost,
+  eatPizza,
+  ensureCreateItem,
   ensureEffect,
   ensureItem,
+  ensureNpcEffect,
+  ensurePotionEffect,
+  ensurePullEffect,
+  ensureSewerItem,
+  ensureSong,
+  getPropertyBoolean,
   getPropertyInt,
+  mapAndSaberMonster,
+  myFamiliarWeight,
+  pullIfPossible,
   sausageFightGuaranteed,
   setChoice,
-  setClan,
-  ensureCreateItem,
-  getPropertyBoolean,
-  ensureNpcEffect,
-  ensureSewerItem,
-  ensurePotionEffect,
-  myFamiliarWeight,
-  ensurePullEffect,
-  pullIfPossible,
+  setPropertyInt,
   tryUse,
   wishEffect,
-  ensureSong,
-  adventureWithCarolGhost,
-  mapAndSaberMonster,
-  eatPizza,
-  setPropertyInt,
 } from './lib';
 import { SynthesisPlanner } from './synthesis';
 
@@ -130,6 +127,7 @@ const desiredTurns: turnsObject = {
 };
 
 interface predObject {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   [key: number]: Function;
 }
 
@@ -184,8 +182,6 @@ const testTurnPredictions: predObject = {
   },
 };
 
-const defaultFamiliar = $familiar`Melodramedary`;
-const defaultFamiliarEquipment = $item`dromedary drinking helmet`;
 
 function upkeepHpAndMp() {
   if (myHp() < 0.8 * myMaxhp()) {
@@ -196,12 +192,6 @@ function upkeepHpAndMp() {
   }
 }
 
-function useDefaultFamiliar() {
-  useFamiliar(defaultFamiliar);
-  if (defaultFamiliarEquipment !== $item`none` && availableAmount(defaultFamiliarEquipment) > 0) {
-    equip(defaultFamiliarEquipment);
-  }
-}
 
 function doGuaranteedGoblin() {
   // kill a kramco for the sausage before coiling wire
@@ -210,7 +200,7 @@ function doGuaranteedGoblin() {
     adventureMacro(
       $location`Noob Cave`,
       Macro.if_('!monstername "sausage goblin"', new Macro().step('abort'))
-        .skill($skill`saucestorm`)
+        .skill($skill`Saucestorm`)
         .repeat()
     );
   }
@@ -233,20 +223,20 @@ function doTest(testNum: Test) {
         eat(1, $item`magical sausage`);
       }
     }
-    set('_hccsTestExpected' + testNum, predictedTurns);
+    set(`_hccsTestExpected${  testNum}`, predictedTurns);
     const turnsBeforeTest = myTurncount();
     visitUrl(`choice.php?whichchoice=1089&option=${testNum}`);
     if (!testDone(testNum)) {
       throw `Failed to do test ${Test[testNum]}. Maybe we are out of turns.`;
     }
     print(
-      `${Test[testNum]} outfit: ` +
+      `${Test[testNum]} outfit: ${
         ['hat', 'back', 'weapon', 'off-hand', 'shirt', 'pants', 'acc1', 'acc2', 'acc3'].reduce(
-          (acc, cur) => acc + equippedItem(toSlot(cur)) + ',',
+          (acc, cur) => `${acc + equippedItem(toSlot(cur))  },`,
           ''
-        )
+        )}`
     );
-    set('_hccsTestActual' + testNum, myTurncount() - turnsBeforeTest);
+    set(`_hccsTestActual${  testNum}`, myTurncount() - turnsBeforeTest);
   } else {
     print(`Test ${testNum} already completed.`);
   }
@@ -369,7 +359,7 @@ function getPizzaIngredients() {
   mapAndSaberMonster($location`The Haunted Pantry`, $monster`possessed can of tomatoes`);
 
   // Saber irate sombrero (DIF pizza)
-  mapAndSaberMonster($location`South of The Border`, $monster`irate mariachi`);
+  mapAndSaberMonster($location`South of the Border`, $monster`irate mariachi`);
   autosell(1, $item`bottle of tequila`);
   autosell(1, $item`half-sized guitar`);
   autosell(1, $item`mariachi G-string`);
@@ -603,7 +593,7 @@ function doFreeFights() {
   if (!get('_mushroomGardenVisited')) {
     Macro.skill($skill`Barrage of Tears`)
       .skill($skill`Spittoon Monsoon`)
-      .skill($skill`saucestorm`)
+      .skill($skill`Saucestorm`)
       .repeat()
       .setAutoAttack();
     adv1($location`Your Mushroom Garden`);
@@ -626,7 +616,7 @@ function doFreeFights() {
       Macro.if_('!monstername "sausage goblin"', new Macro().step('abort'))
         .skill($skill`Barrage of Tears`)
         .skill($skill`Spittoon Monsoon`)
-        .skill($skill`saucestorm`)
+        .skill($skill`Saucestorm`)
     );
   } else if (get('lastCopyableMonster') !== $monster`sausage goblin`) {
     abort('Kramco not ready to start back-up chain');
@@ -640,12 +630,12 @@ function doFreeFights() {
 
     adventureMacroAuto(
       $location`The Dire Warren`,
-      Macro.skill($skill`back-up to your last enemy`)
+      Macro.skill($skill`Back-Up to your Last Enemy`)
         .if_('!monstername "sausage goblin"', new Macro().step('abort'))
         .trySkill($skill`Feel Pride`)
         .skill($skill`Barrage of Tears`)
         .skill($skill`Spittoon Monsoon`)
-        .skill($skill`saucestorm`)
+        .skill($skill`Saucestorm`)
     );
   }
 
@@ -659,12 +649,12 @@ function doFreeFights() {
 
   if (myFamiliarWeight() < 65) abort('not maxing fam weight');
 
-  Macro.trySkill($skill`back-up to your last enemy`)
-    .skill($skill`curse of weaksauce`)
-    .skill($skill`entangling noodles`)
+  Macro.trySkill($skill`Back-Up to your Last Enemy`)
+    .skill($skill`Curse of Weaksauce`)
+    .skill($skill`Entangling Noodles`)
     .trySkill(Skill.get('Lecture on Relativity'))
     .skill($skill`Spittoon Monsoon`)
-    .skill($skill`saucegeyser`)
+    .skill($skill`Saucegeyser`)
     .setAutoAttack();
   adv1($location`The Dire Warren`);
   while (inMultiFight()) runCombat();
@@ -712,7 +702,7 @@ function doMoxTest() {
   else ensurePotionEffect($effect`Expert Oiliness`, $item`oil of expertise`);
 
   // Sauceror has 75% moxie bird
-  use(1, $item`Bird-a-Day Calendar`);
+  use(1, $item`Bird-a-Day calendar`);
   ensureEffect($effect`Blessing of the Bird`);
 
   ensureEffect($effect`Big`);
@@ -749,7 +739,7 @@ function doMusTest() {
   // ensureEffect($effect`Rage of the Reindeer`);
   // ensureEffect($effect`Quiet Determination`);
   // ensureEffect($effect`Disdain of the War Snapper`);
-  ensureNpcEffect($effect`Go Get 'Em, Tiger!`, 5, $item`Ben-Gal™ balm`);
+  ensureNpcEffect($effect`Go Get 'Em, Tiger!`, 5, $item`Ben-Gal™ Balm`);
   cliExecute('retrocape muscle');
 
   haveFamiliar($familiar`Left-Hand Man`) && useFamiliar($familiar`Left-Hand Man`);
@@ -996,7 +986,7 @@ function doHotResTest() {
     if (availableAmount($item`photocopied monster`) === 0) throw 'Failed to fax in factory worker.';
 
     cliExecute('mood apathetic');
-    Macro.skill($skill`shocking lick`).setAutoAttack();
+    Macro.skill($skill`Shocking Lick`).setAutoAttack();
     use(1, $item`photocopied monster`);
     setAutoAttack(0);
   }
@@ -1004,7 +994,7 @@ function doHotResTest() {
   // Make sure no moon spoon.
   equip($slot`acc1`, $item`Eight Days a Week Pill Keeper`);
   equip($slot`acc2`, $item`Powerful Glove`);
-  equip($slot`acc3`, $item`Lil' Doctor™ Bag`);
+  equip($slot`acc3`, $item`Lil' Doctor™ bag`);
 
   ensureItem(1, $item`tenderizing hammer`);
   cliExecute('smash * ratty knitted cap');
@@ -1157,17 +1147,17 @@ export function main() {
     doNonCombatTest();
   }
 
-  let totalSeconds = (gametimeToInt() - getPropertyInt('bb_ScriptStartCS')) / 1000;
-  let min = Math.floor(totalSeconds / 60);
-  let sec = totalSeconds % 60;
+  const totalSeconds = (gametimeToInt() - getPropertyInt('bb_ScriptStartCS')) / 1000;
+  const min = Math.floor(totalSeconds / 60);
+  const sec = totalSeconds % 60;
 
   print(`Total seconds for sanity check: ${totalSeconds}`);
   print(`That only took ${min}:${sec.toFixed(2)} and ${myTurncount()} turns!`, 'green');
   print(`Organ use: ${myFullness()}/${myInebriety()}/${mySpleenUse()}`, 'green');
   for (let i = 1; i <= 10; i++) {
     print(
-      `Test ${Test[i]} estimated turns: ${get('_hccsTestExpected' + i)} actual turns:${get(
-        '_hccsTestActual' + i
+      `Test ${Test[i]} estimated turns: ${get(`_hccsTestExpected${  i}`)} actual turns:${get(
+        `_hccsTestActual${  i}`
       )} gated hardcoded value: ${desiredTurns[i]}`,
       'blue'
     );
@@ -1195,7 +1185,7 @@ export function main() {
     // Unequip spoon.
     equip($slot`acc1`, $item`Retrospecs`);
     equip($slot`acc2`, $item`Powerful Glove`);
-    equip($slot`acc3`, $item`Lil' Doctor™ Bag`);
+    equip($slot`acc3`, $item`Lil' Doctor™ bag`);
 
     // Actually tune the moon.
     visitUrl('inv_use.php?whichitem=10254&doit=96&whichsign=7');

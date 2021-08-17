@@ -1,6 +1,6 @@
-import { Macro, $skill } from 'libram';
+import { $skill, Macro } from 'libram';
 
-let COMBAT_MACROS = {
+const COMBAT_MACROS = {
   nostEnvyFreeKill: function (monsterName: string, useNostalgia = true): Macro {
     return Macro.step('mark start')
       .if_(

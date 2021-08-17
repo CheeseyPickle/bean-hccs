@@ -1,30 +1,29 @@
 
 import {
-  inMultiFight,
-  choiceFollowsFight,
-  print,
-  visitUrl,
-  setProperty,
-  getProperty,
-  getLocationMonsters,
-  myLocation,
-  toMonster,
-  myMp,
-  haveSkill,
-  useSkill,
-  myFamiliar,
-  haveEffect,
-  runaway,
-  itemAmount,
-  handlingChoice,
-  lastChoice,
-  runChoice,
   adv1,
   availableChoiceOptions,
-  runCombat,
-  xpath,
+  choiceFollowsFight,
+  getLocationMonsters,
+  getProperty,
+  handlingChoice,
+  haveEffect,
   haveFamiliar,
-  dump,
+  haveSkill,
+  inMultiFight,
+  itemAmount,
+  lastChoice,
+  myFamiliar,
+  myLocation,
+  myMp,
+  print,
+  runaway,
+  runChoice,
+  runCombat,
+  setProperty,
+  toMonster,
+  useSkill,
+  visitUrl,
+  xpath,
 } from 'kolmafia';
 import { $effect, $familiar, $items, $skill, Macro as LibramMacro } from 'libram';
 import { getPropertyInt, myFamiliarWeight, setPropertyInt } from './lib';
@@ -97,7 +96,7 @@ export class Macro extends LibramMacro {
     return new Macro()
       .externalIf(
         (haveFamiliar($familiar`Frumious Bandersnatch`) &&
-          haveEffect($effect`The Ode to Booze`) > 0) ||
+          haveEffect($effect`Ode to Booze`) > 0) ||
           haveFamiliar($familiar`Pair of Stomping Boots`),
         'runaway'
       )

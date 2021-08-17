@@ -1,17 +1,17 @@
 import {
-  haveEffect,
-  print,
-  getInventory,
-  mySign,
   availableAmount,
+  getInventory,
+  haveEffect,
+  mySign,
+  print,
   retrieveItem,
   sweetSynthesis,
   sweetSynthesisResult,
 } from 'kolmafia';
-import { $items, $item, $effects } from 'libram';
+import { $effects, $item, $items } from 'libram';
 import { ensureItem } from './lib';
 
-const npcCandies = $items`jaba&ntilde;ero-flavored chewing gum, lime-and-chile-flavored chewing gum, pickle-flavored chewing gum, tamarind-flavored chewing gum`;
+const npcCandies = $items`jabañero-flavored chewing gum, lime-and-chile-flavored chewing gum, pickle-flavored chewing gum, tamarind-flavored chewing gum`;
 
 function addNumericMapTo<T>(base: Map<T, number>, addition: Map<T, number>) {
   for (const [key, count] of addition) {

@@ -8,6 +8,7 @@
     "no-var": "error",
     "prefer-const": "error",
     "eol-last": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "prefer-arrow-callback": "error",
     "no-trailing-spaces": "error",
     "prefer-template": "error",
