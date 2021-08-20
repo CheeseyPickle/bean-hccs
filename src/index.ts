@@ -31,6 +31,7 @@ import {
   myInebriety,
   myLevel,
   myMaxhp,
+  myMaxmp,
   myMeat,
   myMp,
   mySpleenUse,
@@ -520,16 +521,16 @@ function doLatteRunaways() {
 
   equip($item`latte lovers member's mug`);
 
-  while (runawayAvailable()) {
+  while (runawayAvailable() && !get('latteUnlocks').includes('chili')) {
     adventureMacro(
       getLatteLocation(),
-      Macro.trySkill($skill`Gulp Latte`)
+      Macro.externalIf(myMp() < 0.5 * myMaxmp(), Macro.trySkill($skill`Gulp Latte`))
         .trySkill($skill`Throw Latte on Opponent`)
         .trySkill($skill`Feel Hatred`)
         .trySkill($skill`Snokebomb`)
     );
 
-    if(get('latteUnlocks').includes('sandalwood') && get('_latteRefillsUsed') < 1) {
+    if (get('latteUnlocks').includes('sandalwood') && get('_latteRefillsUsed') < 1) {
       cliExecute('latte refill sandalwood pumpkin vanilla');
     }
   }
@@ -628,22 +629,15 @@ function doFreeFights() {
 
 function postGoblins() {
   // cast needed things
-  useSkill(1, $skill`Bowl Full of Jelly`);
-  useSkill(1, $skill`Eye and a Twist`);
   useSkill(1, $skill`Pastamastery`);
-  useSkill(1, $skill`Spaghetti Breakfast`);
-  useSkill(1, $skill`Grab a Cold One`);
   useSkill(1, $skill`Acquire Rhinestones`);
   useSkill(1, $skill`Prevent Scurvy and Sobriety`);
   haveSkill($skill`Perfect Freeze`) && useSkill(1, $skill`Perfect Freeze`);
-  useSkill(1, $skill`Chubby and Plump`);
   useSkill(1, $skill`Summon Crimbo Candy`);
-
-  autosell(3, $item`magical ice cubes`);
-  autosell(3, $item`little paper umbrella`);
 }
 
 function doWireTest() {
+  // Burn love potion if it's terrible
   if (myMp() >= 50) {
     const lovePotion = $item`Love Potion #0`;
     const loveEffect = $effect`Tainted Love Potion`;
@@ -672,6 +666,10 @@ function doWireTest() {
   equip($slot`acc2`, $item`Beach Comb`);
   equip($slot`familiar`, $item`Abracandalabra`);
   doTest(Test.COIL_WIRE);
+
+  // Unequip LHM ASAP
+  useSkill($skill`Lock Picking`);
+  equip($slot`familiar`, $item`none`);
 }
 
 function doHpTest() {
@@ -684,10 +682,6 @@ function doHpTest() {
   maximize('hp', false);
 
   // QUEST - Donate Blood (HP)
-  if (myMaxhp() - myBuffedstat($stat`muscle`) - 3 < 1770) {
-    use($item`Chubby and Plump bar`);
-  }
-
   doTest(Test.HP);
 }
 
