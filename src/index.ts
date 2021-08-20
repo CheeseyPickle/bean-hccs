@@ -69,6 +69,7 @@ import {
   set,
 } from 'libram';
 import { COMBAT_MACROS } from './combat';
+import { getLatteLocation } from './latte';
 import {
   adventureWithCarolGhost,
   eatPizza,
@@ -84,6 +85,7 @@ import {
   getPropertyInt,
   myFamiliarWeight,
   pullIfPossible,
+  runawayAvailable,
   sausageFightGuaranteed,
   setChoice,
   setClan,
@@ -338,19 +340,23 @@ function setup() {
   autosell(5, $item`porquoise`);
   autosell(5, $item`hamethyst`);
 
+  autosell(1, $item`Newbiesport™ tent`);
+
   // Buy some items
   ensureItem(1, $item`toy accordion`);
   ensureItem(1, $item`Catherine Wheel`);
 
+  // Get buff things
+  ensureSewerItem(1, $item`turtle totem`);
+  ensureSewerItem(1, $item`saucepan`);
+
   if (!get('_floundryItemCreated')) {
     cliExecute('acquire fish hatchet');
   }
-
-  autosell(1, $item`Newbiesport™ tent`);
 }
 
 function getIngredients() {
-  // Put on some regen gear
+  // Put on some gear
   equip($item`wad of used tape`);
   equip($item`Catherine Wheel`);
   equip($item`Fourth of May Cosplay Saber`);
@@ -386,6 +392,9 @@ function getIngredients() {
 }
 
 function useStatGains() {
+  // Discount all our later buffs
+  ensureEffect($effect`The Odour of Magick`);
+
   if (get('getawayCampsiteUnlocked') && haveEffect($effect`That's Just Cloud-Talk, Man`) === 0) {
     visitUrl('place.php?whichplace=campaway&action=campaway_sky');
   }
@@ -483,6 +492,26 @@ function buffBeforeGoblins() {
   }
 }
 
+function doLatteRunaways() {
+  useFamiliar($familiar`Pocket Professor`);
+
+  equip($item`latte lovers member's mug`);
+
+  while (runawayAvailable()) {
+    adventureMacro(
+      getLatteLocation(),
+      Macro.trySkill($skill`Gulp Latte`)
+        .trySkill($skill`Throw Latte on Opponent`)
+        .trySkill($skill`Feel Hatred`)
+        .trySkill($skill`Snokebomb`)
+    );
+
+    if(get('latteUnlocks').includes('sandalwood') && get('_latteRefillsUsed') < 1) {
+      cliExecute('latte refill sandalwood pumpkin vanilla');
+    }
+  }
+}
+
 function doFreeFights() {
   equip($item`fresh coat of paint`);
   equip($item`unwrapped knock-off retro superhero cape`);
@@ -495,30 +524,6 @@ function doFreeFights() {
 
   useFamiliar($familiar`Hovering Sombrero`);
   equip($slot`familiar`, $item`miniature crystal ball`);
-
-  // Get buff things
-  ensureSewerItem(1, $item`turtle totem`);
-  ensureSewerItem(1, $item`saucepan`);
-
-  cliExecute('mood cs');
-  cliExecute('mood execute');
-  // const mood = new Mood();
-  // mood.skill($skill`Astral Shell`);
-  // mood.skill($skill`Get Big`);
-  // mood.skill($skill`Blood Bond`);
-  // mood.skill($skill`Blood Bubble`);
-  // mood.skill($skill`Drescher's Annoying Noise`);
-  // mood.skill($skill`Elemental Saucesphere`);
-  // mood.skill($skill`Empathy`);
-  // mood.skill($skill`Inscrutable Gaze`);
-  // mood.skill($skill`Leash of Linguini`);
-  // mood.skill($skill`Pride of the Puffin`);
-  // mood.skill($skill`Singer's Faithful Ocelot`);
-  // haveSkill($skill`Stevedave's Shanty of Superiority`) &&
-  //   mood.skill($skill`Stevedave's Shanty of Superiority`);
-  // mood.skill($skill`Ur-Kel's Aria of Annoyance`);
-  // mood.skill($skill`Feel Excitement`);
-  // mood.execute();
 
   cliExecute('retrocape mysticality');
 
@@ -1055,6 +1060,7 @@ export function main() {
 
   if (myLevel() < 8) {
     useStatGains();
+    doLatteRunaways();
     buffBeforeGoblins();
   }
 
