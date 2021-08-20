@@ -345,9 +345,9 @@ function setup() {
   // Buy some items
   ensureItem(1, $item`toy accordion`);
   ensureItem(1, $item`Catherine Wheel`);
+  ensureItem(1, $item`detuned radio`);
 
   // Get buff things
-  ensureSewerItem(1, $item`turtle totem`);
   ensureSewerItem(1, $item`saucepan`);
 
   if (!get('_floundryItemCreated')) {
@@ -428,6 +428,23 @@ function useStatGains() {
   }
 }
 
+function preLatteBuffs() {
+  // I have some MP from wire test, so get some meat!
+  useSkill($skill`Advanced Cocktailcrafting`);
+  autosell(3, $item`magical ice cubes`);
+  autosell(3, $item`little paper umbrella`);
+  autosell(3, $item`coconut shell`);
+
+  // Buffs that don't need MP, to maximize MP from Gulp
+  ensureEffect($effect`Favored by Lyle`);
+  ensureEffect($effect`Feeling Excited`);
+  ensureEffect($effect`Uncucumbered`); // boxing daycare
+  wishEffect($effect`A Contender`);
+  ensurePullEffect($effect`New and Improved`, $item`warbear rejuvenation potion`);
+  ensureEffect($effect`Confidence of the Votive`);
+  ensureNpcEffect($effect`Glittering Eyelashes`, 1, $item`glittery mascara`);
+}
+
 function buffBeforeGoblins() {
   if (!haveEffect($effect`Fire cracked`)) {
     ensureItem(1, $item`fire crackers`);
@@ -446,19 +463,25 @@ function buffBeforeGoblins() {
   autosell(availableAmount($item`ointment of the occult`), $item`ointment of the occult`);
 
   // +myst stuff
-  ensureEffect($effect`Favored by Lyle`);
-  ensureEffect($effect`Feeling Excited`);
-  ensureEffect($effect`Uncucumbered`); // boxing daycare
   ensureSong($effect`The Magical Mojomuscular Melody`);
-  ensureNpcEffect($effect`Glittering Eyelashes`, 1, $item`glittery mascara`);
-  wishEffect($effect`A Contender`);
-  ensurePullEffect($effect`New and Improved`, $item`warbear rejuvenation potion`);
+  ensureEffect($effect`Big`);
 
   // Levelling stuff
+  cliExecute('mcd 10');
   ensureEffect($effect`Lapdog`);
   ensureEffect($effect`You Learned Something Maybe!`);
   create($item`peppermint twist`);
   ensureEffect($effect`Peppermint Twisted`);
+  ensureEffect($effect`Carol of the Thrills`);
+  ensureEffect($effect`Drescher's Annoying Noise`);
+
+  // Survivability
+  ensureEffect($effect`Carol of the Hells`);
+  ensureEffect($effect`Blood Bubble`);
+
+  // We want this to last until the item test
+  create(1, $item`battery (lantern)`);
+  ensureEffect($effect`Lantern-Charged`);
 
   // eat the sausage gotten earlier to restore MP
   if (myMp() < 100) {
@@ -1060,6 +1083,7 @@ export function main() {
 
   if (myLevel() < 8) {
     useStatGains();
+    preLatteBuffs(); // Because I gulp during latte runaways, I want to maximize mp as much as possible
     doLatteRunaways();
     buffBeforeGoblins();
   }
