@@ -220,6 +220,21 @@ function doGuaranteedGoblin() {
   }
 }
 
+function tryMeatGoblin() {
+  // Kill a goblin for meat if it's guaranteed
+  if (sausageFightGuaranteed()) {
+    useFamiliar($familiar`Hobo Monkey`);
+    maximize('meat drop', false);
+    adventureMacro(
+      $location`Noob Cave`,
+      Macro.if_('!monstername "sausage goblin"', new Macro().step('abort'))
+        .skill($skill`Sing Along`)
+        .skill($skill`Saucestorm`)
+        .repeat()
+    );
+  }
+}
+
 function testDone(testNum: number) {
   print(`Checking test ${testNum}...`);
   const text = visitUrl('council.php');
@@ -483,12 +498,6 @@ function buffBeforeGoblins() {
   // We want this to last until the item test
   create(1, $item`battery (lantern)`);
   ensureEffect($effect`Lantern-Charged`);
-
-  // eat the sausage gotten earlier to restore MP
-  if (myMp() < 100) {
-    ensureCreateItem(1, $item`magical sausage`);
-    eat($item`magical sausage`);
-  }
 
   if (haveSkill($skill`Love Mixology`)) {
     const lovePotion = $item`Love Potion #0`;
@@ -798,21 +807,19 @@ function doItemTest() {
 
 function doFamiliarTest() {
   if (myHp() < 30) useSkill(1, $skill`Cannelloni Cocoon`);
-  ensureEffect($effect`Blood Bond`);
   ensureEffect($effect`Leash of Linguini`);
-  ensureEffect($effect`Empathy`);
-
-  // These should have fallen through all the way from leveling.
-  ensureEffect($effect`Fidoxene`);
   ensureEffect($effect`Billiards Belligerence`);
+  ensureEffect($effect`Do I Know You From Somewhere?`);
+  ensureEffect($effect`Shortly Stacked`);
+  if (availableAmount($item`body spradium`) > 0) ensureEffect($effect`Boxing Day Glow`);
 
-  useFamiliar($familiar`Exotic Parrot`);
-  equip($item`Fourth of May Cosplay Saber`);
-  equip($item`familiar scrapbook`);
-  equip($slot`acc2`, $item`hewn moon-rune spoon`);
-  equip($slot`acc3`, $item`Beach Comb`);
-  equip($slot`familiar`, $item`cracker`);
-  // maximize('familiar weight', false);
+  tryMeatGoblin();
+
+  useFamiliar($familiar`Pocket Professor`);
+  equip($slot`weapon`, $item`Fourth of May Cosplay Saber`);
+  equip($slot`offhand`, $item`fish hatchet`);
+  equip($slot`acc1`, $item`Brutal brogues`);
+  equip($slot`acc2`, $item`Beach Comb`);
 
   doTest(Test.FAMILIAR);
 }
