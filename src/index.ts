@@ -20,6 +20,7 @@ import {
   haveFamiliar,
   haveSkill,
   inMultiFight,
+  itemAmount,
   maximize,
   myAdventures,
   myBasestat,
@@ -212,6 +213,7 @@ function doGuaranteedGoblin() {
       $location`Noob Cave`,
       Macro.if_('!monstername "sausage goblin"', new Macro().step('abort'))
         .skill($skill`Gulp Latte`)
+        .skill($skill`Sing Along`)
         .attack()
         .repeat()
     );
@@ -353,8 +355,10 @@ function setup() {
   tryUse(1, $item`letter from King Ralph XI`);
   tryUse(1, $item`pork elf goodies sack`);
   autosell(5, $item`baconstone`);
-  autosell(5, $item`porquoise`);
   autosell(5, $item`hamethyst`);
+  // Save a few porquoises
+  if (itemAmount($item`porquoise`) > 2)
+    autosell(itemAmount($item`porquoise`) - 2, $item`porquoise`);
 
   autosell(1, $item`Newbiesport™ tent`);
 
