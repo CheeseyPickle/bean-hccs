@@ -198,9 +198,6 @@ function doGuaranteedGoblin() {
   // kill a kramco for the sausage before coiling wire
   // Also get the mp to summon and check a love potion
   if (sausageFightGuaranteed()) {
-    ensureSong($effect`The Magical Mojomuscular Melody`);
-
-    useFamiliar($familiar`Left-Hand Man`);
     equip($item`wad of used tape`);
     equip($item`Catherine Wheel`);
     equip($item`Fourth of May Cosplay Saber`);
@@ -208,17 +205,13 @@ function doGuaranteedGoblin() {
     equip($item`pantogram pants`);
     equip($slot`acc1`, $item`Beach Comb`);
     equip($slot`acc2`, $item`backup camera`);
-    equip($slot`familiar`, $item`latte lovers member's mug`);
     adventureMacro(
       $location`Noob Cave`,
       Macro.if_('!monstername "sausage goblin"', new Macro().step('abort'))
-        .skill($skill`Gulp Latte`)
         .skill($skill`Sing Along`)
-        .attack()
+        .skill($skill`Saucestorm`)
         .repeat()
     );
-    // unequip the latte from LHM
-    equip($slot`familiar`, $item`none`);
   }
 }
 
@@ -650,6 +643,9 @@ function postGoblins() {
 }
 
 function doWireTest() {
+  // Get some MP
+  cliExecute('rest free');
+
   // Burn love potion if it's terrible
   if (myMp() >= 50) {
     const lovePotion = $item`Love Potion #0`;
