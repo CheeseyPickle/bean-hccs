@@ -18,8 +18,8 @@ if (pvpAttacksLeft() > 0) {
   print("Run hccs_pre first, dingus.", "red");
   abort();
 } else {
-  ascend($path`Community Service`, $class`Pastamancer`, Lifestyle.normal, 'blender', $item`astral six-pack`, $item`astral statuette`, {
-    permSkills: createPermOptions().permSkills,
+  ascend($path`Community Service`, $class`Pastamancer`, Lifestyle.normal, 'wallaby', $item`astral six-pack`, $item`astral belt`, {
+    permSkills: new Map<Skill, Lifestyle> (),
     neverAbort: false
   });
 }
