@@ -19,7 +19,7 @@ if (pvpAttacksLeft() > 0) {
   abort();
 } else {
   ascend($path`Community Service`, $class`Pastamancer`, Lifestyle.normal, 'wallaby', $item`astral six-pack`, $item`astral belt`, {
-    permSkills: new Map<Skill, Lifestyle> (),
+    permSkills: new Map<Skill, Lifestyle> (), // Figure out what skills I want to perm later
     neverAbort: false
   });
 }

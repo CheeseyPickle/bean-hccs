@@ -6,13 +6,16 @@ import { levelUniform, uniform } from "./outfit";
 import { OutfitSpec } from "grimoire-kolmafia";
 import {
     buy,
+    chew,
     cliExecute,
     eat,
+    myBasestat,
     myHp,
     myLevel,
     myMaxhp,
     myMaxmp,
     myMp,
+    myPrimestat,
     numericModifier,
     runChoice,
     runCombat,
@@ -31,13 +34,15 @@ import {
     $monster,
     $skill,
     $skills,
+    $stat,
     $thrall,
     Cartography,
     get,
     have,
+    TrainSet,
 } from "libram";
 
-const levellingComplete = myLevel() >= 13 && get("_neverendingPartyFreeTurns") >= 10;
+const levellingComplete = myBasestat($stat`Mysticality`) >= 220 && get("_neverendingPartyFreeTurns") >= 10;
 let lovePotionConsidered = false;
 
 const foldshirt = (): void => {
@@ -78,26 +83,88 @@ const Level: CSQuest = {
             }
         },
         {
+            name: "Set up trainset",
+            ready: () => get("lastTrainsetConfiguration") < 0,
+            completed: () => get ("lastTrainsetConfiguration") >= 0,
+            do: (): void => {
+                // Base configuration of trainset
+                const baseTrainConfig = [TrainSet.Station.COAL_HOPPER,
+                    TrainSet.Station.BRAIN_SILO,
+                    TrainSet.Station.WATER_BRIDGE,
+                    TrainSet.Station.VIEWING_PLATFORM,
+                    TrainSet.Station.GAIN_MEAT,
+                    TrainSet.Station.GRAIN_SILO,
+                    TrainSet.Station.CANDY_FACTORY,
+                    TrainSet.Station.ORE_HOPPER];
+
+                // Rotate configuration due to turns spent before
+                const offset = get("trainsetPosition") % 8;
+                const realTrainConfig: TrainSet.Station[] = [];
+                for (let i = 0; i < 8; i++) {
+                  const newPos = (i + offset) % 8;
+                  realTrainConfig[newPos] = baseTrainConfig[i];
+                }
+                
+                TrainSet.setConfiguration(realTrainConfig as TrainSet.Cycle);
+            }
+        },
+        {
             name: "That's Just Cloud Talk, Man",
             completed: () => !!get("_campAwayCloudBuffs"),
             do: () => visitUrl("place.php?whichplace=campaway&action=campaway_sky"),
         },
         {
-            name: "Synth: Learning",
-            completed: () => have($effect`Synthesis: Learning`),
-            do: synthExp,
+            name: "non-Euclidean angle",
+            completed: () => have($effect`Different Way of Seeing Things`),
+            do: () => chew(1, $item`non-Euclidean angle`),
+        },
+        {
+            name: "abstraction: category",
+            completed: () => have($effect`Category`),
+            do: () => chew(1, $item`abstraction: category`),
+        },
+        {
+            name: "NEP Quest",
+            completed: () => get("_questPartyFair") !== "unstarted",
+            do: (): void => {
+                visitUrl("adventure.php?snarfblat=528");
+                const choice = ["food", "booze"].includes(get("_questPartyFairQuest")) ? 1 : 2;
+                runChoice(choice);
+            },
+        },
+        {
+            name: "Oliver's Place: First free fight",
+            completed: () => get("_speakeasyFreeFights") > 0,
+            ready: () => get("_speakeasyFreeFights") === 0,
+            do: $location`An Unusually Quiet Barroom Brawl`,
+            combat: new CSStrategy(() => Macro.skill($skill`Launch spikolodon spikes`).easyFight().attack().repeat()),
+            outfit: () => levelUniform({
+                changes: {
+                    shirt: $item`Jurassic Parka`,
+                    modes: {
+                        parka: 'spikolodon'
+                    }
+                }
+            })
+        },
+        {
+            name: "NEP Myst boost",
+            ready: () => get('_spikolodonSpikeUses') === 1,
+            completed: () => have($effect`Tomes of Opportunity`),
+            do: $location`The Neverending Party`,
+            choices: { 1324: 1, 1325: 2 },
+            limit: { tries: 1 }
         },
         {
             name: "Ten-Percent Bonus",
             completed: () => !have($item`a ten-percent bonus`),
-            outfit: () => uniform({ changes: { offhand: $item`familiar scrapbook` } }),
             effects: $effects`Inscrutable Gaze, Thaumodynamic`,
             do: () => use(1, $item`a ten-percent bonus`),
         },
         {
             name: "Bastille",
             completed: () => get("_bastilleGames") > 0,
-            do: () => cliExecute("bastille myst brutalist"),
+            do: () => cliExecute("bastille myst brutalist gesture"),
         },
         {
             name: "Get Love Potion",
@@ -163,11 +230,11 @@ const Level: CSQuest = {
         {
             name: "Misc Items",
             completed: () =>
-                $items`votive of confidence, natural magick candle, MayDay™ supply package`.every(
+                $items`votive of confidence, natural magick candle`.every(
                     (i) => !have(i)
                 ),
             do: () =>
-                $items`votive of confidence, natural magick candle, MayDay™ supply package`.forEach(
+                $items`votive of confidence, natural magick candle`.forEach(
                     (i) => have(i) && use(i)
                 ),
         },
@@ -236,38 +303,6 @@ const Level: CSQuest = {
                 Macro.if_($monster`amateur ninja`, Macro.skill($skill`Chest X-Ray`)).abort()
             ),
             outfit: () => levelUniform({ changes: { acc3: $item`Lil' Doctor™ bag` } }),
-        },
-        {
-            name: "NEP Quest",
-            completed: () => get("_questPartyFair") !== "unstarted",
-            do: (): void => {
-                visitUrl("adventure.php?snarfblat=528");
-                const choice = ["food", "booze"].includes(get("_questPartyFairQuest")) ? 1 : 2;
-                runChoice(choice);
-            },
-        },
-        {
-            name: "Oliver's Place: First free fight",
-            completed: () => get("_speakeasyFreeFights") > 0,
-            ready: () => get("_speakeasyFreeFights") === 0,
-            do: $location`An Unusually Quiet Barroom Brawl`,
-            combat: new CSStrategy(() => Macro.skill($skill`Launch spikolodon spikes`).easyFight().attack().repeat()),
-            outfit: () => levelUniform({
-                changes: {
-                    shirt: $item`Jurassic Parka`,
-                    modes: {
-                        parka: 'spikolodon'
-                    }
-                }
-            })
-        },
-        {
-            name: "NEP Myst boost",
-            ready: () => get('_spikolodonSpikeUses') === 1,
-            completed: () => have($effect`Tomes of Opportunity`),
-            do: $location`The Neverending Party`,
-            choices: { 1324: 1, 1325: 2 },
-            limit: { tries: 1 }
         },
         {
             name: "Oliver's Place: Prime Portscan",

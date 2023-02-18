@@ -26,6 +26,7 @@ import {
   $skill,
   $slot,
   adventureMacro,
+  AutumnAton,
   Clan,
   CommunityService,
   get,
@@ -95,6 +96,7 @@ const getBatteries = () => {
   }
 };
 
+// TODO: Figure out the URL configuration for my voting pattern
 function vote() {
   if (!get("_voteToday")) {
     visitUrl("place.php?whichplace=town_right&action=townright_vote");
@@ -115,7 +117,7 @@ function equipStatOutfit() {
 }
 
 function setup() {
-  if (availableAmount($item`dromedary drinking helmet`) > 0 || myLevel() > 1) return;
+  if (get("_sitCourseCompleted") || myLevel() > 1) return;
 
   // Sell pork gems + tent
   visitUrl("tutorial.php?action=toot");
@@ -125,21 +127,19 @@ function setup() {
   autosell(5, $item`porquoise`);
   autosell(5, $item`hamethyst`);
 
+  // Numberology 14 & Sell
+  cliExecute("numberology 14");
+  autosell(14, $item`moxie weed`);
+
   if (getCampground()[$item`model train set`.name] !== 1) {
     use(toItem(`model train set`));
-    TrainSet.setConfiguration([TrainSet.Station.COAL_HOPPER,
-    TrainSet.Station.BRAIN_SILO,
-    TrainSet.Station.VIEWING_PLATFORM,
-    TrainSet.Station.WATER_BRIDGE,
-    TrainSet.Station.BRAWN_SILO,
-    TrainSet.Station.GROIN_SILO,
-    TrainSet.Station.GAIN_MEAT,
-    TrainSet.Station.CANDY_FACTORY]);
+    // Trainset configuration is set later at levelling
   }
 
   set("autoSatisfyWithNPCs", true);
   set("autoSatisfyWithCoinmasters", true);
   set("hpAutoRecovery", 0.8);
+  set("hpAutoRecoveryTarget", 1.0);
 
   cliExecute("mood apathetic");
   cliExecute("ccs bb-hccs");
@@ -173,12 +173,15 @@ function setup() {
   visitUrl("shop.php?whichshop=armory&action=talk");
   runChoice(1);
 
+  setChoice(1494, 1); // Psychogeologist
   use(toItem('S.I.T. Course Completion Certificate'));
 
-  pullIfPossible(1, $item`overloaded Yule battery`, 20000);
-  pullIfPossible(1, $item`dromedary drinking helmet`, 2000);
-  pullIfPossible(1, $item`green mana`, 10000);
-  pullIfPossible(1, $item`pixel star`, 35000);
+  AutumnAton.sendTo($location`The Sleazy Back Alley`);
+
+  pullIfPossible(1, $item`non-Euclidean angle`, 20000);
+  pullIfPossible(1, $item`abstraction: category`, 2000);
+  pullIfPossible(1, $item`bran muffin`, 0);
+  pullIfPossible(1, $item`wasabi marble soda`, 5000);
 }
 
 function doDailies() {
@@ -186,48 +189,34 @@ function doDailies() {
 
   Clan.join("Bonus Adventures from Hell");
 
-  use($item`Bird-a-Day calendar`);
-
   visitUrl("council.php"); // Initialize council.
   visitUrl("clan_viplounge.php?action=fwshop"); // manual visit to fireworks shop to allow purchases
   visitUrl("clan_viplounge.php?action=lookingglass&whichfloor=2"); // get DRINK ME potion
-  visitUrl(
-    "shop.php?whichshop=lathe&action=buyitem&quantity=1&whichrow=1162&pwd"
-  ); // lathe wand
 
   vote();
 
-  cliExecute("retrocape mysticality hold");
   cliExecute("fold makeshift garbage shirt");
   SongBoom.setSong("Total Eclipse of Your Meat");
 
   if (!get("_floundryItemCreated")) {
-    Clan.join('Reddit United');
+    Clan.join("Redemption City");
     cliExecute("acquire fish hatchet");
     Clan.join("Bonus Adventures from Hell");
   }
 
-  if (get("_horseryCrazyMys").indexOf("+") === 0) {
-    cliExecute("horsery stat");
-  }
-
   getBatteries();
+  
+  cliExecute("garden pick"); // Should be peppermint
+
+  cliExecute("daycare item");
 
   useSkill($skill`Summon Crimbo Candy`);
-  useSkill($skill`Summon Sugar Sheets`, 3);
 
   // Upgrade saber for fam wt
   cliExecute('saber fam');
 
-  useFamiliar($familiar`Melodramedary`);
-  cliExecute("mummery myst");
-
-  equip($familiar`Shorter-Order Cook`, $item`tiny stillsuit`);
-
-  SourceTerminal.educate([$skill`Extract`, $skill`Portscan`]);
-
   cliExecute(
-    "pantogram mysticality|hot|drops of blood|some self-respect|your hopes|silent"
+    "pantogram mysticality|spooky|nail clippings|some self-respect|your hopes|silent"
   );
 }
 
@@ -235,6 +224,7 @@ export function main(): void {
   setAutoAttack(0);
   doDailies();
 
+  // TODO: write code to YR a tropical skeleton
   const coilWireStatus = CommunityService.CoilWire.run(() => {
     setup();
     doGuaranteedGoblin();
@@ -244,15 +234,15 @@ export function main(): void {
   }
 
   CSEngine.runTests(Level,
-    Muscle,
-    Hitpoints,
     Mysticality,
+    Hitpoints,
+    Muscle,
     Moxie,
-    Drink,
+    ItemDrop,
     Noncombat,
-    HotRes,
+    Drink,
     FamiliarWeight,
+    HotRes,
     Weapon,
-    Spell,
-    ItemDrop);
+    Spell);
 }

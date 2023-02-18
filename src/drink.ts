@@ -17,7 +17,7 @@ const Drink: CSQuest = {
         {
             name: "Drink Pilsners",
             ready: () => have($item`astral pilsner`),
-            completed: () => myInebriety() >= 5,
+            completed: () => !have($item`astral pilsner`),
             do: () => drink($item`astral pilsner`)
         },
     ],

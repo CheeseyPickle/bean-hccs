@@ -31,11 +31,6 @@ const PRE_QUEST: Quest<Task> = {
                         useSkill($skill`Tongue of the Walrus`);
                 }),
             outfit: { weapon: $item`June cleaver` },
-        },
-        {
-            name: "Fallbot",
-            completed: () => !AutumnAton.available(),
-            do: () => AutumnAton.sendTo($location`The Sleazy Back Alley`),
         }
     ]
 };
