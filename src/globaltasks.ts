@@ -10,27 +10,7 @@ const PRE_QUEST: Quest<Task> = {
         {
             name: "Beaten Up!",
             completed: () => !have($effect`Beaten Up`),
-            ready: () => "Poetic Justice" !== get("lastEncounter"),
             do: () => abort("Beaten up!"),
-        },
-        {
-            name: "Numberology",
-            ready: () => Object.values(reverseNumberology()).includes(69) && get("skillLevel144") <= 3 && myAdventures() > 0,
-            completed: () => get("_universeCalculated") >= get("skillLevel144"),
-            do: () => cliExecute("numberology 69"),
-            limit: { tries: 1 }
-        },
-        {
-            name: "June Cleaver",
-            completed: () => get("_juneCleaverFightsLeft") > 0,
-            ready: () => !have($effect`Meteor Showered`) && Counter.get("Portscan") === Infinity,
-            do: () =>
-                withProperty("recoveryScript", "", () => {
-                    adv1($location`Noob Cave`, -1, "");
-                    if (get("lastEncounter") === "Poetic Justice")
-                        useSkill($skill`Tongue of the Walrus`);
-                }),
-            outfit: { weapon: $item`June cleaver` },
         }
     ]
 };
@@ -57,7 +37,7 @@ const POST_QUEST: Quest<Task> = {
     }, {
         name: "Voting Monster",
         completed: () => totalTurnsPlayed() === get('lastVoteMonsterTurn'),
-        ready: () => voterMonsterNow() && !have($effect`Feeling Lost`) && !haveEffect($effect`Meteor Showered`),
+        ready: () => voterMonsterNow() && !have($effect`Feeling Lost`),
         outfit: (): OutfitSpec => {
             return {
                 acc3: $item`"I Voted!" sticker`,
