@@ -145,7 +145,6 @@ function setup() {
   cliExecute("ccs bb-hccs");
   cliExecute("backupcamera reverser on");
   cliExecute("backupcamera ml");
-  cliExecute("mcd 10");
 
   ensureItem(1, $item`toy accordion`);
   ensureSewerItem(1, $item`saucepan`);
@@ -220,6 +219,11 @@ function doDailies() {
   );
 }
 
+// TODO: Go into the skeleton store and YR a tropical skeleton
+function getSkellyFruits() {
+  ensureItem(1, $item`red rocket`);
+}
+
 export function main(): void {
   setAutoAttack(0);
   doDailies();
@@ -228,6 +232,7 @@ export function main(): void {
   const coilWireStatus = CommunityService.CoilWire.run(() => {
     setup();
     doGuaranteedGoblin();
+    getSkellyFruits();
   }, 60);
   if (coilWireStatus === "failed") {
     abort(`Didn't coil wire.`);
