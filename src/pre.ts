@@ -2,9 +2,6 @@ import { abort, availableAmount, cliExecute, pvpAttacksLeft, use } from "kolmafi
 import { $item, get } from "libram";
 import { ensureItem } from "./lib";
 
-use(Math.min(3, availableAmount($item`Meteorite-Ade`)), $item`Meteorite-Ade`);
-use(1, $item`School of Hard Knocks Diploma`);
-
 const season = get("currentPVPSeason");
 
 const PVP_STANCE: { [key: string]: string } = {
@@ -32,6 +29,8 @@ if (pvpAttacksLeft() > 0) {
 }
 
 cliExecute("refresh inventory");
-ensureItem(1, $item`pixel star`);
+if (availableAmount($item`bran muffin`) < 1) {
+  abort("No bran muffin");
+}
 
 !noError && abort();
