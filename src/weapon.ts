@@ -4,6 +4,8 @@ import { CSQuest } from "./engine";
 import { uniform } from "./outfit";
 import {
     availableAmount,
+    cliExecute,
+    eat,
     handlingChoice,
     myHp,
     myMaxhp,
@@ -29,7 +31,6 @@ import { ensureMp } from "./lib";
 
 const buffs = $effects`Carol of the Bulls, Song of the North, Rage of the Reindeer, Scowl of the Auk, Disdain of the War Snapper, Tenacity of the Snapper, Blessing of the Bird`;
 
-let meteors: number;
 const Weapon: CSQuest = {
     name: "Weapon Damage",
     type: "SERVICE",
@@ -37,11 +38,12 @@ const Weapon: CSQuest = {
     modifiers: ["Weapon Damage", "Weapon Damage Percent"],
     outfit: () => {
         return {
-            modifier: ["Weapon Damage", "Weapon Damage Percent"].join(',')
+            modifier: ["Weapon Damage", "Weapon Damage Percent"].join(','),
+            familiar: $familiar`Left-Hand Man`
         };
     },
     turnsSpent: 0,
-    maxTurns: 1,
+    maxTurns: 20,
     tasks: [
         {
             name: "Deep Dark Visions",
@@ -62,33 +64,23 @@ const Weapon: CSQuest = {
         ...buffs.map(skillTask),
         restore(buffs),
         skillTask($effect`Frenzied, Bloody`),
-        potionTask($item`vial of hamethyst juice`),
+        skillTask($effect`Carol of the Bulls`),
         beachTask($effect`Lack of Body-Building`),
-        songTask($effect`Jackasses' Symphony of Destruction`, $effect`The Sonata of Sneakiness`),
         famPool(),
-        doYouCrush(),
         {
-            name: "Spit Ungulith",
-            completed: () => have($effect`Spit Upon`),
-            ready: () => get("camelSpit") >= 100,
+            name: "Kill Ungulith",
+            completed: () => have($item`corrupted marrow`) || have($effect`Cowrruption`),
             do: (): void => {
-                meteors = get("_meteorShowerUses");
                 CombatLoversLocket.reminisce($monster`ungulith`);
                 if (handlingChoice()) runChoice(-1);
             },
-            choices: { [1387]: 3 },
             outfit: () =>
                 uniform({
                     changes: {
-                        familiar: $familiar`Melodramedary`,
-                        weapon: $item`Fourth of May Cosplay Saber`,
+                        acc1: $item`Lil' Doctor™ bag`,
                     },
                 }),
             post: (): void => {
-                if (have($effect`Spit Upon`)) set("camelSpit", 0);
-                if (meteors && have($effect`Meteor Showered`))
-                    set("_meteorShowerUses", meteors + 1);
-
                 const ungId = $monster`ungulith`.id.toFixed(0);
                 const locketIdStrings = get("_locketMonstersFought")
                     .split(",")
@@ -100,9 +92,8 @@ const Weapon: CSQuest = {
                 }
             },
             combat: new CSStrategy(() =>
-                Macro.trySkill($skill`%fn, spit on me!`)
-                    .trySkill($skill`Meteor Shower`)
-                    .skill($skill`Use the Force`)
+                Macro.trySkill($skill`Sing Along`)
+                    .skill($skill`Chest X-Ray`)
             ),
         },
         potionTask($item`corrupted marrow`),
@@ -122,7 +113,20 @@ const Weapon: CSQuest = {
             completed: () => have($effect`Twinkly Weapon`),
             do: () => ensureEffect($effect`Twinkly Weapon`)
         },
-        potionTask($item`pixel star`),
+        {
+            name: "Yeg's Toothbrush",
+            ready: () => get("_cargoPocketEmptied"),
+            completed: () => have($item`Yeg's Motel toothbrush`) || have($effect`Rictus of Yeg`),
+            do: () => cliExecute("cargo 284")
+        },
+        potionTask($item`Yeg's Motel toothbrush`),
+        {
+            name: 'Glass of Raw Eggs',
+            ready: () => availableAmount($item`glass of raw eggs`) > 0,
+            completed: () => have($effect`Boxing Day Breakfast`),
+            do: () => eat(1, $item`glass of raw eggs`)
+        },
+        potionTask($item`wasabi marble soda`)
     ],
 };
 
