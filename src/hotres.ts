@@ -5,9 +5,14 @@ import { horse, horsery } from "./lib";
 import { uniform } from "./outfit";
 import {
     adv1,
+    canFaxbot,
+    chatPrivate,
+    cliExecute,
     handlingChoice,
     runChoice,
+    use,
     visitUrl,
+    wait,
 } from "kolmafia";
 import {
     $effect,
@@ -20,8 +25,9 @@ import {
     get,
     have,
 } from "libram";
+import { getString } from "libram/dist/property";
 
-const buffs = $effects`Elemental Saucesphere, Astral Shell, Feeling Peaceful`;
+const buffs = $effects`Elemental Saucesphere, Feeling Peaceful`;
 
 const MODIFIERS = ['Hot Resistance'];
 
@@ -40,13 +46,13 @@ const HotRes: CSQuest = {
         ...buffs.map(skillTask),
         ...commonFamiliarWeightBuffs(),
         beachTask($effect`Hot-Headed`),
-        beachTask($effect`Does It Have a Skull In There??`),
         {
-            name: "Extinguisher",
+            name: "Extinguisher + Cloake + Fax",
             completed: () => have($effect`Fireproof Foam Suit`),
-            ready: () => get("_saberForceUses") < 5,
+            ready: () => get("_saberForceUses") < 5 && !get("_photocopyUsed"),
             do: (): void => {
-                adv1($location`The Dire Warren`, -1, "");
+                faxFactoryWorker();
+                use(1, $item`photocopied monster`);
                 if (handlingChoice()) runChoice(-1);
             },
             choices: { [1387]: 3 },
@@ -57,20 +63,39 @@ const HotRes: CSQuest = {
                         famequip: $item.none,
                         weapon: $item`Fourth of May Cosplay Saber`,
                         offhand: $item`industrial fire extinguisher`,
+                        back: $item`vampyric cloake`,
                     },
                 }),
             combat: new CSStrategy(() =>
-                Macro.skill($skill`Fire Extinguisher: Foam Yourself`).skill($skill`Use the Force`)
+                Macro.skill($skill`Become a Cloud of Mist`)
+                    .skill($skill`Fire Extinguisher: Foam Yourself`)
+                    .skill($skill`Use the Force`)
             ),
             post: () =>
                 visitUrl(`desc_item.php?whichitem=${$item`industrial fire extinguisher`.descid}`),
         },
-        {
-            name: "Pale Horse",
-            completed: () => horsery() === "pale",
-            do: () => horse("pale"),
-        },
     ],
 };
+
+
+// Copied off of garbo. Thanks guys!
+function checkFax(): boolean {
+    if (!have($item`photocopied monster`)) cliExecute("fax receive");
+    if (getString("photocopyMonster") === "factory worker") return true;
+    cliExecute("fax send");
+    return false;
+  }
+  
+function faxFactoryWorker(): void {
+    if (!get("_photocopyUsed")) {
+      if (checkFax()) return;
+      chatPrivate("cheesefax", "factory worker");
+      for (let i = 0; i < 3; i++) {
+        wait(10);
+        if (checkFax()) return;
+      }
+      throw new Error("Failed to acquire photocopied factory worker.");
+    }
+}
 
 export default HotRes;
