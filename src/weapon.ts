@@ -29,7 +29,7 @@ import {
 } from "libram";
 import { ensureMp } from "./lib";
 
-const buffs = $effects`Carol of the Bulls, Song of the North, Rage of the Reindeer, Scowl of the Auk, Disdain of the War Snapper, Tenacity of the Snapper, Blessing of the Bird`;
+const buffs = $effects`Carol of the Bulls`;
 
 const Weapon: CSQuest = {
     name: "Weapon Damage",
@@ -64,7 +64,6 @@ const Weapon: CSQuest = {
         ...buffs.map(skillTask),
         restore(buffs),
         skillTask($effect`Frenzied, Bloody`),
-        skillTask($effect`Carol of the Bulls`),
         beachTask($effect`Lack of Body-Building`),
         famPool(),
         {

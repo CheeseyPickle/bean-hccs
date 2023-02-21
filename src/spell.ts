@@ -33,7 +33,7 @@ import {
     have,
 } from "libram";
 
-const buffs = $effects`Carol of the Hells, Arched Eyebrow of the Archmage, Song of Sauce`;
+const buffs = $effects`Carol of the Hells`;
 // const chefstaves = $items`Staff of the Roaring Hearth, Staff of Kitchen Royalty, Staff of the Deepest Freeze, Staff of Frozen Lard, Staff of the Peppermint Twist, Staff of the Roaring Hearth`;
 
 const Spell: CSQuest = {
@@ -54,7 +54,6 @@ const Spell: CSQuest = {
     },
     tasks: [
         skillTask($skill`Simmer`),
-        skillTask($skill`Carol of the Hells`),
         ...buffs.map(skillTask),
         restore(buffs),
         skillTask($skill`Spirit of Cayenne`),
