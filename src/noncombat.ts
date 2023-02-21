@@ -1,5 +1,5 @@
 import { CSStrategy } from "./combatMacros";
-import { commonFamiliarWeightBuffs, famPool, potionTask, restore, skillTask, songTask, wishTask } from "./commons";
+import { beachTask, commonFamiliarWeightBuffs, famPool, potionTask, restore, skillTask, songTask, wishTask } from "./commons";
 import { CSQuest } from "./engine";
 import { hasNcBird, horse, horsery } from "./lib";
 import { uniform } from "./outfit";

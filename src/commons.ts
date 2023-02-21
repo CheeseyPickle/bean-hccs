@@ -145,15 +145,11 @@ export function doYouCrush(): Task {
 }
 
 export function commonFamiliarWeightBuffs(): Task[] {
-    const buffs = $effects`Empathy, Leash of Linguini, Blood Bond`;
+    // TODO: Add empathy once I perm it :P
+    const buffs = $effects`Leash of Linguini, Blood Bond`;
     return [
         ...buffs.map(skillTask),
         restore(buffs),
-        {
-            name: "Fidoxene",
-            completed: () => get("_freePillKeeperUsed"),
-            do: () => cliExecute("pillkeeper familiar"),
-        },
         // {
         //     name: "Suzie's Blessing",
         //     completed: () => get("_clanFortuneBuffUsed"),
