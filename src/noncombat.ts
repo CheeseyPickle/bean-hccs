@@ -1,10 +1,10 @@
 import { CSStrategy } from "./combatMacros";
-import { commonFamiliarWeightBuffs, potionTask, restore, skillTask, songTask } from "./commons";
+import { commonFamiliarWeightBuffs, famPool, potionTask, restore, skillTask, songTask, wishTask } from "./commons";
 import { CSQuest } from "./engine";
 import { hasNcBird, horse, horsery } from "./lib";
 import { uniform } from "./outfit";
-import { runChoice, runCombat, useSkill, visitUrl } from "kolmafia";
-import { $effect, $effects, $familiar, $item, $skill, CommunityService, get, have } from "libram";
+import { availableAmount, drink, retrieveItem, runChoice, runCombat, useSkill, visitUrl } from "kolmafia";
+import { $effect, $effects, $familiar, $item, $skill, CommunityService, ensureEffect, get, have } from "libram";
 
 const Noncombat: CSQuest = {
     name: "Noncombat",
@@ -16,56 +16,40 @@ const Noncombat: CSQuest = {
         familiar: $familiar`Disgeist`,
     }),
     turnsSpent: 0,
-    maxTurns: 1,
+    maxTurns: 6,
     tasks: [
         {
-            name: "Horse",
-            completed: () => horsery() === "dark",
-            do: () => horse("dark"),
+            name: 'Firework Hat',
+            completed: () => availableAmount($item`porkpie-mounted popper`) > 0,
+            ready: () => !get("_fireworksShopHatBought"),
+            do: () => retrieveItem(1, $item`porkpie-mounted popper`)
         },
         ...commonFamiliarWeightBuffs(),
         skillTask($effect`Smooth Movements`),
         skillTask($effect`Feeling Lonely`),
-        skillTask($effect`Blessing of the Bird`),
         songTask($effect`The Sonata of Sneakiness`, $effect`Fat Leon's Phat Loot Lyric`),
         restore($effects`Smooth Movements, The Sonata of Sneakiness`),
         potionTask($item`shady shades`),
-        {
-            name: "Invisible Avatar",
-            completed: () => have($effect`Invisible Avatar`),
-            do: () => useSkill($skill`CHEAT CODE: Invisible Avatar`),
-            outfit: { acc3: $item`Powerful Glove` },
-        },
-        {
-            name: "Favourite Bird",
-            completed: () => get("_favoriteBirdVisited"),
-            ready: hasNcBird,
-            do: () => useSkill($skill`Visit your Favorite Bird`),
-        },
+        wishTask($effect`Disquiet Riot`),
         // {
         //     name: "Swim Sprints",
         //     completed: () => get("_olympicSwimmingPool"),
         //     do: () => cliExecute("swim sprints"),
         // },
+        
+        // I still need all the fam weight buffs to cap this test :(
+        potionTask($item`short stack of pancakes`),
+        potionTask($item`lump of loyal latite`),
         {
-            name: "God Lobster",
-            completed: () => get("_godLobsterFights") >= 3,
+            name: 'Drink Hot Socks',
+            ready: () => get("_speakeasyDrinksDrunk") < 3,
+            completed: () => have($effect`[1701]Hip to the Jive`),
             do: (): void => {
-                visitUrl("main.php?fightgodlobster=1");
-                runCombat();
-                visitUrl("choice.php");
-                runChoice(-1);
-            },
-            outfit: () =>
-                uniform({
-                    changes: {
-                        familiar: $familiar`God Lobster`,
-                        famequip: $item`God Lobster's Ring`,
-                    },
-                }),
-            choices: { [1310]: 2 },
-            combat: new CSStrategy(),
+                ensureEffect($effect`Ode to Booze`),
+                drink(1, $item`Hot Socks`);
+            }
         },
+        famPool()
     ],
 };
 
