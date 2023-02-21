@@ -96,12 +96,11 @@ const getBatteries = () => {
   }
 };
 
-// TODO: Figure out the URL configuration for my voting pattern
 function vote() {
   if (!get("_voteToday")) {
     visitUrl("place.php?whichplace=town_right&action=townright_vote");
     visitUrl(
-      "choice.php?option=1&whichchoice=1331&g=2&local%5B%5D=2&local%5B%5D=3"
+      "choice.php?option=1&whichchoice=1331&g=2&local%5B%5D=3&local%5B%5D=4"
     );
     visitUrl("place.php?whichplace=town_right&action=townright_vote"); // Let mafia see the voted values
   }
