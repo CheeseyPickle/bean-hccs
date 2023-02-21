@@ -47,6 +47,21 @@ const HotRes: CSQuest = {
         ...commonFamiliarWeightBuffs(),
         beachTask($effect`Hot-Headed`),
         {
+            name: "Daylight Shavings Buff",
+            completed: () => have($effect`Gull-Wing Moustache`),
+            ready: () => get("_speakeasyFreeFights") < 3,
+            do: $location`An Unusually Quiet Barroom Brawl`,
+            combat: new CSStrategy(() =>
+                Macro.easyFight().attack().repeat()
+            ),
+            outfit: () =>
+                uniform({
+                    changes: {
+                        hat: $item`Daylight Shavings Helmet`,
+                    }
+                }),
+        },
+        {
             name: "Extinguisher + Cloake + Fax",
             completed: () => have($effect`Fireproof Foam Suit`),
             ready: () => get("_saberForceUses") < 5 && !get("_photocopyUsed"),
