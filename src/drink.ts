@@ -6,7 +6,7 @@ import { $effect, $item, have } from "libram";
 const Drink: CSQuest = {
     name: "Drink Pilsners",
     type: "MISC",
-    completed: () => myInebriety() >= 5,
+    completed: () => !have($item`astral pilsner`) && !have($item`astral six-pack`),
     tasks: [
         {
             name: "Open Pilsners",

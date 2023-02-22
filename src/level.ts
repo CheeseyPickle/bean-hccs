@@ -13,6 +13,7 @@ import {
     eat,
     effectModifier,
     haveEffect,
+    mpCost,
     myBasestat,
     myHp,
     myLevel,
@@ -60,6 +61,7 @@ const CastSkills =
     $skills`Advanced Saucecrafting, Leash of Linguini, Blood Bond, Blood Bubble, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Carol of the Thrills, Feel Peaceful, Feel Nervous, Singer's Faithful Ocelot, Carol of the Hells`
         .map((s) => ({
             name: s.name,
+            ready: () => myMp() > mpCost(s),
             do: (): void => {
                 useSkill(s);
             },
@@ -184,6 +186,7 @@ const Level: CSQuest = {
             completed: () => get("_madTeaParty"),
             do: () => cliExecute("hatter FantasyRealm Rogue's Mask"),
         },
+        ...CastSkills,
         {
             name: 'Eat sausage',
             ready: () => have($item`magical sausage casing`),
@@ -207,7 +210,6 @@ const Level: CSQuest = {
                 use(1, $item`battery (lantern)`);
             }
         },
-        ...CastSkills,
         {
             name: "Make & Use Ointment",
             completed: () => have($effect`Mystically Oiled`),
