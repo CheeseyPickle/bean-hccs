@@ -4,6 +4,7 @@ import { cliExecute, create, itemAmount, use, useSkill } from "kolmafia";
 import {
     $effect,
     $effects,
+    $familiar,
     $item,
     $items,
     $skill,
@@ -32,7 +33,8 @@ const Muscle: CSQuest = {
     turnsSpent: 0,
     maxTurns: 1,
     outfit: () => ({
-        modifier: ['Muscle', 'Muscle Percent'].join(',')
+        modifier: ['Muscle', 'Muscle Percent'].join(','),
+        familiar: $familiar`Left-Hand Man`
     }),
     tasks: [
         {
@@ -80,7 +82,8 @@ const Mysticality: CSQuest = {
         ...skillBuffTasks("MYSTICALITY")
     ],
     outfit: () => ({
-        modifier: ['Mysticality', 'Mysticality Percent'].join(',')
+        modifier: ['Mysticality', 'Mysticality Percent'].join(','),
+        familiar: $familiar`Left-Hand Man`
     }),
 };
 
@@ -92,7 +95,8 @@ const Moxie: CSQuest = {
     turnsSpent: 0,
     maxTurns: 1,
     outfit: () => ({
-        modifier: ['Moxie', 'Moxie Percent'].join(',')
+        modifier: ['Moxie', 'Moxie Percent'].join(','),
+        familiar: $familiar`Left-Hand Man`
     }),
     tasks: [
         ...skillBuffTasks("MOXIE"),
@@ -113,7 +117,8 @@ const Hitpoints: CSQuest = {
     maxTurns: 1,
     modifiers: ['Maximum HP', 'Maximum HP Percent'],
     outfit: () => ({
-        modifier: ['Maximum HP', 'Maximum HP Percent'].join(',')
+        modifier: ['Maximum HP', 'Maximum HP Percent'].join(','),
+        familiar: $familiar`Left-Hand Man`
     }),
     tasks: [
         ...skillBuffTasks("HP"),

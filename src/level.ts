@@ -197,6 +197,15 @@ const Level: CSQuest = {
         },
         beachTask($effect`You Learned Something Maybe!`),
         beachTask($effect`We're All Made of Starfish`),
+        {
+            name: "Lantern Battery",
+            ready: () => myMaxmp() - myMp() >= 70,
+            completed: () => have($effect`Lantern-Charged`),
+            do: (): void => {
+                cliExecute("acquire 1 battery (lantern)");
+                use(1, $item`battery (lantern)`);
+            }
+        },
         ...CastSkills,
         {
             name: "Make & Use Ointment",
@@ -296,6 +305,14 @@ const Level: CSQuest = {
             name: "Lapdog",
             completed: () => get("_olympicSwimmingPool"),
             do: () => cliExecute("swim ml"),
+        },
+        {
+            name: "Peppermint Twist",
+            completed: () => have($effect`Peppermint Twisted`),
+            do: (): void => {
+                create(1, $item`peppermint twist`);
+                use(1, $item`peppermint twist`);
+            }
         },
         {
             name: "Eat Fire Crackers",
