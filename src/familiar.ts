@@ -1,7 +1,7 @@
 import { commonFamiliarWeightBuffs, famPool, meteorShower, potionTask } from "./commons";
 import { CSQuest } from "./engine";
 import { unequip } from "./lib";
-import { drink, mySign, visitUrl } from "kolmafia";
+import { cliExecute, drink, mySign, visitUrl } from "kolmafia";
 import {
     $effect,
     $familiar,
@@ -36,7 +36,7 @@ const FamiliarWeight: CSQuest = {
             completed: () => have($effect`[1701]Hip to the Jive`),
             do: (): void => {
                 ensureEffect($effect`Ode to Booze`);
-                drink(1, $item`Hot Socks`);
+                cliExecute("drink 1 Hot Socks");
             }
         },
         famPool()

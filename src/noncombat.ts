@@ -3,7 +3,7 @@ import { beachTask, commonFamiliarWeightBuffs, famPool, potionTask, restore, ski
 import { CSQuest } from "./engine";
 import { hasNcBird, horse, horsery } from "./lib";
 import { uniform } from "./outfit";
-import { availableAmount, drink, retrieveItem, runChoice, runCombat, useSkill, visitUrl } from "kolmafia";
+import { availableAmount, cliExecute, drink, retrieveItem, runChoice, runCombat, useSkill, visitUrl } from "kolmafia";
 import { $effect, $effects, $familiar, $item, $skill, CommunityService, ensureEffect, get, have } from "libram";
 
 const Noncombat: CSQuest = {
@@ -45,8 +45,8 @@ const Noncombat: CSQuest = {
             ready: () => get("_speakeasyDrinksDrunk") < 3,
             completed: () => have($effect`[1701]Hip to the Jive`),
             do: (): void => {
-                ensureEffect($effect`Ode to Booze`),
-                drink(1, $item`Hot Socks`);
+                ensureEffect($effect`Ode to Booze`);
+                cliExecute("drink 1 Hot Socks");
             }
         },
         famPool()
