@@ -221,13 +221,14 @@ function doDailies() {
 // TODO: Go into the skeleton store and YR a tropical skeleton
 function getSkellyFruits() {
   ensureItem(1, $item`red rocket`);
+
+  // TODO: Make sure you don't equip DS Helmet here
 }
 
 export function main(): void {
   setAutoAttack(0);
   doDailies();
 
-  // TODO: write code to YR a tropical skeleton
   const coilWireStatus = CommunityService.CoilWire.run(() => {
     setup();
     doGuaranteedGoblin();
