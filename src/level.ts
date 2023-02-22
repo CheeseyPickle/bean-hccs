@@ -39,6 +39,7 @@ import {
     $stat,
     $thrall,
     Cartography,
+    ensureEffect,
     get,
     have,
     TrainSet,
@@ -290,7 +291,10 @@ const Level: CSQuest = {
         {
             name: "Drink Bee's Knees",
             completed: () => have($effect`On the Trolley`),
-            do: () => drink(1, $item`Bee's Knees`),
+            do: (): void => {
+                ensureEffect($effect`Ode to Booze`);
+                drink(1, $item`Bee's Knees`);
+            }
         },
         {
             name: "Eat Myst Hot Dog",

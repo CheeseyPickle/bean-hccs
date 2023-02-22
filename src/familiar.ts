@@ -35,7 +35,7 @@ const FamiliarWeight: CSQuest = {
             ready: () => get("_speakeasyDrinksDrunk") < 3,
             completed: () => have($effect`[1701]Hip to the Jive`),
             do: (): void => {
-                ensureEffect($effect`Ode to Booze`),
+                ensureEffect($effect`Ode to Booze`);
                 drink(1, $item`Hot Socks`);
             }
         },
