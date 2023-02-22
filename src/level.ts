@@ -310,15 +310,13 @@ const Level: CSQuest = {
             completed: () => have($effect`On the Trolley`),
             do: (): void => {
                 ensureEffect($effect`Ode to Booze`);
-                drink(1, $item`Bee's Knees`);
+                cliExecute("drink 1 Bee's Knees");
             }
         },
         {
             name: "Eat Myst Hot Dog",
             completed: () => have($effect`Inner Dog`),
-            // I really hope this works
-            // eslint-disable-next-line libram/verify-constants
-            do: () => eat(1, $item`one with everything`),
+            do: () => cliExecute("eat 1 one with everything"),
         },
         {
             name: 'Fold Shirt',
