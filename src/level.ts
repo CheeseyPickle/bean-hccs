@@ -1,5 +1,5 @@
 import { CSStrategy, Macro } from "./combatMacros";
-import { beachTask, famPool, thrallTask } from "./commons";
+import { beachTask, famPool, skillTask, thrallTask } from "./commons";
 import { CSQuest } from "./engine";
 import { synthExp } from "./lib";
 import { levelUniform, uniform } from "./outfit";
@@ -41,6 +41,7 @@ import {
     have,
     TrainSet,
 } from "libram";
+import { effect } from "libram/dist/resources/2022/TrainSet";
 
 const levellingComplete = myBasestat($stat`Mysticality`) >= 220 && get("_neverendingPartyFreeTurns") >= 10;
 let lovePotionConsidered = false;
@@ -50,7 +51,7 @@ const foldshirt = (): void => {
 };
 
 const CastSkills =
-    $skills`Stevedave's Shanty of Superiority, Fat Leon's Phat Loot Lyric, The Polka of Plenty, Leash of Linguini, Empathy of the Newt, Blood Bond, Blood Bubble, Song of Bravado, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Singer's Faithful Ocelot`
+    $skills`Leash of Linguini, Empathy of the Newt, Blood Bond, Blood Bubble, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Singer's Faithful Ocelot, Carol of the Thrills, Carol of the Hells`
         .map((s) => ({
             name: s.name,
             do: (): void => {
@@ -123,6 +124,12 @@ const Level: CSQuest = {
             completed: () => have($effect`Category`),
             do: () => chew(1, $item`abstraction: category`),
         },
+        skillTask($skill`Inscrutable Gaze`),
+        {
+            name: "April Shower",
+            completed: () => get("_aprilShower"),
+            do: () => cliExecute("shower lukewarm"),
+        },
         {
             name: "NEP Quest",
             completed: () => get("_questPartyFair") !== "unstarted",
@@ -158,13 +165,18 @@ const Level: CSQuest = {
         {
             name: "Ten-Percent Bonus",
             completed: () => !have($item`a ten-percent bonus`),
-            effects: $effects`Inscrutable Gaze, Thaumodynamic`,
             do: () => use(1, $item`a ten-percent bonus`),
         },
         {
             name: "Bastille",
             completed: () => get("_bastilleGames") > 0,
             do: () => cliExecute("bastille myst brutalist gesture"),
+        },
+        {
+            name: "Bran Muffin",
+            ready: () => have($effect`Ready to Eat`) && have($item`bran muffin`),
+            completed: () => have($effect`All Branned Up`),
+            do: () => eat(1, $item`bran muffin`)
         },
         {
             name: "Get Love Potion",
