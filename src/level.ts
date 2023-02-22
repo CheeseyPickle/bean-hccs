@@ -1,13 +1,15 @@
 import { CSStrategy, Macro } from "./combatMacros";
-import { beachTask, famPool, skillTask, thrallTask } from "./commons";
+import { beachTask, famPool, skillTask, thrallTask, wishTask } from "./commons";
 import { CSQuest } from "./engine";
-import { synthExp } from "./lib";
+import { ensureItem, synthExp } from "./lib";
 import { levelUniform, uniform } from "./outfit";
 import { OutfitSpec } from "grimoire-kolmafia";
 import {
     buy,
     chew,
     cliExecute,
+    create,
+    drink,
     eat,
     myBasestat,
     myHp,
@@ -51,7 +53,7 @@ const foldshirt = (): void => {
 };
 
 const CastSkills =
-    $skills`Leash of Linguini, Empathy of the Newt, Blood Bond, Blood Bubble, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Singer's Faithful Ocelot, Carol of the Thrills, Carol of the Hells`
+    $skills`Leash of Linguini, Empathy of the Newt, Blood Bond, Blood Bubble, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Carol of the Thrills, Feel Peaceful, Feel Nervous, Singer's Faithful Ocelot, Carol of the Hells`
         .map((s) => ({
             name: s.name,
             do: (): void => {
@@ -191,28 +193,35 @@ const Level: CSQuest = {
                 lovePotionConsidered = true;
 
                 if (
-                    numericModifier(loveEffect, "mysticality") > 10 &&
-                    numericModifier(loveEffect, "muscle") > -30 &&
-                    numericModifier(loveEffect, "moxie") > -30 &&
-                    numericModifier(loveEffect, "maximum hp percent") > -0.001
+                    numericModifier(loveEffect, "mysticality") > 0 &&
+                    numericModifier(loveEffect, "muscle") > 0 &&
+                    numericModifier(loveEffect, "moxie") > 0 &&
+                    numericModifier(loveEffect, "maximum hp percent") > -0.001 &&
+                    numericModifier(loveEffect, "maximum mp percent") > -0.001
                 ) {
                     use(1, lovePotion);
                 }
             },
         },
-        {
-            name: "Favourite Bird",
-            completed: () => get("_favoriteBirdVisited"),
-            ready: () =>
-                get("yourFavoriteBirdMods")
-                    .split(",")
-                    .some((mod) => mod.includes("Mysticality Percent: +")),
-            do: () => useSkill($skill`Visit your Favorite Bird`),
-        },
+        wishTask($effect`A Contender`),
         {
             name: "Boxing Daybuff",
             completed: () => get("_daycareSpa"),
             do: () => cliExecute("daycare mysticality"),
+        },
+        {
+            name: "Make & Use Ointment",
+            completed: () => have($effect`Mystically Oiled`),
+            ready: () => have($item`grapefruit`),
+            do: (): void => {
+                if (!have($item`ointment of the occult`)) {
+                    create(1, $item`ointment of the occult`);
+                }
+                if (have($item`ointment of the occult`)) {
+                    use(1, $item`ointment of the occult`);
+                }
+            },
+            limit: { tries: 1 }
         },
         {
             name: "Smile of Lyle",
@@ -234,28 +243,34 @@ const Level: CSQuest = {
             },
         },
         {
-            name: "Triple-Sized",
-            completed: () => have($effect`Triple-Sized`),
-            do: () => useSkill($skill`CHEAT CODE: Triple Size`, 1),
-            outfit: { acc3: $item`Powerful Glove` },
-        },
-        {
             name: "Misc Items",
             completed: () =>
-                $items`votive of confidence, natural magick candle`.every(
+                $items`votive of confidence, gummi snake`.every(
                     (i) => !have(i)
                 ),
             do: () =>
-                $items`votive of confidence, natural magick candle`.forEach(
+                $items`votive of confidence, gummi snake`.forEach(
                     (i) => have(i) && use(i)
                 ),
         },
         {
+            name: "Get FR Hat",
+            ready: () => get("_frHoursLeft") === "",
+            completed: () => have($item`FantasyRealm Rogue's Mask`),
+            do: () => create(1, $item`FantasyRealm Rogue's Mask`),
+        },
+        {
+            name: "Hatter Myst Buff",
+            ready: () => !get("_madTeaParty") && have($item`FantasyRealm Rogue's Mask`),
+            completed: () => get("_madTeaParty"),
+            do: () => cliExecute("hatter FantasyRealm Rogue's Mask"),
+        },
+        {
             // not strictly necessary
             name: "Acquire Casting Items",
-            completed: () => $items`turtle totem, saucepan`.every((i) => have(i)),
+            completed: () => $items`saucepan`.every((i) => have(i)),
             do: () =>
-                $items`turtle totem, saucepan`.forEach(
+                $items`saucepan`.forEach(
                     (i) => !have(i) && cliExecute(`acquire ${i}`)
                 ),
         },
@@ -265,12 +280,30 @@ const Level: CSQuest = {
             do: () => cliExecute("swim ml"),
         },
         {
+            name: "Eat Fire Crackers",
+            completed: () => have($effect`Fire cracked`),
+            do: (): void => {
+                ensureItem(1, $item`fire crackers`);
+                eat(1, $item`fire crackers`);
+            },
+        },
+        {
+            name: "Drink Bee's Knees",
+            completed: () => have($effect`On the Trolley`),
+            do: () => drink(1, $item`Bee's Knees`),
+        },
+        {
+            name: "Eat Myst Hot Dog",
+            completed: () => have($effect`Inner Dog`),
+            // I really hope this works
+            // eslint-disable-next-line libram/verify-constants
+            do: () => eat(1, $item`one with everything`),
+        },
+        {
             name: 'Fold Shirt',
             do: foldshirt,
             completed: () => have($item`makeshift garbage shirt`)
         },
-        thrallTask($thrall`Spaghetti Elemental`),
-        famPool(),
         {
             name: 'Eat sausage',
             ready: () => have($item`magical sausage casing`),
@@ -287,83 +320,6 @@ const Level: CSQuest = {
         beachTask($effect`We're All Made of Starfish`),
         ...CastSkills,
         {
-            name: "Holiday Yoked",
-            completed: () => have($effect`Holiday Yoked`),
-            do: $location`Noob Cave`,
-            outfit: () =>
-                uniform({
-                    changes: {
-                        familiar: $familiar`Ghost of Crimbo Carols`,
-                        famequip: $item.none,
-                        avoid: $items`Kramco Sausage-o-Matic™`,
-                        acc3: $item`Lil' Doctor™ bag`
-                    },
-                }),
-            combat: new CSStrategy(() =>
-                Macro.skill($skill`Giant Growth`)
-                    .skill($skill`Reflex Hammer`)
-            ),
-            limit: { tries: 1 }
-        },
-        {
-            name: "Map Ninja",
-            completed: () => have($item`li'l ninja costume`),
-            do: (): void => {
-                Cartography.mapMonster($location`The Haiku Dungeon`, $monster`amateur ninja`);
-            },
-            combat: new CSStrategy(() =>
-                Macro.if_($monster`amateur ninja`, Macro.skill($skill`Chest X-Ray`)).abort()
-            ),
-            outfit: () => levelUniform({ changes: { acc3: $item`Lil' Doctor™ bag` } }),
-        },
-        {
-            name: "Oliver's Place: Prime Portscan",
-            completed: () => get("_speakeasyFreeFights") > 1,
-            ready: () => get("_speakeasyFreeFights") === 1,
-            do: $location`An Unusually Quiet Barroom Brawl`,
-            outfit: () => levelUniform(),
-            combat: new CSStrategy(() => Macro.skill($skill`Portscan`).easyFight().attack().repeat()),
-        },
-        {
-            name: "Oliver's Place: Use Portscan",
-            ready: () => get("_speakeasyFreeFights") === 2,
-            completed: () => have($item`government cheese`),
-            do: $location`An Unusually Quiet Barroom Brawl`,
-            outfit: () =>
-                levelUniform({
-                    changes: { back: $item`vampyric cloake`, acc3: $item`Lil' Doctor™ bag` },
-                }),
-            combat: new CSStrategy(() =>
-                Macro.skill($skill`Become a Bat`)
-                    .skill($skill`Otoscope`)
-                    .kill()
-            ),
-            limit: { tries: 1 }
-        },
-        {
-            name: "God Lobster",
-            completed: () => get("_godLobsterFights") >= 2,
-            ready: () => get("_godLobsterFights") < 3,
-            do: (): void => {
-                visitUrl("main.php?fightgodlobster=1");
-                runCombat();
-                visitUrl("choice.php");
-                runChoice(-1);
-            },
-            outfit: (): OutfitSpec => {
-                const gear =
-                    $items`God Lobster's Crown, God Lobster's Robe, God Lobster's Rod, God Lobster's Ring, God Lobster's Scepter`.find(
-                        (it) => have(it)
-                    ) ?? $item`tiny stillsuit`;
-                return levelUniform({ changes: { familiar: $familiar`God Lobster`, famequip: gear } });
-            },
-            choices: {
-                // Stats
-                [1310]: () => 1,
-            },
-            combat: new CSStrategy(),
-        },
-        {
             name: "Regular NEP",
             completed: () => get("_neverendingPartyFreeTurns") >= 10,
             do: $location`The Neverending Party`,
@@ -375,7 +331,7 @@ const Level: CSQuest = {
             combat: new CSStrategy(() =>
                 Macro.externalIf(
                     get("_neverendingPartyFreeTurns") > 1, // make sure bowling sideways before feel pride
-                    Macro.trySkill($skill`Feel Pride`)
+                    Macro.trySkill($skill`Army of Toddlers`).trySkill($skill`Feel Pride`)
                 ).default(true)
             ),
             choices: { [1324]: 5 },
@@ -401,7 +357,9 @@ const Level: CSQuest = {
                 return levelUniform({ changes });
             },
             combat: new CSStrategy(() =>
-                Macro.if_($monster`sausage goblin`, Macro.default())
+                Macro.if_($monster`sausage goblin`, Macro.default(true))
+                    .trySkill($skill`Bowl Sideways`)
+                    .skill($skill`Sing Along`)
                     .trySkill($skill`Spit jurassic acid`)
                     .trySkill($skill`Chest X-Ray`)
                     .trySkill($skill`Shattering Punch`)

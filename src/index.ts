@@ -185,7 +185,7 @@ function setup() {
 function doDailies() {
   if (have($item`pantogram pants`)) return;
 
-  Clan.join("Bonus Adventures from Hell");
+  Clan.join("Redemption City");
 
   visitUrl("council.php"); // Initialize council.
   visitUrl("clan_viplounge.php?action=fwshop"); // manual visit to fireworks shop to allow purchases
@@ -197,9 +197,9 @@ function doDailies() {
   SongBoom.setSong("Total Eclipse of Your Meat");
 
   if (!get("_floundryItemCreated")) {
-    Clan.join("Redemption City");
+    Clan.join("Floundry");
     cliExecute("acquire fish hatchet");
-    Clan.join("Bonus Adventures from Hell");
+    Clan.join("Redemption City");
   }
 
   getBatteries();

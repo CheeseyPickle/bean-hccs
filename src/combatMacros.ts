@@ -43,10 +43,9 @@ export class Macro extends LibramMacro {
     }
 
     default(bowlSideways?: boolean): Macro {
-        return this.delevel()
-            .itemSkills()
-            .externalIf(Boolean(bowlSideways), Macro.trySkill($skill`Bowl Sideways`))
-            .easyFight()
+        return this.externalIf(Boolean(bowlSideways), Macro.trySkill($skill`Bowl Sideways`))
+            .skill($skill`Stuffed Mortar Shell`)
+            .skill($skill`Sing Along`)
             .kill();
     }
     static default(bowlSideways?: boolean): Macro {
