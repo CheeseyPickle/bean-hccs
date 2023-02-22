@@ -135,15 +135,6 @@ const Level: CSQuest = {
             completed: () => get("_aprilShower"),
             do: () => cliExecute("shower lukewarm"),
         },
-        {
-            name: "NEP Quest",
-            completed: () => get("_questPartyFair") !== "unstarted",
-            do: (): void => {
-                visitUrl("adventure.php?snarfblat=528");
-                const choice = ["food", "booze"].includes(get("_questPartyFairQuest")) ? 1 : 2;
-                runChoice(choice);
-            },
-        },
         wishTask($effect`A Contender`),
         {
             name: "Boxing Daybuff",
@@ -220,6 +211,15 @@ const Level: CSQuest = {
                 }
             },
             limit: { tries: 1 }
+        },
+        {
+            name: "NEP Quest",
+            completed: () => get("_questPartyFair") !== "unstarted",
+            do: (): void => {
+                visitUrl("adventure.php?snarfblat=528");
+                const choice = ["food", "booze"].includes(get("_questPartyFairQuest")) ? 1 : 2;
+                runChoice(choice);
+            },
         },
         {
             name: "Oliver's Place: First free fight",

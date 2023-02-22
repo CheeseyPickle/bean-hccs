@@ -405,9 +405,7 @@ export function getBestFamiliar(): Familiar {
 }
 
 export function useBestFamiliar(): void {
-  const fam = getBestFamiliar();
-  fam === $familiar`Melodramedary` && equip($item`dromedary drinking helmet`, $slot`familiar`);
-  useFamiliar(getBestFamiliar());
+  useFamiliar($familiar`Shorter-Order Cook`);
 }
 
 export function mapMacro(
