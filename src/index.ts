@@ -267,9 +267,9 @@ export function main(): void {
   }
 
   CSEngine.runTests(Level,
-    Mysticality,
-    Hitpoints,
     Muscle,
+    Hitpoints,
+    Mysticality,
     Moxie,
     ItemDrop,
     Noncombat,

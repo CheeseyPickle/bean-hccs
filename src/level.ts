@@ -11,6 +11,8 @@ import {
     create,
     drink,
     eat,
+    effectModifier,
+    haveEffect,
     myBasestat,
     myHp,
     myLevel,
@@ -329,14 +331,19 @@ const Level: CSQuest = {
             do: $location`The Neverending Party`,
             outfit: levelUniform({
                 changes: {
-                    offhand: $item`Kramco Sausage-o-Matic™`
+                    offhand: $item`Kramco Sausage-o-Matic™`,
+                    back: $item`vampyric cloake`,
                 }
             }),
             combat: new CSStrategy(() =>
                 Macro.externalIf(
                     get("_neverendingPartyFreeTurns") > 1, // make sure bowling sideways before feel pride
                     Macro.trySkill($skill`Army of Toddlers`).trySkill($skill`Feel Pride`)
-                ).default(true)
+                ).externalIf(
+                    haveEffect($effect`Wolfish Form`) < 2,
+                    Macro.trySkill()
+                )
+                .default(true)
             ),
             choices: { [1324]: 5 },
         },
