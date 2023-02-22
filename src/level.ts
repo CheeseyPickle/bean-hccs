@@ -371,14 +371,11 @@ const Level: CSQuest = {
             completed: () =>
                 get("_shatteringPunchUsed") >= 3 &&
                 get("_gingerbreadMobHitUsed") &&
-                have($effect`Everything Looks Yellow`) &&
                 get("_chestXRayUsed") >= 3,
             do: $location`The Neverending Party`,
             outfit: (): OutfitSpec => {
                 foldshirt();
-                const killSource = !have($effect`Everything Looks Yellow`)
-                    ? { shirt: $item`Jurassic Parka`, modes: { parka: "dilophosaur" as const } }
-                    : get("_chestXRayUsed") < 3
+                const killSource = get("_chestXRayUsed") < 3
                         ? { acc3: $item`Lil' Doctor™ bag` }
                         : {};
                 const changes = {
@@ -390,7 +387,6 @@ const Level: CSQuest = {
                 Macro.if_($monster`sausage goblin`, Macro.default(true))
                     .trySkill($skill`Bowl Sideways`)
                     .skill($skill`Sing Along`)
-                    .trySkill($skill`Spit jurassic acid`)
                     .trySkill($skill`Chest X-Ray`)
                     .trySkill($skill`Shattering Punch`)
                     .trySkill($skill`Gingerbread Mob Hit`)

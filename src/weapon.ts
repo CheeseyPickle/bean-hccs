@@ -76,7 +76,8 @@ const Weapon: CSQuest = {
             outfit: () =>
                 uniform({
                     changes: {
-                        acc1: $item`Lil' Doctor™ bag`,
+                        shirt: $item`Jurassic Parka`,
+                        modes: {parka: "dilophosaur"}
                     },
                 }),
             post: (): void => {
@@ -92,7 +93,8 @@ const Weapon: CSQuest = {
             },
             combat: new CSStrategy(() =>
                 Macro.trySkill($skill`Sing Along`)
-                    .skill($skill`Chest X-Ray`)
+                    .trySkill($skill`Spit jurassic acid`)
+                    .kill()
             ),
         },
         potionTask($item`corrupted marrow`),
