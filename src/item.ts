@@ -1,13 +1,13 @@
 import { OutfitSpec } from "grimoire-kolmafia";
-import { availableAmount, canAdventure, cliExecute, create, knollAvailable, use, visitUrl } from "kolmafia";
-import { $effect, $familiar, $item, $items, $location, $skill, CommunityService, get, have, SourceTerminal } from "libram";
+import { availableAmount, canAdventure, cliExecute, create, handlingChoice, knollAvailable, runChoice, use, visitUrl } from "kolmafia";
+import { $effect, $familiar, $item, $items, $location, $monster, $skill, CombatLoversLocket, CommunityService, get, have, SourceTerminal } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
-import { songTask, skillTask, potionTask } from "./commons";
+import { songTask, skillTask, potionTask, wishTask } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem, synthItem } from "./lib";
 import { uniform } from "./outfit";
 
-const MODIFIERS = ['item drop', 'booze drop'];
+const MODIFIERS = ['item drop', '2booze drop'];
 
 const ItemDrop: CSQuest = {
     name: "Booze Drop",
@@ -17,62 +17,47 @@ const ItemDrop: CSQuest = {
     maxTurns: 1,
     modifiers: MODIFIERS,
     tasks: [{
-        name: "Bowling Ball & Batform",
-        ready: () => !get('_latteBanishUsed'),
+        name: "Batform + Pirate Locket",
+        ready: () => !get('_locketMonstersFought').includes('Black Crayon Pirate'),
         completed: () => have($effect`Bat-Adjacent Form`),
-        do: $location`The Dire Warren`,
+        do: (): void => {
+            CombatLoversLocket.reminisce($monster`Black Crayon Pirate`);
+            if (handlingChoice()) runChoice(-1);
+        },
         outfit: () =>
             uniform({
                 changes: {
                     back: $item`vampyric cloake`,
-                    offhand: $item`latte lovers member's mug`,
                 },
-                canAttack: false,
             }),
         combat: new CSStrategy(() =>
-            Macro.skill($skill`Bowl Straight Up`).skill($skill`Become a Bat`).skill($skill`Throw Latte on Opponent`)
+            Macro.skill($skill`Become a Bat`).kill()
         ),
     },
-    songTask($effect`Fat Leon's Phat Loot Lyric`, $effect`Ode to Booze`),
-    skillTask($skill`The Spirit of Taking`),
     skillTask($skill`Singer's Faithful Ocelot`),
-    ...$items`Salsa Caliente™ candle, lavender candy heart, bag of grain, emergency glowstick, autumn leaf`.map(
+    ...$items`lavender candy heart, bag of grain`.map(
         potionTask
     ),
+    wishTask($effect`Infernal Thirst`),
     {
-        name: "Items.enh",
-        completed: () => have($effect`items.enh`),
-        do: () => SourceTerminal.enhance($effect`items.enh`),
+        // TODO: Cut this once you get any additional item skills
+        name: "Eyedrops of the Ermine",
+        completed: () => have($effect`Ermine Eyes`),
+        ready: () => have($item`strawberry`),
+        do: (): void => {
+            if (!have($item`eyedrops of the ermine`)) {
+                create(1, $item`eyedrops of the ermine`);
+            }
+            if (have($item`eyedrops of the ermine`)) {
+                use(1, $item`eyedrops of the ermine`);
+            }
+        },
+        limit: { tries: 1 }
     },
     {
         name: "Play Pool",
         completed: () => have($effect`Hustlin'`) || get('_poolGames') === 3,
         do: () => cliExecute("pool 3"),
-    },
-    {
-        name: "Unlock Beach",
-        ready: () => have($item`government cheese`),
-        completed: () => canAdventure($location`South of the Border`),
-        do: (): void => {
-            const desertAccessItem = knollAvailable()
-                ? $item`bitchin' meatcar`
-                : $item`Desert Bus pass`;
-            if (!have(desertAccessItem)) {
-                cliExecute(`acquire ${desertAccessItem.name}`);
-            }
-        },
-    },
-    {
-        name: "Get Anticheese",
-        ready: () => canAdventure($location`South of the Border`),
-        completed: () => get("lastAnticheeseDay") > 0,
-        do: () => visitUrl("place.php?whichplace=desertbeach&action=db_nukehouse"),
-    },
-    {
-        name: "Government",
-        ready: () => have($item`anticheese`) && have($item`government cheese`),
-        completed: () => have($effect`I See Everything Thrice!`),
-        do: () => create(1, $item`government`) && use(1, $item`government`),
     },
     {
         name: 'Get Sparkler',
@@ -84,11 +69,6 @@ const ItemDrop: CSQuest = {
         completed: () => get("_clanFortuneBuffUsed"),
         do: () => cliExecute("fortune buff item")
     },
-    {
-        name: 'Synth Item',
-        completed: () => have($effect`Synthesis: Collection`),
-        do: () => synthItem()
-    },
     skillTask($skill`Feel Lost`),
     skillTask($skill`Steely-Eyed Squint`)
     ],
@@ -96,7 +76,7 @@ const ItemDrop: CSQuest = {
         if (!have($item`wad of used tape`)) cliExecute("fold wad of used tape");
         return {
             modifier: MODIFIERS.join(','),
-            familiar: $familiar`Trick-or-Treating Tot`,
+            familiar: $familiar`Left-Hand Man`,
             avoid: $items`broken champagne bottle`
         };
     }
