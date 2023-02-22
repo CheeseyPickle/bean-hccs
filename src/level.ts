@@ -56,7 +56,7 @@ const foldshirt = (): void => {
 };
 
 const CastSkills =
-    $skills`Advanced Saucecrafting, Leash of Linguini, Empathy of the Newt, Blood Bond, Blood Bubble, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Carol of the Thrills, Feel Peaceful, Feel Nervous, Singer's Faithful Ocelot, Carol of the Hells`
+    $skills`Advanced Saucecrafting, Leash of Linguini, Blood Bond, Blood Bubble, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Carol of the Thrills, Feel Peaceful, Feel Nervous, Singer's Faithful Ocelot, Carol of the Hells`
         .map((s) => ({
             name: s.name,
             do: (): void => {
