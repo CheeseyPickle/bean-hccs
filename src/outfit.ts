@@ -12,30 +12,18 @@ import {
 } from "libram";
 
 const DEFAULT_UNIFORM = (): OutfitSpec => ({
-    hat: DaylightShavings.buffAvailable()
-        ? DaylightShavings.helmet
-        : $items`astral chapeau, Iunion Crown`,
-    shirt: $items`Jurassic Parka, fresh coat of paint`,
-    pants: $items`designer sweatpants, old sweatpants`,
-    weapon:
-        get("_juneCleaverFightsLeft") > 0 && get("_juneCleaverEncounters") < 2
-            ? $item`June cleaver`
-            : $item`Fourth of May Cosplay Saber`,
+    hat: DaylightShavings.helmet,
+    shirt: $items`Jurassic Parka`,
+    pants: $items`designer sweatpants, Cargo Cultist Shorts`,
+    weapon: $item`Fourth of May Cosplay Saber`,
     offhand: $item`unbreakable umbrella`,
-    acc3: $items`Powerful Glove`,
-    back: $items`unwrapped knock-off retro superhero cape`,
+    back: $items`vampyric cloake`,
     modes: {
-        retrocape: ["heck", "thrill"],
         umbrella: "broken",
     },
 });
 
 const FAMILIAR_PICKS = [
-    {
-        familiar: $familiar`Melodramedary`,
-        famequip: $item`dromedary drinking helmet`,
-        condition: () => get("camelSpit") < 100 && !have($effect`Spit Upon`),
-    },
     {
         familiar: $familiar`Shorter-Order Cook`,
         condition: () =>
@@ -52,9 +40,9 @@ export function chooseFamiliar(canAttack?: boolean): { familiar: Familiar; fameq
             (canAttack || !(familiar.elementalDamage || familiar.physicalDamage))
     );
     if (pick) {
-        return { famequip: pick.famequip ?? $item`tiny stillsuit`, familiar: pick.familiar };
+        return { famequip: $item`tiny stillsuit`, familiar: pick.familiar };
     }
-    return { famequip: $item`tiny stillsuit`, familiar: $familiar`Artistic Goth Kid` };
+    return { famequip: $item`tiny stillsuit`, familiar: $familiar`Pocket Professor` };
 }
 
 type UniformOptions = { changes: OutfitSpec; canAttack: boolean };
