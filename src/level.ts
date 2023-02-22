@@ -138,6 +138,11 @@ const Level: CSQuest = {
             completed: () => get("_aprilShower"),
             do: () => cliExecute("shower lukewarm"),
         },
+        {
+            name: "Daycare Scavenge",
+            completed: () => get("_daycareGymScavenges") > 0,
+            do: () => cliExecute("daycare scavenge free"),
+        },
         wishTask($effect`A Contender`),
         {
             name: "Boxing Daybuff",
