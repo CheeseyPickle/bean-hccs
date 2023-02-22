@@ -23,12 +23,14 @@ import {
   $familiar,
   $item,
   $location,
+  $monster,
   $skill,
   $slot,
   adventureMacro,
   AutumnAton,
   Clan,
   CommunityService,
+  ensureEffect,
   get,
   have,
   Requirement,
@@ -76,8 +78,8 @@ function doGuaranteedGoblin() {
     equip($item`Kramco Sausage-o-Matic™`);
     adventureMacro(
       $location`Noob Cave`,
-      Macro.if_(
-        '!monstername "sausage goblin"',
+      Macro.ifNot(
+        $monster`sausage goblin`,
         new Macro().step("abort")
       ).step(
         Macro.itemSkills().easyFight().kill()
@@ -111,6 +113,7 @@ function equipStatOutfit() {
   new Requirement(
     ["100 mysticality experience percent, mysticality experience"], {
     forceEquip: [$item`makeshift garbage shirt`, $item`unbreakable umbrella`],
+    preventEquip: [$item`Daylight Shavings Helmet`],
   }
   ).maximize();
 }
@@ -218,11 +221,36 @@ function doDailies() {
   );
 }
 
-// TODO: Go into the skeleton store and YR a tropical skeleton
 function getSkellyFruits() {
   ensureItem(1, $item`red rocket`);
+  ensureEffect($effect`Feeling Excited`);
+  ensureEffect($effect`The Magical Mojomuscular Melody`);
+  ensureEffect($effect`Pasta Oneness`);
 
-  // TODO: Make sure you don't equip DS Helmet here
+  useFamiliar($familiar`Pocket Professor`);
+  new Requirement(
+    ["100 mysticality experience percent, mysticality experience"], {
+    forceEquip: [$item`Lil' Doctor™ bag`, $item`latte lovers member's mug`, $item`Jurassic Parka`],
+    modes: {parka: "dilophosaur" as const},
+    preventEquip: [$item`Daylight Shavings Helmet`],
+  }
+  ).maximize();
+
+  while(!have($item`cherry`)) {
+    adventureMacro(
+      $location`The Skeleton Store`,
+      Macro.trySkill($skill`Gulp Latte`)
+      .tryItem($item`red rocket`)
+      .ifNot(
+        $monster`novelty tropical skeleton`,
+        new Macro().trySkill($skill`Throw Latte on Opponent`)
+          .trySkill($skill`Reflex Hammer`)
+          .trySkill($skill`Feel Hatred`)
+      ).step(
+        Macro.skill($skill`Spit jurassic acid`)
+      )
+    );
+  }
 }
 
 export function main(): void {
