@@ -56,7 +56,7 @@ const foldshirt = (): void => {
 };
 
 const CastSkills =
-    $skills`Leash of Linguini, Empathy of the Newt, Blood Bond, Blood Bubble, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Carol of the Thrills, Feel Peaceful, Feel Nervous, Singer's Faithful Ocelot, Carol of the Hells`
+    $skills`Advanced Saucecrafting, Leash of Linguini, Empathy of the Newt, Blood Bond, Blood Bubble, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Carol of the Thrills, Feel Peaceful, Feel Nervous, Singer's Faithful Ocelot, Carol of the Hells`
         .map((s) => ({
             name: s.name,
             do: (): void => {
@@ -144,6 +144,83 @@ const Level: CSQuest = {
                 runChoice(choice);
             },
         },
+        wishTask($effect`A Contender`),
+        {
+            name: "Boxing Daybuff",
+            completed: () => get("_daycareSpa"),
+            do: () => cliExecute("daycare mysticality"),
+        },
+        {
+            name: "Smile of Lyle",
+            completed: () => get("_lyleFavored"),
+            do: () => cliExecute("monorail buff"),
+        },
+        {
+            name: "Telescope",
+            completed: () => get("telescopeLookedHigh"),
+            do: () => cliExecute("telescope look high"),
+        },
+        {
+            name: "Glittering Eyelashes",
+            completed: () => have($effect`Glittering Eyelashes`),
+            do: (): void => {
+                const mascara = $item`glittery mascara`;
+                if (!have(mascara)) buy(1, mascara);
+                use(1, mascara);
+            },
+        },
+        {
+            name: "Misc Items",
+            completed: () =>
+                $items`votive of confidence, gummi snake`.every(
+                    (i) => !have(i)
+                ),
+            do: () =>
+                $items`votive of confidence, gummi snake`.forEach(
+                    (i) => have(i) && use(i)
+                ),
+        },
+        {
+            name: "Get FR Hat",
+            ready: () => get("_frHoursLeft") === "",
+            completed: () => have($item`FantasyRealm Rogue's Mask`),
+            do: () => create(1, $item`FantasyRealm Rogue's Mask`),
+        },
+        {
+            name: "Hatter Myst Buff",
+            ready: () => !get("_madTeaParty") && have($item`FantasyRealm Rogue's Mask`),
+            completed: () => get("_madTeaParty"),
+            do: () => cliExecute("hatter FantasyRealm Rogue's Mask"),
+        },
+        {
+            name: 'Eat sausage',
+            ready: () => have($item`magical sausage casing`),
+            do: () => eat($item`magical sausage`),
+            completed: () => myMp() === myMaxmp() || myMp() >= 999,
+            limit: { tries: 1 },
+            outfit: () => uniform({
+                changes: {
+                    modifier: 'Maximum MP'
+                }
+            })
+        },
+        beachTask($effect`You Learned Something Maybe!`),
+        beachTask($effect`We're All Made of Starfish`),
+        ...CastSkills,
+        {
+            name: "Make & Use Ointment",
+            completed: () => have($effect`Mystically Oiled`),
+            ready: () => have($item`grapefruit`),
+            do: (): void => {
+                if (!have($item`ointment of the occult`)) {
+                    create(1, $item`ointment of the occult`);
+                }
+                if (have($item`ointment of the occult`)) {
+                    use(1, $item`ointment of the occult`);
+                }
+            },
+            limit: { tries: 1 }
+        },
         {
             name: "Oliver's Place: First free fight",
             completed: () => get("_speakeasyFreeFights") > 0,
@@ -206,68 +283,6 @@ const Level: CSQuest = {
                 }
             },
         },
-        wishTask($effect`A Contender`),
-        {
-            name: "Boxing Daybuff",
-            completed: () => get("_daycareSpa"),
-            do: () => cliExecute("daycare mysticality"),
-        },
-        {
-            name: "Make & Use Ointment",
-            completed: () => have($effect`Mystically Oiled`),
-            ready: () => have($item`grapefruit`),
-            do: (): void => {
-                if (!have($item`ointment of the occult`)) {
-                    create(1, $item`ointment of the occult`);
-                }
-                if (have($item`ointment of the occult`)) {
-                    use(1, $item`ointment of the occult`);
-                }
-            },
-            limit: { tries: 1 }
-        },
-        {
-            name: "Smile of Lyle",
-            completed: () => get("_lyleFavored"),
-            do: () => cliExecute("monorail buff"),
-        },
-        {
-            name: "Telescope",
-            completed: () => get("telescopeLookedHigh"),
-            do: () => cliExecute("telescope look high"),
-        },
-        {
-            name: "Glittering Eyelashes",
-            completed: () => have($effect`Glittering Eyelashes`),
-            do: (): void => {
-                const mascara = $item`glittery mascara`;
-                if (!have(mascara)) buy(1, mascara);
-                use(1, mascara);
-            },
-        },
-        {
-            name: "Misc Items",
-            completed: () =>
-                $items`votive of confidence, gummi snake`.every(
-                    (i) => !have(i)
-                ),
-            do: () =>
-                $items`votive of confidence, gummi snake`.forEach(
-                    (i) => have(i) && use(i)
-                ),
-        },
-        {
-            name: "Get FR Hat",
-            ready: () => get("_frHoursLeft") === "",
-            completed: () => have($item`FantasyRealm Rogue's Mask`),
-            do: () => create(1, $item`FantasyRealm Rogue's Mask`),
-        },
-        {
-            name: "Hatter Myst Buff",
-            ready: () => !get("_madTeaParty") && have($item`FantasyRealm Rogue's Mask`),
-            completed: () => get("_madTeaParty"),
-            do: () => cliExecute("hatter FantasyRealm Rogue's Mask"),
-        },
         {
             // not strictly necessary
             name: "Acquire Casting Items",
@@ -310,21 +325,6 @@ const Level: CSQuest = {
             do: foldshirt,
             completed: () => have($item`makeshift garbage shirt`)
         },
-        {
-            name: 'Eat sausage',
-            ready: () => have($item`magical sausage casing`),
-            do: () => eat($item`magical sausage`),
-            completed: () => myMp() === myMaxmp() || myMp() >= 999,
-            limit: { tries: 1 },
-            outfit: () => uniform({
-                changes: {
-                    modifier: 'Maximum MP'
-                }
-            })
-        },
-        beachTask($effect`You Learned Something Maybe!`),
-        beachTask($effect`We're All Made of Starfish`),
-        ...CastSkills,
         {
             name: "Regular NEP",
             completed: () => get("_neverendingPartyFreeTurns") >= 10,

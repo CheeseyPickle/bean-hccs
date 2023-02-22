@@ -100,7 +100,8 @@ const Moxie: CSQuest = {
             potionTask
         ),
         potionTask($item`pocket maze`),
-        beachTask($effect`Pomp & Circumsands`)
+        beachTask($effect`Pomp & Circumsands`),
+        { ...potionTask($item`hair spray`) },
     ],
 };
 
