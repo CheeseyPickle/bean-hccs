@@ -57,8 +57,15 @@ export function levelUniform(options: Partial<{ changes: OutfitSpec }> = {}): Ou
     cliExecute('fold garbage shirt');
     return {
         ...chooseFamiliar(), ...{
-            modifier: '100 mysticality experience percent, mysticality experience',
-            shirt: $item`makeshift garbage shirt`
+            hat: $item`Daylight Shavings Helmet`,
+            weapon: $item`Fourth of May Cosplay Saber`,
+            offhand: $item`unbreakable umbrella`,
+            shirt: $item`makeshift garbage shirt`,
+            pants: $item`Cargo Cultist Shorts`,
+            acc1: $item`astral belt`,
+            acc2: $item`backup camera`,
+            acc3: $item`Lil' Doctor™ bag`,
+            modes: { umbrella: "broken", backupcamera: "ml" },
         }, ...options.changes
     };
 }
