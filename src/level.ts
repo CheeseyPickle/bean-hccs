@@ -49,7 +49,7 @@ import {
 } from "libram";
 import { effect } from "libram/dist/resources/2022/TrainSet";
 
-const levellingComplete = myBasestat($stat`Mysticality`) >= 220 && get("_neverendingPartyFreeTurns") >= 10;
+const levellingComplete = myBasestat($stat`Mysticality`) >= 215 && get("_neverendingPartyFreeTurns") >= 10;
 let lovePotionConsidered = false;
 
 const foldshirt = (): void => {
