@@ -34,7 +34,7 @@ export class Macro extends LibramMacro {
     kill(): Macro {
         return this.externalIf(
             myPrimestat() === $stat`Mysticality`,
-            Macro.trySkillRepeat($skill`Saucestorm`),
+            Macro.trySkill($skill`Stuffed Mortar Shell`).trySkillRepeat($skill`Saucestorm`),
             Macro.attack().repeat()
         );
     }
