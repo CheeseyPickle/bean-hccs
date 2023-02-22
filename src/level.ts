@@ -44,6 +44,7 @@ import {
     ensureEffect,
     get,
     have,
+    set,
     TrainSet,
 } from "libram";
 import { effect } from "libram/dist/resources/2022/TrainSet";
@@ -251,7 +252,8 @@ const Level: CSQuest = {
             completed: () => have($effect`Tomes of Opportunity`),
             do: $location`The Neverending Party`,
             choices: { 1324: 1, 1325: 2 },
-            limit: { tries: 1 }
+            limit: { tries: 1 },
+            post: () => set('_neverendingPartyFreeTurns', 1),
         },
         {
             name: "Ten-Percent Bonus",
@@ -356,7 +358,7 @@ const Level: CSQuest = {
                     Macro.trySkill($skill`Army of Toddlers`).trySkill($skill`Feel Pride`)
                 ).externalIf(
                     haveEffect($effect`Wolfish Form`) < 2,
-                    Macro.trySkill()
+                    Macro.trySkill($skill`Become a Wolf`)
                 )
                 .default(true)
             ),
