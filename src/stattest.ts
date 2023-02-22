@@ -1,6 +1,6 @@
 import { beachTask, potionTask, restore, skillTask, songTask, thrallTask } from "./commons";
 import { CSQuest } from "./engine";
-import { cliExecute, itemAmount, use, useSkill } from "kolmafia";
+import { cliExecute, create, itemAmount, use, useSkill } from "kolmafia";
 import {
     $effect,
     $effects,
@@ -14,10 +14,10 @@ import {
 import { Task } from "grimoire-kolmafia";
 
 const SKILL_BUFFS = {
-    MUSCLE: $effects`Feeling Excited, Big, Song of Bravado, Rage of the Reindeer, Quiet Determination, Disdain of the War Snapper`,
-    MYSTICALITY: $effects`Feeling Excited, Big, Song of Bravado`,
-    MOXIE: $effects`Feeling Excited, Big, Song of Bravado, Blessing of the Bird, Quiet Desperation, Disco Fever, Blubbered Up, Mariachi Mood, Disco State of Mind`,
-    HP: $effects`Feeling Excited, Big, Song of Starch, Rage of the Reindeer, Quiet Determination, Disdain of the War Snapper`,
+    MUSCLE: $effects`Feeling Excited, Big`,
+    MYSTICALITY: $effects`Feeling Excited, Big`,
+    MOXIE: $effects`Feeling Excited, Big`,
+    HP: $effects`Feeling Excited, Big`,
 };
 
 function skillBuffTasks(key: keyof typeof SKILL_BUFFS): Task[] {
@@ -35,9 +35,35 @@ const Muscle: CSQuest = {
         modifier: ['Muscle', 'Muscle Percent'].join(',')
     }),
     tasks: [
+        {
+            name: "Make & Use Oil",
+            completed: () => have($effect`Expert Oiliness`),
+            ready: () => have($item`cherry`),
+            do: (): void => {
+                if (!have($item`oil of expertise`)) {
+                    create(1, $item`oil of expertise`);
+                }
+                if (have($item`oil of expertise`)) {
+                    use(1, $item`oil of expertise`);
+                }
+            },
+            limit: { tries: 1 }
+        },
+        {
+            name: "Make & Use Philter",
+            completed: () => have($effect`Phorcefullness`),
+            ready: () => have($item`lemon`),
+            do: (): void => {
+                if (!have($item`philter of phorce`)) {
+                    create(1, $item`philter of phorce`);
+                }
+                if (have($item`philter of phorce`)) {
+                    use(1, $item`philter of phorce`);
+                }
+            },
+            limit: { tries: 1 }
+        },
         ...skillBuffTasks("MUSCLE"),
-        thrallTask($thrall`Elbow Macaroni`),
-        beachTask($effect`Lack of Body-Building`),
         { ...potionTask($item`Ben-Gal™ Balm`) },
     ],
 };
@@ -50,11 +76,6 @@ const Mysticality: CSQuest = {
     turnsSpent: 0,
     maxTurns: 1,
     tasks: [
-        {
-            name: 'acquire rocket boots',
-            do: () => cliExecute(`acquire rocket boots`),
-            completed: () => have($item`rocket boots`)
-        },
         songTask($effect`The Magical Mojomuscular Melody`, $effect`Ur-Kel's Aria of Annoyance`),
         ...skillBuffTasks("MYSTICALITY")
     ],
@@ -75,18 +96,9 @@ const Moxie: CSQuest = {
     }),
     tasks: [
         ...skillBuffTasks("MOXIE"),
-        ...$items`runproof mascara, confiscated love note, dollop of barbecue sauce`.map(
+        ...$items`runproof mascara`.map(
             potionTask
         ),
-        {
-            name: "Rhinestones",
-            completed: () => !have($item`rhinestone`),
-            do: (): void => {
-                useSkill($skill`Acquire Rhinestones`);
-                use(itemAmount($item`rhinestone`), $item`rhinestone`);
-            }
-        },
-        thrallTask($thrall`Penne Dreadful`),
         potionTask($item`pocket maze`),
         beachTask($effect`Pomp & Circumsands`)
     ],
@@ -104,7 +116,6 @@ const Hitpoints: CSQuest = {
     }),
     tasks: [
         ...skillBuffTasks("HP"),
-        thrallTask($thrall`Elbow Macaroni`),
     ],
 };
 
