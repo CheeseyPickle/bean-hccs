@@ -29,7 +29,7 @@ import {
 } from "libram";
 import { ensureMp } from "./lib";
 
-const buffs = $effects`Carol of the Bulls`;
+const buffs = $effects`Carol of the Bulls, Scowl of the Auk`;
 
 const Weapon: CSQuest = {
     name: "Weapon Damage",
