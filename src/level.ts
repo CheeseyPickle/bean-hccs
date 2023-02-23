@@ -14,6 +14,7 @@ import {
     effectModifier,
     haveEffect,
     mpCost,
+    myAdventures,
     myBasestat,
     myHp,
     myLevel,
@@ -212,7 +213,7 @@ const Level: CSQuest = {
             name: 'Eat sausage',
             ready: () => have($item`magical sausage casing`),
             do: () => eat($item`magical sausage`),
-            completed: () => myMp() === myMaxmp() || myMp() >= 999,
+            completed: () => myAdventures() > 0 && myMp() < 100,
             limit: { tries: 1 },
             outfit: () => uniform({
                 changes: {
