@@ -20,7 +20,7 @@ const POST_QUEST: Quest<Task> = {
     tasks: [{
         name: "Sausage Goblin",
         completed: () => totalTurnsPlayed() === get('_lastSausageMonsterTurn'),
-        ready: () => sausageFightGuaranteed() && !have($effect`Feeling Lost`) && !haveEffect($effect`Meteor Showered`),
+        ready: () => sausageFightGuaranteed() && !have($effect`Feeling Lost`) && !haveEffect($effect`Meteor Showered`) && !haveEffect($effect`Fireproof Foam Suit`),
         outfit: (): OutfitSpec => {
             return levelUniform({
                 changes: {
