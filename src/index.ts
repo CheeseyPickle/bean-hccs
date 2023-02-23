@@ -61,18 +61,12 @@ import Spell from "./spell";
 import { Hitpoints, Moxie, Muscle, Mysticality } from "./stattest";
 import Weapon from "./weapon";
 
-function ensureSaucestormMana() {
-  if (myMp() < 20) {
-    restoreMp(20);
-  }
-}
-
 function doGuaranteedGoblin() {
   // kill a kramco for the sausage before coiling wire
   if (!haveEffect($effect`Feeling Lost`) && sausageFightGuaranteed()) {
     ensureMp(12);
     useBestFamiliar();
-    ensureSaucestormMana();
+    cliExecute("rest free");
     equipStatOutfit();
     const offHand = equippedItem($slot`off-hand`);
     equip($item`Kramco Sausage-o-Matic™`);
