@@ -57,6 +57,7 @@ import {
   $location,
   $skill,
   $slot,
+  CommunityService,
   ensureEffect,
   get,
   have,
@@ -393,14 +394,11 @@ export function multiFightAutoAttack(): void {
 }
 
 export function getBestFamiliar(): Familiar {
-  if (get("camelSpit") !== 100) {
-    return $familiar`Melodramedary`;
-  } else if (get("_hipsterAdv") < 7) {
-    return $familiar`Artistic Goth Kid`;
-  } else if (!have($item`short stack of pancakes`)) {
+  if (![$effect`Shortly Stacked`, $item`short stack of pancakes`].some((x) => have(x))
+    && !CommunityService.FamiliarWeight.isDone()) {
     return $familiar`Shorter-Order Cook`;
   } else {
-    return $familiar`Shorter-Order Cook`;
+    return $familiar`Pocket Professor`;
   }
 }
 
