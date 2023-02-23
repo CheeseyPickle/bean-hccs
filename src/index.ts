@@ -217,7 +217,9 @@ function doDailies() {
 }
 
 function getSkellyFruits() {
-  ensureItem(1, $item`red rocket`);
+  if (!have($effect`Ready to Eat`)) {
+    ensureItem(1, $item`red rocket`);
+  }
   ensureEffect($effect`Feeling Excited`);
   ensureEffect($effect`The Magical Mojomuscular Melody`);
   ensureEffect($effect`Pasta Oneness`);
