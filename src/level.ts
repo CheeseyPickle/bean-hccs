@@ -173,11 +173,11 @@ const Level: CSQuest = {
         {
             name: "Misc Items",
             completed: () =>
-                $items`votive of confidence, gummi snake`.every(
+                $items`votive of confidence, natural magick candle, gummi snake`.every(
                     (i) => !have(i)
                 ),
             do: () =>
-                $items`votive of confidence, gummi snake`.forEach(
+                $items`votive of confidence, natural magick candle, gummi snake`.forEach(
                     (i) => have(i) && use(i)
                 ),
         },
@@ -213,7 +213,7 @@ const Level: CSQuest = {
             name: 'Eat sausage',
             ready: () => have($item`magical sausage casing`),
             do: () => eat($item`magical sausage`),
-            completed: () => myAdventures() > 0 && myMp() < 100,
+            completed: () => myAdventures() > 0,
             limit: { tries: 1 },
             outfit: () => uniform({
                 changes: {
