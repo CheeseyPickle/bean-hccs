@@ -116,7 +116,7 @@ const Weapon: CSQuest = {
         },
         {
             name: "Yeg's Toothbrush",
-            ready: () => get("_cargoPocketEmptied"),
+            ready: () => !get("_cargoPocketEmptied"),
             completed: () => have($item`Yeg's Motel toothbrush`) || have($effect`Rictus of Yeg`),
             do: () => cliExecute("cargo 284")
         },
