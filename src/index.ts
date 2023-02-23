@@ -78,8 +78,8 @@ function doGuaranteedGoblin() {
     equip($item`Kramco Sausage-o-Matic™`);
     adventureMacro(
       $location`Noob Cave`,
-      Macro.ifNot(
-        $monster`sausage goblin`,
+      Macro.if_(
+        `!monsterid ${$monster`sausage goblin`.id}`,
         new Macro().step("abort")
       ).step(
         Macro.itemSkills().easyFight().kill()
@@ -242,8 +242,8 @@ function getSkellyFruits() {
       $location`The Skeleton Store`,
       Macro.trySkill($skill`Gulp Latte`)
       .tryItem($item`red rocket`)
-      .ifNot(
-        $monster`novelty tropical skeleton`,
+      .if_(
+        `!monsterid ${$monster`novelty tropical skeleton`.id}`,
         new Macro().trySkill($skill`Throw Latte on Opponent`)
           .trySkill($skill`Reflex Hammer`)
           .trySkill($skill`Feel Hatred`)
