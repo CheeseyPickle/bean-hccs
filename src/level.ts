@@ -268,7 +268,6 @@ const Level: CSQuest = {
             do: $location`The Neverending Party`,
             choices: { 1324: 1, 1325: 2 },
             limit: { tries: 1 },
-            post: () => set('_neverendingPartyFreeTurns', 1),
         },
         {
             name: "Ten-Percent Bonus",
@@ -370,7 +369,7 @@ const Level: CSQuest = {
             combat: new CSStrategy(() =>
                 Macro.externalIf(
                     get("_neverendingPartyFreeTurns") > 1, // make sure bowling sideways before feel pride
-                    Macro.trySkill($skill`Army of Toddlers`).trySkill($skill`Feel Pride`)
+                    Macro.trySkill($skill`Feel Pride`)
                 ).externalIf(
                     haveEffect($effect`Wolfish Form`) < 2,
                     Macro.trySkill($skill`Become a Wolf`)
