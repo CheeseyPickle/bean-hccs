@@ -56,7 +56,7 @@ export function uniform(options: Partial<UniformOptions> = {}): OutfitSpec {
 export function levelUniform(options: Partial<{ changes: OutfitSpec }> = {}): OutfitSpec {
     cliExecute('fold garbage shirt');
     return {
-        ...chooseFamiliar(), ...{
+        ...chooseFamiliar(true), ...{
             hat: $item`Daylight Shavings Helmet`,
             weapon: $item`Fourth of May Cosplay Saber`,
             offhand: $item`unbreakable umbrella`,
