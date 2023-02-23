@@ -52,7 +52,7 @@ import {
 } from "libram";
 import { effect } from "libram/dist/resources/2022/TrainSet";
 
-const levellingComplete = myBasestat($stat`Mysticality`) >= 215 && get("_neverendingPartyFreeTurns") >= 10;
+const levellingComplete = myBasestat($stat`Mysticality`) >= 210 && get("_neverendingPartyFreeTurns") >= 10;
 let lovePotionConsidered = false;
 
 const foldshirt = (): void => {
@@ -251,7 +251,12 @@ const Level: CSQuest = {
             completed: () => get("_speakeasyFreeFights") > 0,
             ready: () => get("_speakeasyFreeFights") === 0,
             do: $location`An Unusually Quiet Barroom Brawl`,
-            combat: new CSStrategy(() => Macro.skill($skill`Launch spikolodon spikes`).easyFight().attack().repeat()),
+            combat: new CSStrategy(() => Macro.skill($skill`Launch spikolodon spikes`)
+                .easyFight()
+                .skill($skill`Stuffed Mortar Shell`)
+                .trySkillRepeat($skill`Saucestorm`)
+                .attack()
+                .repeat()),
             outfit: () => levelUniform({
                 changes: {
                     shirt: $item`Jurassic Parka`,
