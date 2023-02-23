@@ -25,6 +25,7 @@ import {
     runChoice,
     runCombat,
     toEffect,
+    totalFreeRests,
     use,
     useSkill,
     visitUrl,
@@ -191,6 +192,21 @@ const Level: CSQuest = {
             completed: () => get("_madTeaParty"),
             do: () => cliExecute("hatter FantasyRealm Rogue's Mask"),
         },
+        {
+            name: "Lantern Battery",
+            ready: () => myMaxmp() - myMp() >= 70,
+            completed: () => have($effect`Lantern-Charged`),
+            do: (): void => {
+                cliExecute("acquire 1 battery (lantern)");
+                use(1, $item`battery (lantern)`);
+            }
+        },
+        {
+            name: "Rest Free Restore MP!",
+            ready: () => get("timesRested") < totalFreeRests() && myMp() < 80,
+            completed: () => myMp() >= 80,
+            do: () => cliExecute("rest free"),
+        },
         ...CastSkills,
         {
             name: 'Eat sausage',
@@ -206,15 +222,6 @@ const Level: CSQuest = {
         },
         beachTask($effect`You Learned Something Maybe!`),
         beachTask($effect`We're All Made of Starfish`),
-        {
-            name: "Lantern Battery",
-            ready: () => myMaxmp() - myMp() >= 70,
-            completed: () => have($effect`Lantern-Charged`),
-            do: (): void => {
-                cliExecute("acquire 1 battery (lantern)");
-                use(1, $item`battery (lantern)`);
-            }
-        },
         {
             name: "Make & Use Ointment",
             completed: () => have($effect`Mystically Oiled`),
