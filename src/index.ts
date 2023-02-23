@@ -66,10 +66,12 @@ function doGuaranteedGoblin() {
   if (!haveEffect($effect`Feeling Lost`) && sausageFightGuaranteed()) {
     ensureMp(12);
     useBestFamiliar();
-    cliExecute("rest free");
     equipStatOutfit();
     const offHand = equippedItem($slot`off-hand`);
     equip($item`Kramco Sausage-o-Matic™`);
+    if (myMp() < 20) {
+      cliExecute("rest free");
+    }
     adventureMacro(
       $location`Noob Cave`,
       Macro.if_(
@@ -134,8 +136,6 @@ function setup() {
 
   set("autoSatisfyWithNPCs", true);
   set("autoSatisfyWithCoinmasters", true);
-  set("hpAutoRecovery", 0.8);
-  set("hpAutoRecoveryTarget", 1.0);
 
   cliExecute("mood apathetic");
   cliExecute("ccs bb-hccs");
@@ -226,10 +226,11 @@ function getSkellyFruits() {
   new Requirement(
     ["100 mysticality experience percent, mysticality experience"], {
     forceEquip: [$item`Lil' Doctor™ bag`, $item`latte lovers member's mug`, $item`Jurassic Parka`],
-    modes: {parka: "dilophosaur" as const},
     preventEquip: [$item`Daylight Shavings Helmet`],
   }
   ).maximize();
+
+  cliExecute("parka acid");
 
   while(!have($item`cherry`)) {
     adventureMacro(
