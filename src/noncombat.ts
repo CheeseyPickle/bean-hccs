@@ -12,7 +12,7 @@ const Noncombat: CSQuest = {
     test: CommunityService.Noncombat,
     modifiers: ['Combat Rate'],
     outfit: () => ({
-        modifier: '-combat',
+        modifier: '-combat -tie',
         familiar: $familiar`Disgeist`,
     }),
     turnsSpent: 0,
