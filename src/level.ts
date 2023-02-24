@@ -1,5 +1,5 @@
 import { CSStrategy, Macro } from "./combatMacros";
-import { beachTask, famPool, skillTask, thrallTask, wishTask } from "./commons";
+import { beachTask, famPool, potionTask, skillTask, thrallTask, wishTask } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem, synthExp } from "./lib";
 import { levelUniform, uniform } from "./outfit";
@@ -60,7 +60,8 @@ const foldshirt = (): void => {
 };
 
 const CastSkills =
-    $skills`Advanced Saucecrafting, Leash of Linguini, Blood Bond, Blood Bubble, Get Big, Feel Excitement, Drescher's Annoying Noise, Elemental Saucesphere, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Carol of the Thrills, Feel Peaceful, Feel Nervous, Singer's Faithful Ocelot, Carol of the Hells`
+    // Ordered +myst buffs, survivability buffs, then +ml/stats
+    $skills`Advanced Saucecrafting, Get Big, Feel Excitement, The Magical Mojomuscular Melody, Manicotti Meditation, Blood Bubble, Carol of the Hells, Feel Peaceful, Elemental Saucesphere, Feel Nervous, Singer's Faithful Ocelot, Blood Bond, Leash of Linguini, Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise, Pride of the Puffin, Carol of the Thrills`
         .map((s) => ({
             name: s.name,
             ready: () => myMp() > mpCost(s),
@@ -170,17 +171,7 @@ const Level: CSQuest = {
                 use(1, mascara);
             },
         },
-        {
-            name: "Misc Items",
-            completed: () =>
-                $items`votive of confidence, natural magick candle, gummi snake`.every(
-                    (i) => !have(i)
-                ),
-            do: () =>
-                $items`votive of confidence, natural magick candle, gummi snake`.forEach(
-                    (i) => have(i) && use(i)
-                ),
-        },
+        ...$items`votive of confidence, natural magick candle, gummi snake`.map(potionTask),
         {
             name: "Get FR Hat",
             ready: () => get("_frHoursLeft") === "",
@@ -188,7 +179,7 @@ const Level: CSQuest = {
             do: () => create(1, $item`FantasyRealm Rogue's Mask`),
         },
         {
-            name: "Hatter Myst Buff",
+            name: "Hatter: Patched In",
             ready: () => !get("_madTeaParty") && have($item`FantasyRealm Rogue's Mask`),
             completed: () => get("_madTeaParty"),
             do: () => cliExecute("hatter FantasyRealm Rogue's Mask"),
@@ -226,7 +217,7 @@ const Level: CSQuest = {
         {
             name: "Make & Use Ointment",
             completed: () => have($effect`Mystically Oiled`),
-            ready: () => have($item`grapefruit`),
+            ready: () => have($item`grapefruit`) && have($item`scrumptious reagent`),
             do: (): void => {
                 if (!have($item`ointment of the occult`)) {
                     create(1, $item`ointment of the occult`);
