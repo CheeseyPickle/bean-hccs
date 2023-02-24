@@ -72,7 +72,7 @@ const CastSkills =
         }))
         .map((task) => ({
             ...task,
-            outfit: () => uniform({ changes: { offhand: $item`Abracandalabra` } }),
+            outfit: () => uniform({ changes: { offhand: $item`Abracandalabra`, pants: $item`Cargo Cultist Shorts`} }),
         }));
 
 
