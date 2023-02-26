@@ -177,7 +177,7 @@ function setup() {
 
   AutumnAton.sendTo($location`The Sleazy Back Alley`);
 
-  pullIfPossible(1, $item`non-Euclidean angle`, 20000);
+  pullIfPossible(1, $item`non-Euclidean angle`, 30000);
   pullIfPossible(1, $item`abstraction: category`, 2000);
   pullIfPossible(1, $item`bran muffin`, 0);
   pullIfPossible(1, $item`wasabi marble soda`, 5000);
