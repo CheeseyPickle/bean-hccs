@@ -189,6 +189,8 @@ const Level: CSQuest = {
             do: () => cliExecute("rest free"),
         },
         ...CastSkills,
+        // This doesn't seem to work out of CastSkills, for some reason
+        skillTask($effect`Feeling Excited`),
         {
             name: 'Eat sausage',
             ready: () => have($item`magical sausage casing`),
