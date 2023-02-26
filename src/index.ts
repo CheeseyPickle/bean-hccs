@@ -122,8 +122,11 @@ function setup() {
   tryUse(1, $item`letter from King Ralph XI`);
   tryUse(1, $item`pork elf goodies sack`);
   autosell(5, $item`baconstone`);
-  autosell(5, $item`porquoise`);
   autosell(5, $item`hamethyst`);
+  // Save 2 porquoises, if you get them
+  if (availableAmount($item`porquoise`) > 2) {
+    autosell(availableAmount($item`porquoise`) - 2, $item`porquoise`);
+  }
 
   // Numberology 14 & Sell
   cliExecute("numberology 14");
