@@ -2,7 +2,7 @@ import { OutfitSpec } from "grimoire-kolmafia";
 import { availableAmount, cliExecute, create, handlingChoice, runChoice, use } from "kolmafia";
 import { $effect, $familiar, $item, $items, $monster, $skill, CombatLoversLocket, CommunityService, get, have } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
-import { skillTask, potionTask, wishTask } from "./commons";
+import { skillTask, potionTask, wishTask, songTask } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
 import { uniform } from "./outfit";
@@ -69,6 +69,7 @@ const ItemDrop: CSQuest = {
         completed: () => get("_clanFortuneBuffUsed"),
         do: () => cliExecute("fortune buff item")
     },
+    songTask($effect`Fat Leon's Phat Loot Lyric`, $effect`The Magical Mojomuscular Melody`),
     skillTask($skill`Feel Lost`),
     skillTask($skill`Steely-Eyed Squint`)
     ],
