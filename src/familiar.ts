@@ -1,7 +1,6 @@
-import { commonFamiliarWeightBuffs, famPool, meteorShower, potionTask } from "./commons";
+import { commonFamiliarWeightBuffs, famPool, potionTask } from "./commons";
 import { CSQuest } from "./engine";
-import { unequip } from "./lib";
-import { cliExecute, drink, mySign, visitUrl } from "kolmafia";
+import { cliExecute } from "kolmafia";
 import {
     $effect,
     $familiar,

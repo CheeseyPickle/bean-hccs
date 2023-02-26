@@ -1,32 +1,20 @@
-import { CSStrategy, Macro } from "./combatMacros";
 import {
-    beachTask,
-    doYouCrush,
-    meteorShower,
     potionTask,
     restore,
     skillTask,
-    songTask,
 } from "./commons";
 import { CSQuest } from "./engine";
-import { ensureItem, horse, horsery } from "./lib";
-import { uniform } from "./outfit";
+import { ensureItem } from "./lib";
 import {
     availableAmount,
     cliExecute,
-    create,
-    myLevel,
-    myMeat,
-    retrieveItem,
-    use,
-    visitUrl,
+    myMeat
 } from "kolmafia";
 import {
     $effect,
     $effects,
     $familiar,
     $item,
-    $location,
     $skill,
     CommunityService,
     get,

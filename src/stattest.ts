@@ -1,14 +1,12 @@
-import { beachTask, potionTask, restore, skillTask, songTask, thrallTask } from "./commons";
+import { beachTask, potionTask, restore, skillTask, songTask } from "./commons";
 import { CSQuest } from "./engine";
-import { cliExecute, create, itemAmount, use, useSkill } from "kolmafia";
+import { create, use } from "kolmafia";
 import {
     $effect,
     $effects,
     $familiar,
     $item,
     $items,
-    $skill,
-    $thrall,
     CommunityService,
     have,
 } from "libram";

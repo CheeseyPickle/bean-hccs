@@ -1,6 +1,6 @@
 import { songTask } from "./commons";
 import { CSQuest } from "./engine";
-import { drink, myInebriety, use } from "kolmafia";
+import { drink, use } from "kolmafia";
 import { $effect, $item, have } from "libram";
 
 const Drink: CSQuest = {

@@ -1,6 +1,6 @@
 import { OutfitSpec, Quest, Task } from "grimoire-kolmafia";
-import { abort, adv1, cliExecute, haveEffect, myAdventures, reverseNumberology, totalTurnsPlayed, useSkill } from "kolmafia";
-import { $effect, $item, $location, $skill, AutumnAton, Counter, get, have, withProperty } from "libram";
+import { abort, haveEffect, totalTurnsPlayed } from "kolmafia";
+import { $effect, $item, $location, get, have } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import { getBestFamiliar, sausageFightGuaranteed, voterMonsterNow } from "./lib";
 import { levelUniform } from "./outfit";

@@ -4,10 +4,8 @@ import {
   cliExecute,
   getWorkshed,
   pvpAttacksLeft,
-  use,
 } from "kolmafia";
 import { $item, get, TrainSet } from "libram";
-import { ensureItem } from "./lib";
 
 const season = get("currentPVPSeason");
 

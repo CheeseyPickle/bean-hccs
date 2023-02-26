@@ -1,10 +1,10 @@
 import { OutfitSpec } from "grimoire-kolmafia";
-import { availableAmount, canAdventure, cliExecute, create, handlingChoice, knollAvailable, runChoice, use, visitUrl } from "kolmafia";
-import { $effect, $familiar, $item, $items, $location, $monster, $skill, CombatLoversLocket, CommunityService, get, have, SourceTerminal } from "libram";
+import { availableAmount, cliExecute, create, handlingChoice, runChoice, use } from "kolmafia";
+import { $effect, $familiar, $item, $items, $monster, $skill, CombatLoversLocket, CommunityService, get, have } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
-import { songTask, skillTask, potionTask, wishTask } from "./commons";
+import { skillTask, potionTask, wishTask } from "./commons";
 import { CSQuest } from "./engine";
-import { ensureItem, synthItem } from "./lib";
+import { ensureItem } from "./lib";
 import { uniform } from "./outfit";
 
 const MODIFIERS = ['item drop', 'booze drop'];

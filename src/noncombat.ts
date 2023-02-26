@@ -1,10 +1,7 @@
-import { CSStrategy } from "./combatMacros";
-import { beachTask, commonFamiliarWeightBuffs, famPool, potionTask, restore, skillTask, songTask, wishTask } from "./commons";
+import { commonFamiliarWeightBuffs, famPool, potionTask, restore, skillTask, songTask, wishTask } from "./commons";
 import { CSQuest } from "./engine";
-import { hasNcBird, horse, horsery } from "./lib";
-import { uniform } from "./outfit";
-import { availableAmount, cliExecute, drink, retrieveItem, runChoice, runCombat, useSkill, visitUrl } from "kolmafia";
-import { $effect, $effects, $familiar, $item, $skill, CommunityService, ensureEffect, get, have } from "libram";
+import { availableAmount, cliExecute, retrieveItem } from "kolmafia";
+import { $effect, $effects, $familiar, $item, CommunityService, ensureEffect, get, have } from "libram";
 
 const Noncombat: CSQuest = {
     name: "Noncombat",

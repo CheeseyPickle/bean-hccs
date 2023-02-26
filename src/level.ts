@@ -1,7 +1,7 @@
 import { CSStrategy, Macro } from "./combatMacros";
-import { beachTask, famPool, potionTask, skillTask, thrallTask, wishTask } from "./commons";
+import { beachTask, potionTask, skillTask, wishTask } from "./commons";
 import { CSQuest } from "./engine";
-import { ensureItem, synthExp } from "./lib";
+import { ensureItem } from "./lib";
 import { levelUniform, uniform } from "./outfit";
 import { OutfitSpec } from "grimoire-kolmafia";
 import {
@@ -9,22 +9,17 @@ import {
     chew,
     cliExecute,
     create,
-    drink,
     eat,
-    effectModifier,
     haveEffect,
     mpCost,
     myAdventures,
     myBasestat,
     myHp,
-    myLevel,
     myMaxhp,
     myMaxmp,
     myMp,
-    myPrimestat,
     numericModifier,
     runChoice,
-    runCombat,
     toEffect,
     totalFreeRests,
     use,
@@ -33,8 +28,6 @@ import {
 } from "kolmafia";
 import {
     $effect,
-    $effects,
-    $familiar,
     $item,
     $items,
     $location,
@@ -42,15 +35,11 @@ import {
     $skill,
     $skills,
     $stat,
-    $thrall,
-    Cartography,
     ensureEffect,
     get,
     have,
-    set,
     TrainSet,
 } from "libram";
-import { effect } from "libram/dist/resources/2022/TrainSet";
 
 const levellingComplete = myBasestat($stat`Mysticality`) >= 210 && get("_neverendingPartyFreeTurns") >= 10;
 let lovePotionConsidered = false;

@@ -9,7 +9,6 @@ import {
   haveEffect,
   myLevel,
   myMp,
-  restoreMp,
   runChoice,
   setAutoAttack,
   toItem,
@@ -36,8 +35,6 @@ import {
   Requirement,
   set,
   SongBoom,
-  SourceTerminal,
-  TrainSet
 } from "libram";
 import { Macro } from "./combatMacros";
 import Drink from "./drink";
