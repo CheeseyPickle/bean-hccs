@@ -35,6 +35,7 @@ import {
     $skill,
     $skills,
     $stat,
+    AutumnAton,
     ensureEffect,
     get,
     have,
@@ -342,6 +343,12 @@ const Level: CSQuest = {
             name: 'Fold Shirt',
             do: foldshirt,
             completed: () => have($item`makeshift garbage shirt`)
+        },
+        {
+            name: "Autumnaton NEP",
+            ready: () => AutumnAton.available() && AutumnAton.availableLocations().includes($location`The Neverending Party`),
+            completed: () => !AutumnAton.available(),
+            do: () => AutumnAton.sendTo($location`The Neverending Party`),
         },
         {
             name: "Regular NEP",
