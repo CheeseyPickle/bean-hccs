@@ -55,11 +55,6 @@ const ItemDrop: CSQuest = {
         limit: { tries: 1 }
     },
     {
-        name: "Play Pool",
-        completed: () => have($effect`Hustlin'`) || get('_poolGames') === 3,
-        do: () => cliExecute("pool 3"),
-    },
-    {
         name: 'Get Sparkler',
         ready: () => !get('_fireworksShopEquipmentBought'),
         completed: () => availableAmount($item`oversized sparkler`) > 0,
