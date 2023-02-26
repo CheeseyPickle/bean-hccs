@@ -348,7 +348,7 @@ const Level: CSQuest = {
             name: "Autumnaton NEP",
             ready: () => AutumnAton.available() && AutumnAton.availableLocations().includes($location`The Neverending Party`),
             completed: () => !AutumnAton.available(),
-            do: () => AutumnAton.sendTo($location`The Neverending Party`),
+            do: () => AutumnAton.sendTo($location`The Neverending Party`, true)
         },
         {
             name: "Regular NEP",

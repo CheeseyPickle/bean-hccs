@@ -1,6 +1,6 @@
 import { OutfitSpec, Quest, Task } from "grimoire-kolmafia";
 import { abort, haveEffect, totalTurnsPlayed } from "kolmafia";
-import { $effect, $item, $location, get, have } from "libram";
+import { $effect, $item, $location, AutumnAton, get, have } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import { getBestFamiliar, sausageFightGuaranteed, voterMonsterNow } from "./lib";
 import { levelUniform } from "./outfit";
@@ -11,6 +11,21 @@ const PRE_QUEST: Quest<Task> = {
             name: "Beaten Up!",
             completed: () => !have($effect`Beaten Up`),
             do: () => abort("Beaten up!"),
+        },
+        {
+            name: "Fallbot",
+            ready: () => AutumnAton.currentUpgrades().includes("base_blackhat"),
+            completed: () => !AutumnAton.available(),
+            do: (): void => {
+                AutumnAton.upgrade();
+                if (!AutumnAton.currentUpgrades().includes("leftleg1")) {
+                    AutumnAton.sendTo($location`Noob Cave`);
+                } else if (!AutumnAton.currentUpgrades().includes("leftarm1")) {
+                    AutumnAton.sendTo($location`The Haunted Pantry`);
+                } else {
+                    AutumnAton.sendTo($location`The Neverending Party`);
+                }
+            },
         }
     ]
 };
