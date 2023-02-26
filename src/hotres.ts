@@ -29,7 +29,7 @@ import { getString } from "libram/dist/property";
 
 const buffs = $effects`Elemental Saucesphere, Feeling Peaceful`;
 
-const MODIFIERS = ['Hot Resistance -tie'];
+const MODIFIERS = ['Hot Resistance'];
 
 const HotRes: CSQuest = {
     name: "Hot Res",

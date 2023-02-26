@@ -7,7 +7,7 @@ import { CSQuest } from "./engine";
 import { ensureItem, synthItem } from "./lib";
 import { uniform } from "./outfit";
 
-const MODIFIERS = ['item drop', '2booze drop'];
+const MODIFIERS = ['item drop', 'booze drop'];
 
 const ItemDrop: CSQuest = {
     name: "Booze Drop",
