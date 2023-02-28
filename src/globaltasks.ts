@@ -1,6 +1,6 @@
 import { OutfitSpec, Quest, Task } from "grimoire-kolmafia";
-import { abort, haveEffect, totalTurnsPlayed } from "kolmafia";
-import { $effect, $item, $location, AutumnAton, get, have } from "libram";
+import { abort, haveEffect, myHp, totalTurnsPlayed, useSkill } from "kolmafia";
+import { $effect, $item, $location, $skill, AutumnAton, get, have } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import { getBestFamiliar, sausageFightGuaranteed, voterMonsterNow } from "./lib";
 import { levelUniform } from "./outfit";
@@ -11,6 +11,11 @@ const PRE_QUEST: Quest<Task> = {
             name: "Beaten Up!",
             completed: () => !have($effect`Beaten Up`),
             do: () => abort("Beaten up!"),
+        },
+        {
+            name: "Maintain HP",
+            completed: () => myHp() > 0,
+            do: () => useSkill($skill`Cannelloni Cocoon`)
         },
         {
             name: "Fallbot",
