@@ -144,6 +144,7 @@ function setup() {
 
   ensureItem(1, $item`toy accordion`);
   ensureSewerItem(1, $item`saucepan`);
+  ensureSewerItem(1, $item`turtle totem`);
   cliExecute("mcd 10");
 
   setChoice(1340, 3); // Turn off Lil' Doctor quests.

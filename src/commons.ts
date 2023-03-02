@@ -145,8 +145,7 @@ export function doYouCrush(): Task {
 }
 
 export function commonFamiliarWeightBuffs(): Task[] {
-    // TODO: Add empathy once I perm it :P
-    const buffs = $effects`Leash of Linguini, Blood Bond`;
+    const buffs = $effects`Leash of Linguini, Empathy, Blood Bond`;
     return [
         ...buffs.map(skillTask),
         restore(buffs),
