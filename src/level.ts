@@ -356,7 +356,6 @@ const Level: CSQuest = {
             do: $location`The Neverending Party`,
             outfit: levelUniform({
                 changes: {
-                    offhand: $item`Kramco Sausage-o-Matic™`,
                     back: $item`vampyric cloake`,
                 }
             }),
