@@ -11,6 +11,7 @@ const Noncombat: CSQuest = {
     outfit: () => ({
         modifier: '-combat -tie',
         familiar: $familiar`Disgeist`,
+        hat: $item`porkpie-mounted popper`
     }),
     turnsSpent: 0,
     maxTurns: 6,
