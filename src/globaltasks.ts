@@ -57,7 +57,7 @@ const POST_QUEST: Quest<Task> = {
     }, {
         name: "Voting Monster",
         completed: () => totalTurnsPlayed() === get('lastVoteMonsterTurn'),
-        ready: () => voterMonsterNow() && !have($effect`Feeling Lost`),
+        ready: () => voterMonsterNow() && !have($effect`Feeling Lost`) && !haveEffect($effect`Meteor Showered`) && !haveEffect($effect`Fireproof Foam Suit`),
         outfit: (): OutfitSpec => {
             return {
                 acc3: $item`"I Voted!" sticker`,
