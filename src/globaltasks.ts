@@ -1,5 +1,5 @@
 import { OutfitSpec, Quest, Task } from "grimoire-kolmafia";
-import { abort, haveEffect, myHp, totalTurnsPlayed, useSkill } from "kolmafia";
+import { abort, haveEffect, myHp, myMaxhp, totalTurnsPlayed, useSkill } from "kolmafia";
 import { $effect, $item, $location, $skill, AutumnAton, get, have } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import { getBestFamiliar, sausageFightGuaranteed, voterMonsterNow } from "./lib";
@@ -37,7 +37,14 @@ const PRE_QUEST: Quest<Task> = {
 
 const POST_QUEST: Quest<Task> = {
     name: "Post-Quest Global",
-    tasks: [{
+    tasks: [
+        {
+            name: "Heal HP",
+            ready: () => myMaxhp() > 100,
+            completed: () => myHp() > 100,
+            do: () => useSkill($skill`Cannelloni Cocoon`)
+        },
+        {
         name: "Sausage Goblin",
         completed: () => totalTurnsPlayed() === get('_lastSausageMonsterTurn'),
         ready: () => sausageFightGuaranteed() && !have($effect`Feeling Lost`) && !haveEffect($effect`Meteor Showered`) && !haveEffect($effect`Fireproof Foam Suit`),
