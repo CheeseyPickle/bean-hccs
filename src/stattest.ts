@@ -15,7 +15,7 @@ import { Task } from "grimoire-kolmafia";
 const SKILL_BUFFS = {
     MUSCLE: $effects`Feeling Excited, Big`,
     MYSTICALITY: $effects`Feeling Excited, Big`,
-    MOXIE: $effects`Feeling Excited, Big, Quiet Desperation`,
+    MOXIE: $effects`Feeling Excited, Big, Quiet Desperation, Disco Fever`,
     HP: $effects`Feeling Excited, Big`,
 };
 
