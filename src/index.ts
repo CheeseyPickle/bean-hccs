@@ -189,6 +189,9 @@ function doDailies() {
   visitUrl("council.php"); // Initialize council.
   visitUrl("clan_viplounge.php?action=fwshop"); // manual visit to fireworks shop to allow purchases
   visitUrl("clan_viplounge.php?action=lookingglass&whichfloor=2"); // get DRINK ME potion
+  visitUrl(
+    "shop.php?whichshop=lathe&action=buyitem&quantity=1&whichrow=1162&pwd"
+  ); // lathe wand
 
   vote();
 

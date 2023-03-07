@@ -6,9 +6,10 @@ import {
 import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
 import {
-    availableAmount,
     cliExecute,
-    myMeat
+    create,
+    myMeat,
+    use
 } from "kolmafia";
 import {
     $effect,
@@ -45,7 +46,6 @@ const Spell: CSQuest = {
         ...buffs.map(skillTask),
         restore(buffs),
         skillTask($skill`Spirit of Cayenne`),
-        potionTask($item`cordial of concentration`),
         potionTask($item`battery (AAA)`),
         {
             name: "Play Pool",
@@ -53,11 +53,20 @@ const Spell: CSQuest = {
             do: () => cliExecute("pool 1"),
         },
         {
-            name: "Get Nutcrackers",
-            completed: () => availableAmount($item`obsidian nutcracker`) >= 2,
-            ready: () => myMeat() > 2500,
-            do: () => ensureItem(2, $item`obsidian nutcracker`)
-        }
+            name: "Make & Use Cordial",
+            completed: () => have($effect`Concentration`),
+            ready: () => have($item`scrumptious reagent`) && myMeat() > 300,
+            do: (): void => {
+                if (!have($item`cordial of concentration`)) {
+                    ensureItem(1, $item`soda water`);
+                    create(1, $item`cordial of concentration`);
+                }
+                if (have($item`cordial of concentration`)) {
+                    use(1, $item`cordial of concentration`);
+                }
+            },
+            limit: { tries: 1 }
+        },
         // {
         //     name: "Pull Staff",
         //     completed: () => chefstaves.some((staff) => have(staff)),
