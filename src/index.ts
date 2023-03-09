@@ -35,6 +35,7 @@ import {
   Requirement,
   set,
   SongBoom,
+  withChoice,
 } from "libram";
 import { Macro } from "./combatMacros";
 import Drink from "./drink";
@@ -170,8 +171,8 @@ function setup() {
   visitUrl("shop.php?whichshop=armory&action=talk");
   runChoice(1);
 
-  setChoice(1494, 1); // Psychogeologist
-  use(toItem('S.I.T. Course Completion Certificate'));
+  // 1 = Rocks, 2 = Insects, 3 = Plants
+  withChoice(1494, 1, () => use(toItem('S.I.T. Course Completion Certificate')));
 
   AutumnAton.sendTo($location`The Sleazy Back Alley`);
 
