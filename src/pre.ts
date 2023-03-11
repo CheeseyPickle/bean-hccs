@@ -4,6 +4,7 @@ import {
   cliExecute,
   getWorkshed,
   pvpAttacksLeft,
+  visitUrl,
 } from "kolmafia";
 import { $item, get, TrainSet } from "libram";
 
@@ -24,6 +25,7 @@ const getTarget = () => {
 let noError = true;
 
 if (pvpAttacksLeft() > 0) {
+  visitUrl('peevpee.php?action=smashstone&confirm=on');
   noError = cliExecute("uberpvpoptimizer");
   noError = noError && cliExecute(`pvp ${getTarget()} ${PVP_STANCE[season]}`);
 }
