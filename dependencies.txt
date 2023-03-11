@@ -1,0 +1,7 @@
+This script uses some dependencies, and I want to keep track of them.
+
+RUN IN CLI
+git checkout https://github.com/frazazel/muffin.git
+
+DOWNLOAD FILES FROM
+https://kolmafia.us/threads/pantogram-ash-add-a-pantogram-command-to-your-cli.23282/
