@@ -11,19 +11,14 @@ const season = get("currentPVPSeason");
 
 const PVP_STANCE: { [key: string]: string } = {
   bear: "Maul Power",
-  pirate: "Smellin' Like a Stinkin' Rose",
+  pirate: "Karmic Battle",
   glitch: "Installation Wizard",
   numeric: "A Nice Cold One",
   ice: "A Nice Cold One",
 };
 
 const getTarget = () => {
-  switch (season) {
-    case "bear":
-      return "fame";
-    default:
-      return "loot";
-  }
+  return "loot";
 };
 
 let noError = true;
@@ -34,8 +29,14 @@ if (pvpAttacksLeft() > 0) {
 }
 
 cliExecute("refresh inventory");
+
+// Acquire muffins
 if (availableAmount($item`bran muffin`) < 1) {
-  abort("No bran muffin");
+  cliExecute("muffin collect");
+
+  if (availableAmount($item`bran muffin`) < 1) {
+    abort("No bran muffin");
+  }
 }
 
 // TODO: Check ice house for remaindered skeleton

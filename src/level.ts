@@ -274,6 +274,12 @@ const Level: CSQuest = {
             do: () => eat(1, $item`bran muffin`)
         },
         {
+            name: "Order Bran Muffin",
+            ready: () => have($item`earthenware muffin tin`),
+            completed: () => get("_muffinOrderedToday"),
+            do: () => cliExecute("muffin order bran"),
+        },
+        {
             name: "Get Love Potion",
             completed: () => $skill`Love Mixology`.timescast > 0,
             do: () => useSkill(1, $skill`Love Mixology`),
