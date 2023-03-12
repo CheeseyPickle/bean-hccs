@@ -179,7 +179,8 @@ function setup() {
   pullIfPossible(1, $item`abstraction: category`, 2000);
   pullIfPossible(1, $item`bran muffin`, 0);
   pullIfPossible(1, $item`wasabi marble soda`, 5000);
-  if (!pullIfPossible(1, $item`non-Euclidean angle`, 35000)) {
+  pullIfPossible(1, $item`non-Euclidean angle`, 35000);
+  if (!have($item`non-Euclidean angle`)) {
     pullIfPossible(1, $item`pocket wish`, 50000);
   }
 }
