@@ -5,6 +5,7 @@ import {
     print,
     readCcs,
     setAutoAttack,
+    visitUrl,
     writeCcs,
 } from "kolmafia";
 import { $effect, CommunityService, get, PropertiesManager, uneffect } from "libram";
@@ -142,7 +143,6 @@ export class CSEngine extends Engine<never, Task> {
                 }
             }
 
-            CommunityService.printLog('green');
             CommunityService.donate();
             cliExecute("refresh all");
             uneffect($effect`Feeling Lost`);
@@ -159,6 +159,11 @@ export class CSEngine extends Engine<never, Task> {
             if (["food", "booze"].includes(get("_questPartyFairQuest"))) {
                 print("Talk to Gerald/ine!");
             }
+
+            print("Pulling stuff from storage... This will take a while...");
+            visitUrl("inventory.php?action=pullall&pwd=");
+
+            CommunityService.printLog('green');
         } finally {
             CSEngine.propertyManager.resetAll();
         }
