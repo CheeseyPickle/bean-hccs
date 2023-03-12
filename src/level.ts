@@ -117,9 +117,11 @@ const Level: CSQuest = {
         },
         {
             name: "non-Euclidean angle",
+            ready: () => have($item`non-Euclidean angle`),
             completed: () => have($effect`Different Way of Seeing Things`),
             do: () => chew(1, $item`non-Euclidean angle`),
         },
+        wishTask($effect`Different Way of Seeing Things`),
         {
             name: "abstraction: category",
             completed: () => have($effect`Category`),
