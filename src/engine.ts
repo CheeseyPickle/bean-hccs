@@ -77,7 +77,7 @@ export class CSEngine extends Engine<never, Task> {
             1468: 2,
             1469: 3,
             1470: 2,
-            1471: 3,
+            1471: 1,
             1472: 1,
             1473: 1,
             1474: 1,

@@ -10,7 +10,12 @@ const PRE_QUEST: Quest<Task> = {
         {
             name: "Beaten Up!",
             completed: () => !have($effect`Beaten Up`),
-            do: () => abort("Beaten up!"),
+            do: (): void => {
+                if ("Poetic Justice" !== get("lastEncounter")) {
+                    abort("Beaten up!");
+                }
+                useSkill($skill`Tongue of the Walrus`);
+            },
         },
         {
             name: "Maintain HP",
