@@ -1,6 +1,6 @@
 import { beachTask, potionTask, restore, skillTask, songTask } from "./commons";
 import { CSQuest } from "./engine";
-import { create, use } from "kolmafia";
+import { buy, create, use } from "kolmafia";
 import {
     $effect,
     $effects,
@@ -64,7 +64,15 @@ const Muscle: CSQuest = {
             limit: { tries: 1 }
         },
         ...skillBuffTasks("MUSCLE"),
-        { ...potionTask($item`Ben-Gal™ Balm`) },
+        {
+            name: "Go Get 'Em, Tiger!",
+            completed: () => have($effect`Go Get 'Em, Tiger!`),
+            do: (): void => {
+                const balm = $item`Ben-Gal™ Balm`;
+                if (!have(balm)) buy(1, balm);
+                use(1, balm);
+            },
+        },
     ],
 };
 
@@ -103,7 +111,15 @@ const Moxie: CSQuest = {
         ),
         potionTask($item`pocket maze`),
         beachTask($effect`Pomp & Circumsands`),
-        { ...potionTask($item`hair spray`) },
+        {
+            name: "Butt-Rock Hair",
+            completed: () => have($effect`Butt-Rock Hair`),
+            do: (): void => {
+                const spray = $item`hair spray`;
+                if (!have(spray)) buy(1, spray);
+                use(1, spray);
+            },
+        },
     ],
 };
 
