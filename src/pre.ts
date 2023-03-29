@@ -8,28 +8,6 @@ import {
 } from "kolmafia";
 import { $item, get, TrainSet } from "libram";
 
-const season = get("currentPVPSeason");
-
-const PVP_STANCE: { [key: string]: string } = {
-  bear: "Maul Power",
-  pirate: "Karmic Battle",
-  glitch: "Installation Wizard",
-  numeric: "A Nice Cold One",
-  ice: "A Nice Cold One",
-};
-
-const getTarget = () => {
-  return "loot";
-};
-
-let noError = true;
-
-if (pvpAttacksLeft() > 0) {
-  visitUrl('peevpee.php?action=smashstone&confirm=on');
-  noError = cliExecute("uberpvpoptimizer");
-  noError = noError && cliExecute(`pvp ${getTarget()} ${PVP_STANCE[season]}`);
-}
-
 cliExecute("refresh inventory");
 
 // Acquire muffins
@@ -57,5 +35,29 @@ if (
     TrainSet.Station.COAL_HOPPER
   ]);
 }
+
+const season = get("currentPVPSeason");
+
+const PVP_STANCE: { [key: string]: string } = {
+  bear: "Maul Power",
+  pirate: "Karmic Battle",
+  glitch: "Installation Wizard",
+  numeric: "A Nice Cold One",
+  ice: "A Nice Cold One",
+};
+
+const getTarget = () => {
+  return "loot";
+};
+
+let noError = true;
+
+if (pvpAttacksLeft() > 0) {
+  visitUrl('peevpee.php?action=smashstone&confirm=on');
+  noError = cliExecute("uberpvpoptimizer");
+  noError = noError && cliExecute(`pvp ${getTarget()} ${PVP_STANCE[season]}`);
+}
+
+cliExecute("refresh inventory");
 
 !noError && abort();
