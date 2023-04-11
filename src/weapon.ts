@@ -1,5 +1,5 @@
 import { CSStrategy, Macro } from "./combatMacros";
-import { beachTask, famPool, potionTask, restore, skillTask } from "./commons";
+import { beachTask, famPool, potionTask, restore, skillTask, songTask } from "./commons";
 import { CSQuest } from "./engine";
 import { uniform } from "./outfit";
 import {
@@ -64,6 +64,7 @@ const Weapon: CSQuest = {
         ...buffs.map(skillTask),
         restore(buffs),
         skillTask($effect`Frenzied, Bloody`),
+        songTask($effect`Jackasses' Symphony of Destruction`, $effect`Ode to Booze`),
         beachTask($effect`Lack of Body-Building`),
         famPool(),
         {

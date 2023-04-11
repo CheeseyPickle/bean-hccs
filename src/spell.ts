@@ -2,6 +2,7 @@ import {
     potionTask,
     restore,
     skillTask,
+    songTask,
 } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
@@ -44,6 +45,7 @@ const Spell: CSQuest = {
     tasks: [
         skillTask($skill`Simmer`),
         ...buffs.map(skillTask),
+        songTask($effect`Jackasses' Symphony of Destruction`, $effect`Ode to Booze`),
         restore(buffs),
         skillTask($skill`Spirit of Cayenne`),
         potionTask($item`battery (AAA)`),
