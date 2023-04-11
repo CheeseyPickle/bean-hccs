@@ -45,8 +45,8 @@ const POST_QUEST: Quest<Task> = {
     tasks: [
         {
             name: "Heal HP",
-            ready: () => myMaxhp() > 100,
-            completed: () => myHp() > 100,
+            ready: () => myMaxhp() > 200,
+            completed: () => myHp() > 200,
             do: () => useSkill($skill`Cannelloni Cocoon`)
         },
         {
