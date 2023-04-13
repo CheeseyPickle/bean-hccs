@@ -2,7 +2,7 @@ import { OutfitSpec } from "grimoire-kolmafia";
 import { availableAmount, cliExecute, create, handlingChoice, runChoice, use } from "kolmafia";
 import { $effect, $familiar, $item, $items, $monster, $skill, CombatLoversLocket, CommunityService, get, have } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
-import { skillTask, potionTask, wishTask, songTask } from "./commons";
+import { skillTask, potionTask, genieWishTask, songTask } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
 import { uniform } from "./outfit";
@@ -38,7 +38,7 @@ const ItemDrop: CSQuest = {
     ...$items`lavender candy heart, bag of grain`.map(
         potionTask
     ),
-    wishTask($effect`Infernal Thirst`),
+    genieWishTask($effect`Infernal Thirst`),
     {
         // TODO: Cut this once you get any additional item skills
         name: "Eyedrops of the Ermine",

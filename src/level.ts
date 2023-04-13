@@ -1,5 +1,5 @@
 import { CSStrategy, Macro } from "./combatMacros";
-import { beachTask, potionTask, skillTask, wishTask } from "./commons";
+import { beachTask, potionTask, skillTask, genieWishTask } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
 import { levelUniform, uniform } from "./outfit";
@@ -121,7 +121,7 @@ const Level: CSQuest = {
             completed: () => have($effect`Different Way of Seeing Things`),
             do: () => chew(1, $item`non-Euclidean angle`),
         },
-        wishTask($effect`Different Way of Seeing Things`),
+        genieWishTask($effect`Different Way of Seeing Things`),
         {
             name: "abstraction: category",
             completed: () => have($effect`Category`),
@@ -138,7 +138,7 @@ const Level: CSQuest = {
             completed: () => get("_daycareGymScavenges") > 0,
             do: () => cliExecute("daycare scavenge free"),
         },
-        wishTask($effect`A Contender`),
+        genieWishTask($effect`A Contender`),
         {
             name: "Boxing Daybuff",
             completed: () => get("_daycareSpa"),

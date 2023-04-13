@@ -1,4 +1,4 @@
-import { commonFamiliarWeightBuffs, famPool, potionTask, restore, skillTask, songTask, wishTask } from "./commons";
+import { commonFamiliarWeightBuffs, famPool, potionTask, restore, skillTask, songTask, genieWishTask } from "./commons";
 import { CSQuest } from "./engine";
 import { availableAmount, cliExecute, retrieveItem } from "kolmafia";
 import { $effect, $effects, $familiar, $item, CommunityService, ensureEffect, get, have } from "libram";
@@ -28,7 +28,7 @@ const Noncombat: CSQuest = {
         songTask($effect`The Sonata of Sneakiness`, $effect`Fat Leon's Phat Loot Lyric`),
         restore($effects`Smooth Movements, The Sonata of Sneakiness`),
         potionTask($item`shady shades`),
-        wishTask($effect`Disquiet Riot`),
+        genieWishTask($effect`Disquiet Riot`),
         // {
         //     name: "Swim Sprints",
         //     completed: () => get("_olympicSwimmingPool"),

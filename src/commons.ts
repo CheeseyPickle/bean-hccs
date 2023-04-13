@@ -31,7 +31,7 @@ export function beachTask(effect: Effect): Task {
     };
 }
 
-export function wishTask(effect: Effect): Task {
+export function genieWishTask(effect: Effect): Task {
     return {
         name: `Wish: ${effect}`,
         completed: () => have(effect),
