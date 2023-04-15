@@ -3,13 +3,7 @@ import { beachTask, commonFamiliarWeightBuffs, skillTask } from "./commons";
 import { CSQuest } from "./engine";
 import { uniform } from "./outfit";
 import {
-    chatPrivate,
-    cliExecute,
-    handlingChoice,
-    runChoice,
-    use,
     visitUrl,
-    wait,
 } from "kolmafia";
 import {
     $effect,
@@ -22,7 +16,6 @@ import {
     get,
     have,
 } from "libram";
-import { getString } from "libram/dist/property";
 
 const buffs = $effects`Elemental Saucesphere, Feeling Peaceful`;
 
@@ -62,11 +55,7 @@ const HotRes: CSQuest = {
             name: "Extinguisher + Cloake + Fax",
             completed: () => have($effect`Fireproof Foam Suit`),
             ready: () => get("_saberForceUses") < 5 && !get("_photocopyUsed"),
-            do: (): void => {
-                faxFactoryWorker();
-                use(1, $item`photocopied monster`);
-                if (handlingChoice()) runChoice(-1);
-            },
+            do: $location`The Dire Warren`,
             choices: { [1387]: 3 },
             outfit: () =>
                 uniform({
@@ -88,26 +77,5 @@ const HotRes: CSQuest = {
         },
     ],
 };
-
-
-// Copied off of garbo. Thanks guys!
-function checkFax(): boolean {
-    if (!have($item`photocopied monster`)) cliExecute("fax receive");
-    if (getString("photocopyMonster") === "factory worker") return true;
-    cliExecute("fax send");
-    return false;
-  }
-  
-function faxFactoryWorker(): void {
-    if (!get("_photocopyUsed")) {
-      if (checkFax()) return;
-      chatPrivate("cheesefax", "factory worker");
-      for (let i = 0; i < 3; i++) {
-        wait(10);
-        if (checkFax()) return;
-      }
-      throw new Error("Failed to acquire photocopied factory worker.");
-    }
-}
 
 export default HotRes;
