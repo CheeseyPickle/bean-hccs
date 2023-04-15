@@ -179,7 +179,7 @@ function setup() {
   pullIfPossible(1, $item`abstraction: category`, 2000);
   pullIfPossible(1, $item`bran muffin`, 0);
   pullIfPossible(1, $item`wasabi marble soda`, 5000);
-  // TODO: Figure out your last pull
+  pullIfPossible(1, $item`Staff of Kitchen Royalty`, 0);
 }
 
 function doDailies() {
