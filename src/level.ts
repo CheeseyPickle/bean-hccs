@@ -1,5 +1,5 @@
 import { CSStrategy, Macro } from "./combatMacros";
-import { beachTask, potionTask, skillTask, genieWishTask, monkeyWishTask } from "./commons";
+import { beachTask, potionTask, skillTask, monkeyWishTask } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
 import { levelUniform, uniform } from "./outfit";
@@ -11,7 +11,6 @@ import {
     create,
     eat,
     haveEffect,
-    monkeyPaw,
     mpCost,
     myAdventures,
     myBasestat,
@@ -116,14 +115,7 @@ const Level: CSQuest = {
             completed: () => !!get("_campAwayCloudBuffs"),
             do: () => visitUrl("place.php?whichplace=campaway&action=campaway_sky"),
         },
-        {
-            name: "non-Euclidean angle",
-            ready: () => have($item`non-Euclidean angle`),
-            completed: () => have($effect`Different Way of Seeing Things`),
-            do: () => chew(1, $item`non-Euclidean angle`),
-        },
         monkeyWishTask($effect`Different Way of Seeing Things`),
-        genieWishTask($effect`Different Way of Seeing Things`),
         {
             name: "abstraction: category",
             completed: () => have($effect`Category`),
@@ -141,7 +133,6 @@ const Level: CSQuest = {
             do: () => cliExecute("daycare scavenge free"),
         },
         monkeyWishTask($effect`A Contender`),
-        genieWishTask($effect`A Contender`),
         {
             name: "Boxing Daybuff",
             completed: () => get("_daycareSpa"),
