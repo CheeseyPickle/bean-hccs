@@ -172,7 +172,7 @@ function setup() {
   runChoice(1);
 
   // 1 = Rocks, 2 = Insects, 3 = Plants
-  withChoice(1494, 1, () => use(toItem('S.I.T. Course Completion Certificate')));
+  withChoice(1494, 1, () => use($item`S.I.T. Course Completion Certificate`));
 
   AutumnAton.sendTo($location`The Sleazy Back Alley`);
 
