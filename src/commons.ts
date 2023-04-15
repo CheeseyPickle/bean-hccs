@@ -1,5 +1,5 @@
 import { Task } from "grimoire-kolmafia";
-import { Skill, Effect, toSkill, toEffect, myMp, mpCost, useSkill, getProperty, effectModifier, Item, use, cliExecute, adv1, create, eat, handlingChoice, runChoice, Thrall, myThrall, availableAmount } from "kolmafia";
+import { Skill, Effect, toSkill, toEffect, myMp, mpCost, useSkill, getProperty, effectModifier, Item, use, cliExecute, adv1, create, eat, handlingChoice, runChoice, Thrall, myThrall, availableAmount, monkeyPaw } from "kolmafia";
 import { $effect, $effects, $familiar, $item, $location, $skill, BeachComb, get, have, set } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import { horsery, horse, wishEffect } from "./lib";
@@ -33,10 +33,20 @@ export function beachTask(effect: Effect): Task {
 
 export function genieWishTask(effect: Effect): Task {
     return {
-        name: `Wish: ${effect}`,
+        name: `Genie Wish: ${effect}`,
         completed: () => have(effect),
         ready: () => availableAmount($item`pocket wish`) + 3 - get("_genieWishesUsed") > 0,
         do: () => wishEffect(effect),
+        limit: { tries: 1 }
+    };
+}
+
+export function monkeyWishTask(effect: Effect): Task {
+    return {
+        name: `Monkey Wish: ${effect}`,
+        completed: () => have(effect),
+        ready: () => get("_monkeyPawWishesUsed") < 5,
+        do: () => monkeyPaw(effect),
         limit: { tries: 1 }
     };
 }
