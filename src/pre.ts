@@ -1,12 +1,14 @@
+import { Coinmaster } from "kolmafia";
 import {
   abort,
   availableAmount,
+  buy,
   cliExecute,
   getWorkshed,
   pvpAttacksLeft,
   visitUrl,
 } from "kolmafia";
-import { $item, get, TrainSet } from "libram";
+import { $coinmaster, $item, get, TrainSet } from "libram";
 
 cliExecute("refresh inventory");
 
@@ -17,6 +19,13 @@ if (availableAmount($item`bran muffin`) < 1) {
   if (availableAmount($item`bran muffin`) < 1) {
     abort("No bran muffin");
   }
+}
+
+// Get Wasabi soda
+if (availableAmount($item`wasabi marble soda`) < 1) {
+  const success = buy(1, $item`Ye Wizard's Shack snack voucher`, 2000);
+  (success <= 0) && abort("Failed to get snack voucher");
+  buy($coinmaster`Game Shoppe Snacks`, 1, $item`wasabi marble soda`);
 }
 
 // TODO: Check ice house for remaindered skeleton
