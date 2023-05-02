@@ -1,4 +1,3 @@
-import { Coinmaster } from "kolmafia";
 import {
   abort,
   availableAmount,
