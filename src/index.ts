@@ -156,7 +156,7 @@ function setup() {
     availableAmount($item`borrowed time`) === 0 &&
     !get("_borrowedTimeUsed")
   ) {
-    if (pullIfPossible(1, $item`borrowed time`, 20000)) {
+    if (pullIfPossible(1, $item`borrowed time`, 40000)) {
       use($item`borrowed time`);
     } else {
       abort("Couldn't get borrowed time");
