@@ -4,6 +4,7 @@ import {
   buy,
   cliExecute,
   getWorkshed,
+  mallPrice,
   pvpAttacksLeft,
   visitUrl,
 } from "kolmafia";
@@ -22,9 +23,17 @@ if (availableAmount($item`bran muffin`) < 1) {
 
 // Get Wasabi soda
 if (availableAmount($item`wasabi marble soda`) < 1) {
-  const success = buy(1, $item`Ye Wizard's Shack snack voucher`, 2000);
-  (success <= 0) && abort("Failed to get snack voucher");
-  buy($coinmaster`Game Shoppe Snacks`, 1, $item`wasabi marble soda`);
+  if (
+    mallPrice($item`Ye Wizard's Shack snack voucher`) <
+    mallPrice($item`wasabi marble soda`)
+  ) {
+    const success = buy(1, $item`Ye Wizard's Shack snack voucher`, 10000);
+    success <= 0 && abort("Failed to get snack voucher");
+    buy($coinmaster`Game Shoppe Snacks`, 1, $item`wasabi marble soda`);
+  } else {
+    const success = buy(1, $item`wasabi marble soda`, 10000);
+    success <= 0 && abort("Failed to get wasabi soda");
+  }
 }
 
 // TODO: Check ice house for remaindered skeleton
@@ -40,7 +49,7 @@ if (
     TrainSet.Station.GRAIN_SILO,
     TrainSet.Station.TRACKSIDE_DINER,
     TrainSet.Station.ORE_HOPPER,
-    TrainSet.Station.COAL_HOPPER
+    TrainSet.Station.COAL_HOPPER,
   ]);
 }
 
@@ -62,7 +71,7 @@ const getTarget = () => {
 let noError = true;
 
 if (pvpAttacksLeft() > 0) {
-  visitUrl('peevpee.php?action=smashstone&confirm=on');
+  visitUrl("peevpee.php?action=smashstone&confirm=on");
   noError = cliExecute("uberpvpoptimizer");
   noError = noError && cliExecute(`pvp ${getTarget()} ${PVP_STANCE[season]}`);
 }

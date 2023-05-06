@@ -75,9 +75,7 @@ function doGuaranteedGoblin() {
       Macro.if_(
         `!monsterid ${$monster`sausage goblin`.id}`,
         new Macro().step("abort")
-      ).step(
-        Macro.itemSkills().easyFight().kill()
-      )
+      ).step(Macro.itemSkills().easyFight().kill())
     );
     equip(offHand);
   }
@@ -103,12 +101,13 @@ function vote() {
 }
 
 function equipStatOutfit() {
-  cliExecute('umbrella ml');
+  cliExecute("umbrella ml");
   new Requirement(
-    ["100 mysticality experience percent, mysticality experience"], {
-    forceEquip: [$item`makeshift garbage shirt`, $item`unbreakable umbrella`],
-    preventEquip: [$item`Daylight Shavings Helmet`],
-  }
+    ["100 mysticality experience percent, mysticality experience"],
+    {
+      forceEquip: [$item`makeshift garbage shirt`, $item`unbreakable umbrella`],
+      preventEquip: [$item`Daylight Shavings Helmet`],
+    }
   ).maximize();
 }
 
@@ -156,11 +155,9 @@ function setup() {
     availableAmount($item`borrowed time`) === 0 &&
     !get("_borrowedTimeUsed")
   ) {
-    if (pullIfPossible(1, $item`borrowed time`, 40000)) {
-      use($item`borrowed time`);
-    } else {
-      abort("Couldn't get borrowed time");
-    }
+    pullIfPossible(1, $item`borrowed time`, 40000);
+    if (!have($item`borrowed time`)) abort("Couldn't get borrowed time");
+    use($item`borrowed time`);
   }
 
   // unlock shops
@@ -206,7 +203,7 @@ function doDailies() {
   }
 
   getBatteries();
-  
+
   cliExecute("garden pick"); // Should be peppermint
 
   cliExecute("daycare item");
@@ -214,7 +211,7 @@ function doDailies() {
   useSkill($skill`Summon Crimbo Candy`);
 
   // Upgrade saber for fam wt
-  cliExecute('saber fam');
+  cliExecute("saber fam");
 
   cliExecute(
     "pantogram mysticality|spooky|nail clippings|some self-respect|your hopes|silent"
@@ -231,27 +228,32 @@ function getSkellyFruits() {
 
   useFamiliar($familiar`Pocket Professor`);
   new Requirement(
-    ["100 mysticality experience percent, mysticality experience"], {
-    forceEquip: [$item`Lil' Doctor™ bag`, $item`latte lovers member's mug`, $item`Jurassic Parka`],
-    preventEquip: [$item`Daylight Shavings Helmet`],
-  }
+    ["100 mysticality experience percent, mysticality experience"],
+    {
+      forceEquip: [
+        $item`Lil' Doctor™ bag`,
+        $item`latte lovers member's mug`,
+        $item`Jurassic Parka`,
+      ],
+      preventEquip: [$item`Daylight Shavings Helmet`],
+    }
   ).maximize();
 
   cliExecute("parka acid");
 
-  while(!have($item`cherry`)) {
+  while (!have($item`cherry`)) {
     adventureMacro(
       $location`The Skeleton Store`,
       Macro.trySkill($skill`Gulp Latte`)
-      .tryItem($item`red rocket`)
-      .if_(
-        `!monsterid ${$monster`novelty tropical skeleton`.id}`,
-        new Macro().trySkill($skill`Throw Latte on Opponent`)
-          .trySkill($skill`Reflex Hammer`)
-          .trySkill($skill`Feel Hatred`)
-      ).step(
-        Macro.skill($skill`Spit jurassic acid`)
-      )
+        .tryItem($item`red rocket`)
+        .if_(
+          `!monsterid ${$monster`novelty tropical skeleton`.id}`,
+          new Macro()
+            .trySkill($skill`Throw Latte on Opponent`)
+            .trySkill($skill`Reflex Hammer`)
+            .trySkill($skill`Feel Hatred`)
+        )
+        .step(Macro.skill($skill`Spit jurassic acid`))
     );
   }
 }
@@ -269,7 +271,8 @@ export function main(): void {
     abort(`Didn't coil wire.`);
   }
 
-  CSEngine.runTests(Level,
+  CSEngine.runTests(
+    Level,
     Muscle,
     Hitpoints,
     Mysticality,
@@ -280,5 +283,6 @@ export function main(): void {
     FamiliarWeight,
     HotRes,
     Weapon,
-    Spell);
+    Spell
+  );
 }
