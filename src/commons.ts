@@ -1,178 +1,223 @@
 import { Task } from "grimoire-kolmafia";
-import { Skill, Effect, toSkill, toEffect, myMp, mpCost, useSkill, getProperty, effectModifier, Item, use, cliExecute, adv1, create, eat, handlingChoice, runChoice, Thrall, myThrall, availableAmount, monkeyPaw } from "kolmafia";
-import { $effect, $effects, $familiar, $item, $location, $skill, BeachComb, get, have, set } from "libram";
+import {
+  Skill,
+  Effect,
+  toSkill,
+  toEffect,
+  myMp,
+  mpCost,
+  useSkill,
+  getProperty,
+  effectModifier,
+  Item,
+  use,
+  cliExecute,
+  adv1,
+  create,
+  eat,
+  handlingChoice,
+  runChoice,
+  Thrall,
+  myThrall,
+  availableAmount,
+  monkeyPaw,
+} from "kolmafia";
+import {
+  $effect,
+  $effects,
+  $familiar,
+  $item,
+  $location,
+  $skill,
+  BeachComb,
+  get,
+  have,
+  set,
+} from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import { horsery, horse, wishEffect } from "./lib";
 import { uniform } from "./outfit";
 
 export function skillTask(x: Skill | Effect): Task {
-    {
-        const skill = x instanceof Skill ? x : toSkill(x);
-        const effect = x instanceof Effect ? x : toEffect(x);
-        return {
-            name: skill.name,
-            completed: () => have(effect),
-            ready: () => myMp() >= mpCost(skill),
-            do: () => useSkill(skill),
-        };
-    }
+  {
+    const skill = x instanceof Skill ? x : toSkill(x);
+    const effect = x instanceof Effect ? x : toEffect(x);
+    return {
+      name: skill.name,
+      completed: () => have(effect),
+      ready: () => myMp() >= mpCost(skill),
+      do: () => useSkill(skill),
+    };
+  }
 }
 
 export function beachTask(effect: Effect): Task {
-    const num = 1 + BeachComb.headBuffs.indexOf(effect);
-    return {
-        name: `Beach Head: ${effect}`,
-        completed: () => getProperty("_beachHeadsUsed").split(",").includes(num.toFixed(0)),
-        ready: () =>
-            get("_freeBeachWalksUsed") < 11 &&
-            get("beachHeadsUnlocked").split(",").includes(num.toFixed(0)),
-        do: () => BeachComb.tryHead(effect),
-        limit: { tries: 1 }
-    };
+  const num = 1 + BeachComb.headBuffs.indexOf(effect);
+  return {
+    name: `Beach Head: ${effect}`,
+    completed: () =>
+      getProperty("_beachHeadsUsed").split(",").includes(num.toFixed(0)),
+    ready: () =>
+      get("_freeBeachWalksUsed") < 11 &&
+      get("beachHeadsUnlocked").split(",").includes(num.toFixed(0)),
+    do: () => BeachComb.tryHead(effect),
+    limit: { tries: 1 },
+  };
 }
 
 export function genieWishTask(effect: Effect): Task {
-    return {
-        name: `Genie Wish: ${effect}`,
-        completed: () => have(effect),
-        ready: () => availableAmount($item`pocket wish`) + 3 - get("_genieWishesUsed") > 0,
-        do: () => wishEffect(effect),
-        limit: { tries: 1 }
-    };
+  return {
+    name: `Genie Wish: ${effect}`,
+    completed: () => have(effect),
+    ready: () =>
+      availableAmount($item`pocket wish`) + 3 - get("_genieWishesUsed") > 0,
+    do: () => wishEffect(effect),
+    limit: { tries: 1 },
+  };
 }
 
 export function monkeyWishTask(effect: Effect): Task {
-    return {
-        name: `Monkey Wish: ${effect}`,
-        completed: () => have(effect),
-        ready: () => get("_monkeyPawWishesUsed") < 5,
-        do: () => monkeyPaw(effect),
-        limit: { tries: 1 }
-    };
+  return {
+    name: `Monkey Wish: ${effect}`,
+    completed: () => have(effect),
+    ready: () => get("_monkeyPawWishesUsed") < 5,
+    do: () => monkeyPaw(effect),
+    limit: { tries: 1 },
+  };
 }
 
 export function potionTask(item: Item): Task {
-    const effect = effectModifier(item, "Effect");
-    return {
-        name: `${effect}`,
-        completed: () => have(effect),
-        ready: () => have(item),
-        do: () => use(item),
-    };
+  const effect = effectModifier(item, "Effect");
+  return {
+    name: `${effect}`,
+    completed: () => have(effect),
+    ready: () => have(item),
+    do: () => use(item),
+  };
 }
 
-export function songTask(song: Effect | Skill, shrugSong: Effect | Skill): Task {
-    const { wantedSongSkill, wantedSongEffect } =
-        song instanceof Effect
-            ? { wantedSongSkill: toSkill(song), wantedSongEffect: song }
-            : { wantedSongSkill: song, wantedSongEffect: toEffect(song) };
-    const shrugSongEffect = shrugSong instanceof Effect ? shrugSong : toEffect(shrugSong);
-    return {
-        name: song.name,
-        completed: () => have(wantedSongEffect),
-        ready: () => myMp() >= mpCost(wantedSongSkill),
-        do: (): void => {
-            if (have(shrugSongEffect)) cliExecute(`shrug ${shrugSongEffect}`);
-            useSkill(wantedSongSkill);
-        },
-        limit: { tries: 1 }
-    };
+export function songTask(
+  song: Effect | Skill,
+  shrugSong: Effect | Skill
+): Task {
+  const { wantedSongSkill, wantedSongEffect } =
+    song instanceof Effect
+      ? { wantedSongSkill: toSkill(song), wantedSongEffect: song }
+      : { wantedSongSkill: song, wantedSongEffect: toEffect(song) };
+  const shrugSongEffect =
+    shrugSong instanceof Effect ? shrugSong : toEffect(shrugSong);
+  return {
+    name: song.name,
+    completed: () => have(wantedSongEffect),
+    ready: () => myMp() >= mpCost(wantedSongSkill),
+    do: (): void => {
+      if (have(shrugSongEffect)) cliExecute(`shrug ${shrugSongEffect}`);
+      useSkill(wantedSongSkill);
+    },
+    limit: { tries: 1 },
+  };
 }
 
 export function thrallTask(thrall: Thrall): Task {
-    return {
-        name: thrall.toString(),
-        completed: () => myThrall() === thrall,
-        do: () => useSkill(thrall.skill),
-    };
+  return {
+    name: thrall.toString(),
+    completed: () => myThrall() === thrall,
+    do: () => useSkill(thrall.skill),
+  };
 }
 
 export function restore(effects: Effect[]): Task {
-    return {
-        name: "Restore",
-        completed: () => effects.every((e) => have(e)),
-        do: () => {
-            if (!have($item`magical sausage`) && have($item`magical sausage casing`)) {
-                create(1, $item`magical sausage`);
-            }
-            if (have($item`magical sausage`)) {
-                eat(1, $item`magical sausage`);
-            }
-        },
-        limit: {
-            tries: 1
-        }
-    };
+  return {
+    name: "Restore",
+    completed: () => effects.every((e) => have(e)),
+    do: () => {
+      if (
+        !have($item`magical sausage`) &&
+        have($item`magical sausage casing`)
+      ) {
+        create(1, $item`magical sausage`);
+      }
+      if (have($item`magical sausage`)) {
+        eat(1, $item`magical sausage`);
+      }
+    },
+    limit: {
+      tries: 1,
+    },
+  };
 }
 
 let showers = get("_meteorShowerUses");
 export function meteorShower(): Task {
-    return {
-        name: "Meteor Showered",
-        ready: () => get("_meteorShowerUses") < 5 && get("_saberForceUses") < 5,
-        completed: () => have($effect`Meteor Showered`),
-        prepare: () => horsery() === "pale" && horse("dark"),
-        do: () => {
-            adv1($location`The Dire Warren`, -1, "");
-            if (handlingChoice()) runChoice(-1);
+  return {
+    name: "Meteor Showered",
+    ready: () => get("_meteorShowerUses") < 5 && get("_saberForceUses") < 5,
+    completed: () => have($effect`Meteor Showered`),
+    prepare: () => horsery() === "pale" && horse("dark"),
+    do: () => {
+      adv1($location`The Dire Warren`, -1, "");
+      if (handlingChoice()) runChoice(-1);
+    },
+    outfit: () =>
+      uniform({
+        changes: {
+          familiar: $familiar.none,
+          famequip: $item.none,
+          weapon: $item`Fourth of May Cosplay Saber`,
         },
-        outfit: () =>
-            uniform({
-                changes: {
-                    familiar: $familiar.none,
-                    famequip: $item.none,
-                    weapon: $item`Fourth of May Cosplay Saber`,
-                },
-            }),
-        choices: { [1387]: 3 },
-        combat: new CSStrategy(() =>
-            Macro.skill($skill`Meteor Shower`).skill($skill`Use the Force`)
-        ),
-        post: () => {
-            if (have($effect`Meteor Showered`)) showers++;
-            set("_meteorShowerUses", showers);
-        },
-    };
+      }),
+    choices: { [1387]: 3 },
+    combat: new CSStrategy(() =>
+      Macro.skill($skill`Meteor Shower`).skill($skill`Use the Force`)
+    ),
+    post: () => {
+      if (have($effect`Meteor Showered`)) showers++;
+      set("_meteorShowerUses", showers);
+    },
+  };
 }
 
 export function doYouCrush(): Task {
-    return {
-        name: "Do You Crush What I Crush?",
-        completed: () => have($effect`Do You Crush What I Crush?`),
-        ready: () => !have($effect`Holiday Yoked`),
-        do: $location`The Dire Warren`,
-        outfit: () =>
-            uniform({
-                changes: { familiar: $familiar`Ghost of Crimbo Carols`, famequip: $item.none },
-            }),
-        prepare: () => horsery() === "pale" && horse("dark"),
-        combat: new CSStrategy(() =>
-            Macro.trySkill($skill`Feel Hatred`)
-                .trySkill($skill`Snokebomb`)
-                .abort()
-        ),
-    };
+  return {
+    name: "Do You Crush What I Crush?",
+    completed: () => have($effect`Do You Crush What I Crush?`),
+    ready: () => !have($effect`Holiday Yoked`),
+    do: $location`The Dire Warren`,
+    outfit: () =>
+      uniform({
+        changes: {
+          familiar: $familiar`Ghost of Crimbo Carols`,
+          famequip: $item.none,
+        },
+      }),
+    prepare: () => horsery() === "pale" && horse("dark"),
+    combat: new CSStrategy(() =>
+      Macro.trySkill($skill`Feel Hatred`)
+        .trySkill($skill`Snokebomb`)
+        .abort()
+    ),
+  };
 }
 
 export function commonFamiliarWeightBuffs(): Task[] {
-    const buffs = $effects`Leash of Linguini, Empathy, Blood Bond`;
-    return [
-        ...buffs.map(skillTask),
-        restore(buffs),
-        // {
-        //     name: "Suzie's Blessing",
-        //     completed: () => get("_clanFortuneBuffUsed"),
-        //     do: () => cliExecute("fortune buff familiar"),
-        // },
-        beachTask($effect`Do I Know You From Somewhere?`),
-    ];
+  const buffs = $effects`Leash of Linguini, Empathy, Blood Bond`;
+  return [
+    ...buffs.map(skillTask),
+    restore(buffs),
+    // {
+    //     name: "Suzie's Blessing",
+    //     completed: () => get("_clanFortuneBuffUsed"),
+    //     do: () => cliExecute("fortune buff familiar"),
+    // },
+    beachTask($effect`Do I Know You From Somewhere?`),
+  ];
 }
 
 export function famPool(): Task {
-    return {
-        name: "Play Pool",
-        ready: () => get('_poolGames') < 3,
-        completed: () => have($effect`Billiards Belligerence`),
-        do: () => cliExecute("pool 1"),
-    };
+  return {
+    name: "Play Pool",
+    ready: () => get("_poolGames") < 3,
+    completed: () => have($effect`Billiards Belligerence`),
+    do: () => cliExecute("pool 1"),
+  };
 }
