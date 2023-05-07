@@ -15,7 +15,7 @@ import {
   have,
 } from "libram";
 
-const buffs = $effects`Elemental Saucesphere, Feeling Peaceful`;
+const buffs = $effects`Elemental Saucesphere, Feeling Peaceful, Astral Shell`;
 
 const MODIFIERS = ["Hot Resistance"];
 
