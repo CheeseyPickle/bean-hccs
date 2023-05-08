@@ -62,8 +62,8 @@ const Noncombat: CSQuest = {
     potionTask($item`lump of loyal latite`),
     {
       name: "Cincho: Party Soundtrack",
-      ready: () => get("_cinchUsed") <= 75,
-      completed: () => have($effect``),
+      ready: () => get("_cinchUsed", 0) <= 75,
+      completed: () => have($effect`Party Soundtrack`),
       do: (): void => {
         equip($slot`acc3`, $item`Cincho de Mayo`);
         useSkill($skill`Cincho: Party Soundtrack`);
