@@ -1,10 +1,12 @@
 import { commonFamiliarWeightBuffs, famPool, potionTask } from "./commons";
 import { CSQuest } from "./engine";
-import { cliExecute } from "kolmafia";
+import { cliExecute, equip, useSkill } from "kolmafia";
 import {
   $effect,
   $familiar,
   $item,
+  $skill,
+  $slot,
   CommunityService,
   ensureEffect,
   get,
@@ -37,6 +39,15 @@ const FamiliarWeight: CSQuest = {
         ensureEffect($effect`Ode to Booze`);
         cliExecute("drink 1 Hot Socks");
       },
+    },
+    {
+      name: "Cincho: Party Soundtrack",
+      ready: () => get("_cinchUsed") <= 75,
+      completed: () => have($effect``),
+      do: (): void => {
+        equip($slot`acc3`, $item`Cincho de Mayo`);
+        useSkill($skill`Cincho: Party Soundtrack`);
+      }
     },
     famPool(),
   ],

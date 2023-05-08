@@ -8,12 +8,14 @@ import {
   monkeyWishTask,
 } from "./commons";
 import { CSQuest } from "./engine";
-import { availableAmount, cliExecute, retrieveItem } from "kolmafia";
+import { availableAmount, cliExecute, equip, retrieveItem, useSkill } from "kolmafia";
 import {
   $effect,
   $effects,
   $familiar,
   $item,
+  $skill,
+  $slot,
   CommunityService,
   ensureEffect,
   get,
@@ -58,6 +60,15 @@ const Noncombat: CSQuest = {
     // I still need all the fam weight buffs to cap this test :(
     potionTask($item`short stack of pancakes`),
     potionTask($item`lump of loyal latite`),
+    {
+      name: "Cincho: Party Soundtrack",
+      ready: () => get("_cinchUsed") <= 75,
+      completed: () => have($effect``),
+      do: (): void => {
+        equip($slot`acc3`, $item`Cincho de Mayo`);
+        useSkill($skill`Cincho: Party Soundtrack`);
+      }
+    },
     {
       name: "Drink Hot Socks",
       ready: () => get("_speakeasyDrinksDrunk") < 3,
