@@ -305,9 +305,9 @@ const Level: CSQuest = {
         lovePotionConsidered = true;
 
         if (
-          numericModifier(loveEffect, "mysticality") > 0 &&
-          numericModifier(loveEffect, "muscle") > 0 &&
-          numericModifier(loveEffect, "moxie") > 0 &&
+          numericModifier(loveEffect, "mysticality") >= 0 &&
+          numericModifier(loveEffect, "muscle") >= 0 &&
+          numericModifier(loveEffect, "moxie") >= 0 &&
           numericModifier(loveEffect, "maximum hp percent") > -0.001 &&
           numericModifier(loveEffect, "maximum mp percent") > -0.001
         ) {
@@ -352,11 +352,6 @@ const Level: CSQuest = {
       },
     },
     {
-      name: "Eat Myst Hot Dog",
-      completed: () => have($effect`Inner Dog`),
-      do: () => cliExecute("eat 1 one with everything"),
-    },
-    {
       name: "Fold Shirt",
       do: foldshirt,
       completed: () => have($item`makeshift garbage shirt`),
@@ -375,16 +370,29 @@ const Level: CSQuest = {
       name: "Regular NEP",
       completed: () => get("_neverendingPartyFreeTurns") >= 10,
       do: $location`The Neverending Party`,
-      outfit: levelUniform({
-        changes: {
-          back: $item`vampyric cloake`,
-        },
-      }),
+      outfit: (): OutfitSpec => {
+        if (get("_neverendingPartyFreeTurns") > 1 && get("_feelPrideUsed") < 3)
+          return levelUniform({
+            changes: {
+              back: $item`vampyric cloake`,
+              acc3: $item`Cincho de Mayo`,
+            },
+          });
+        else
+          return levelUniform({
+            changes: {
+              back: $item`vampyric cloake`,
+            },
+          });
+      },
       combat: new CSStrategy(() =>
-        Macro.externalIf(
-          get("_neverendingPartyFreeTurns") > 1, // make sure bowling sideways before feel pride
-          Macro.trySkill($skill`Feel Pride`)
-        )
+        Macro.trySkill($skill`Entangling Noodles`)
+          .externalIf(
+            get("_neverendingPartyFreeTurns") > 1 && get("_feelPrideUsed") < 3, // make sure bowling sideways before feel pride
+            Macro.trySkill($skill`Feel Pride`).trySkill(
+              $skill`Cincho: Confetti Extravaganza`
+            )
+          )
           .externalIf(
             haveEffect($effect`Wolfish Form`) < 2,
             Macro.trySkill($skill`Become a Wolf`)

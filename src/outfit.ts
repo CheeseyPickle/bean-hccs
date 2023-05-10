@@ -6,12 +6,11 @@ import {
     $item,
     $items,
     CommunityService,
-    DaylightShavings,
     have,
 } from "libram";
 
 const DEFAULT_UNIFORM = (): OutfitSpec => ({
-    hat: DaylightShavings.helmet,
+    hat: $item`Daylight Shavings Helmet`,
     shirt: $items`Jurassic Parka`,
     pants: $items`designer sweatpants, Cargo Cultist Shorts`,
     weapon: $item`Fourth of May Cosplay Saber`,
