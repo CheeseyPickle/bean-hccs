@@ -54,7 +54,7 @@ const foldshirt = (): void => {
 
 const CastSkills =
   // Ordered +myst buffs, survivability buffs, then +ml/stats
-  $skills`Advanced Saucecrafting, Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Blessing of She-Who-Was, Manicotti Meditation, Blood Bubble, Carol of the Hells, Feel Peaceful, Elemental Saucesphere, Ghostly Shell, Singer's Faithful Ocelot, Blood Bond, Leash of Linguini, Empathy of the Newt, Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise, Pride of the Puffin, Carol of the Thrills`
+  $skills`Advanced Saucecrafting, Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Blessing of She-Who-Was, Manicotti Meditation, Blood Bubble, Carol of the Hells, Sauce Monocle, Feel Peaceful, Elemental Saucesphere, Astral Shell, Ghostly Shell, Singer's Faithful Ocelot, Blood Bond, Leash of Linguini, Empathy of the Newt, Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise, Pride of the Puffin, Carol of the Thrills`
     .map((s) => ({
       name: s.name,
       ready: () => myMp() > mpCost(s),
