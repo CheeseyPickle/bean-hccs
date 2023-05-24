@@ -5,7 +5,7 @@ This is a Kingdom of Loathing script taken from `BurningBman (#1729599)`'s bb-hc
 You'll have to build this yourself to make modifications. This use a typical node.js / babel / webpack setup. To install:
 - Install node.js.
 - Checkout the repository somewhere outside your mafia folder.
-- Run `npm install` and `npm build`
+- Run `npm install` and `npm run-script build`
 - Symbolic link the build folder (`KoLmafia/scripts/bb-hccs`) into your mafia directory. Or make a copy every time you update.
 - Run `npm run watch` as you make changes and the build folder will automatically update.
 
