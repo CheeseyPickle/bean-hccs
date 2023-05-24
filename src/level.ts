@@ -1,7 +1,6 @@
 import { CSStrategy, Macro } from "./combatMacros";
 import { beachTask, potionTask, skillTask, monkeyWishTask } from "./commons";
 import { CSQuest } from "./engine";
-import { ensureItem } from "./lib";
 import { levelUniform, uniform } from "./outfit";
 import { OutfitSpec } from "grimoire-kolmafia";
 import {
@@ -335,14 +334,14 @@ const Level: CSQuest = {
         use(1, $item`peppermint twist`);
       },
     },
-    {
-      name: "Eat Fire Crackers",
-      completed: () => have($effect`Fire cracked`),
-      do: (): void => {
-        ensureItem(1, $item`fire crackers`);
-        eat(1, $item`fire crackers`);
-      },
-    },
+    // {
+    //   name: "Eat Fire Crackers",
+    //   completed: () => have($effect`Fire cracked`),
+    //   do: (): void => {
+    //     ensureItem(1, $item`fire crackers`);
+    //     eat(1, $item`fire crackers`);
+    //   },
+    // },
     {
       name: "Drink Bee's Knees",
       completed: () => have($effect`On the Trolley`),
