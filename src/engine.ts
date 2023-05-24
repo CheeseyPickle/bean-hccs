@@ -197,7 +197,7 @@ export class CSEngine extends Engine<never, Task> {
       chatPrivate("Buffy", "1000 Jingle Bells");
 
       cliExecute(
-        "restart; scripts/login.ash; acquire 1 bitchin' meatcar; breakfast; spoon wombat;"
+        "restart; scripts/login.ash; acquire 1 bitchin' meatcar; breakfast; spoon wombat; boombox meat;"
       );
 
       CommunityService.printLog("green");
