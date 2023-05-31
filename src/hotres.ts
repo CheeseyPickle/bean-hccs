@@ -27,6 +27,7 @@ const HotRes: CSQuest = {
   outfit: () => ({
     modifiers: MODIFIERS.join(","),
     familiar: $familiar`Exotic Parrot`,
+    modes: {retrocape: ["vampire", "hold"]},
   }),
   turnsSpent: 0,
   maxTurns: 1,

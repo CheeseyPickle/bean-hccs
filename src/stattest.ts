@@ -33,6 +33,7 @@ const Muscle: CSQuest = {
   outfit: () => ({
     modifier: ["Muscle", "Muscle Percent"].join(","),
     familiar: $familiar`Left-Hand Man`,
+    modes: {retrocape: ["vampire", "thrill"]},
   }),
   tasks: [
     {
@@ -93,6 +94,7 @@ const Mysticality: CSQuest = {
   outfit: () => ({
     modifier: ["Mysticality", "Mysticality Percent"].join(","),
     familiar: $familiar`Left-Hand Man`,
+    modes: {retrocape: ["heck", "thrill"]},
   }),
 };
 
@@ -106,6 +108,7 @@ const Moxie: CSQuest = {
   outfit: () => ({
     modifier: ["Moxie", "Moxie Percent"].join(","),
     familiar: $familiar`Left-Hand Man`,
+    modes: {retrocape: ["robot", "thrill"]},
   }),
   tasks: [
     ...skillBuffTasks("MOXIE"),
