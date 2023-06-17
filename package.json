@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "grimoire-kolmafia": "^0.3.13",
-    "kolmafia": "^5.27346.0",
+    "kolmafia": "^5.27402.0",
     "libram": "^0.7.18"
   },
   "devDependencies": {

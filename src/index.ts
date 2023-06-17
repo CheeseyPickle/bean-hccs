@@ -2,6 +2,7 @@ import {
   abort,
   autosell,
   availableAmount,
+  buy,
   cliExecute,
   equip,
   equippedItem,
@@ -18,6 +19,7 @@ import {
   visitUrl,
 } from "kolmafia";
 import {
+  $coinmaster,
   $effect,
   $familiar,
   $item,
@@ -128,6 +130,12 @@ function setup() {
   // Numberology 14 & Sell
   cliExecute("numberology 14");
   autosell(14, $item`moxie weed`);
+
+  // Buy things from 2002 Mr. Store
+  // eslint-disable-next-line libram/verify-constants
+  use($item`2002 Mr. Store Catalog`);
+  // eslint-disable-next-line libram/verify-constants
+  buy($coinmaster`Mr. Store 2002`, 1, $item`Charter: Nellyville`);
 
   if (getCampground()[$item`model train set`.name] !== 1) {
     use(toItem(`model train set`));

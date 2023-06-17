@@ -130,6 +130,15 @@ const Level: CSQuest = {
     },
     skillTask($skill`Inscrutable Gaze`),
     {
+      name: "Go to Nellyville",
+      // eslint-disable-next-line libram/verify-constants
+      ready: () => have($item`Charter: Nellyville`),
+      // eslint-disable-next-line libram/verify-constants
+      completed: () => have($effect`Hot in Herre`),
+      // eslint-disable-next-line libram/verify-constants
+      do: () => use(1, $item`Charter: Nellyville`)
+    },
+    {
       name: "April Shower",
       completed: () => get("_aprilShower"),
       do: () => cliExecute("shower lukewarm"),
