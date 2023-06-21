@@ -387,11 +387,7 @@ const Level: CSQuest = {
             },
           });
         else
-          return levelUniform({
-            changes: {
-              back: $item`vampyric cloake`,
-            },
-          });
+          return levelUniform();
       },
       combat: new CSStrategy(() =>
         Macro.trySkill($skill`Entangling Noodles`)
@@ -402,7 +398,7 @@ const Level: CSQuest = {
             )
           )
           .externalIf(
-            haveEffect($effect`Wolfish Form`) < 2,
+            haveEffect($effect`Wolfish Form`) < 1,
             Macro.trySkill($skill`Become a Wolf`)
           )
           .default(true)
