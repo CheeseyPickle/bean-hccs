@@ -315,9 +315,9 @@ const Level: CSQuest = {
         if (
           numericModifier(loveEffect, "mysticality") >= 0 &&
           numericModifier(loveEffect, "muscle") >= 0 &&
-          numericModifier(loveEffect, "moxie") >= 0 &&
-          numericModifier(loveEffect, "maximum hp percent") > -0.001 &&
-          numericModifier(loveEffect, "maximum mp percent") > -0.001
+          numericModifier(loveEffect, "moxie") >= -50 &&
+          numericModifier(loveEffect, "maximum hp percent") > -5 &&
+          numericModifier(loveEffect, "maximum mp percent") > -15
         ) {
           use(1, lovePotion);
         }
