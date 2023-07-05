@@ -131,11 +131,8 @@ const Level: CSQuest = {
     skillTask($skill`Inscrutable Gaze`),
     {
       name: "Go to Nellyville",
-      // eslint-disable-next-line libram/verify-constants
       ready: () => have($item`Charter: Nellyville`),
-      // eslint-disable-next-line libram/verify-constants
       completed: () => have($effect`Hot in Herre`),
-      // eslint-disable-next-line libram/verify-constants
       do: () => use(1, $item`Charter: Nellyville`)
     },
     {
@@ -176,19 +173,6 @@ const Level: CSQuest = {
     ...$items`votive of confidence, natural magick candle, gummi snake`.map(
       potionTask
     ),
-    {
-      name: "Get FR Hat",
-      ready: () => get("_frHoursLeft") === "",
-      completed: () => have($item`FantasyRealm Rogue's Mask`),
-      do: () => create(1, $item`FantasyRealm Rogue's Mask`),
-    },
-    {
-      name: "Hatter: Patched In",
-      ready: () =>
-        !get("_madTeaParty") && have($item`FantasyRealm Rogue's Mask`),
-      completed: () => get("_madTeaParty"),
-      do: () => cliExecute("hatter FantasyRealm Rogue's Mask"),
-    },
     {
       name: "Lantern Battery",
       ready: () => myMaxmp() - myMp() >= 70,
