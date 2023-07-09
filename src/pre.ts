@@ -58,7 +58,7 @@ const season = get("currentPVPSeason");
 const PVP_STANCE: { [key: string]: string } = {
   bear: "Maul Power",
   pirate: "Karmic Battle",
-  average: "Karmic Battle",
+  average: "Letter of the Moment",
   glitch: "Installation Wizard",
   numeric: "Back to Square One",
   ice: "A Nice Cold One",

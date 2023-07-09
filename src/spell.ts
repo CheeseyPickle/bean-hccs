@@ -13,7 +13,7 @@ import {
   have,
 } from "libram";
 
-const buffs = $effects`Carol of the Hells`;
+const buffs = $effects`Carol of the Hells, Arched Eyebrow of the Archmage`;
 // const chefstaves = $items`Staff of the Roaring Hearth, Staff of Kitchen Royalty, Staff of the Deepest Freeze, Staff of Frozen Lard, Staff of the Peppermint Twist, Staff of the Roaring Hearth`;
 
 const Spell: CSQuest = {
