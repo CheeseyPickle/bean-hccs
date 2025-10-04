@@ -1,5 +1,5 @@
 import { abort, getPermedSkills, print, pvpAttacksLeft, Skill } from "kolmafia";
-import { ascend, $path, $class, Lifestyle, $item, have } from "libram";
+import { ascend, $path, $class, Lifestyle, $item, have, KolGender } from "libram";
 
 function createPermOptions(): {
   permSkills: Map<Skill, Lifestyle>;
@@ -24,16 +24,17 @@ if (pvpAttacksLeft() > 0) {
   print("Run hccs_pre first, dingus.", "red");
   abort();
 } else {
-  ascend(
-    $path`Community Service`,
-    $class`Pastamancer`,
-    Lifestyle.normal,
-    "wallaby",
-    $item`astral six-pack`,
-    $item`astral belt`,
-    {
+  ascend({
+    path: $path`Community Service`,
+    playerClass: $class`Pastamancer`,
+    lifestyle: Lifestyle.normal,
+    kolGender: KolGender.male,
+    moon: "wallaby",
+    consumable: $item`astral six-pack`,
+    pet: $item`astral belt`,
+    permOptions: {
       permSkills: new Map<Skill, Lifestyle>(), // Figure out what skills I want to perm later
       neverAbort: false,
-    }
+    }}
   );
 }
