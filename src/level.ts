@@ -256,7 +256,7 @@ const Level: CSQuest = {
     },
     {
       name: "NEP Myst boost",
-      ready: () => get("_spikolodonSpikeUses") === 1,
+      ready: () => get("noncombatForcerActive"),
       completed: () => have($effect`Tomes of Opportunity`),
       do: $location`The Neverending Party`,
       choices: { 1324: 1, 1325: 2 },
