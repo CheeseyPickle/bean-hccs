@@ -40,6 +40,7 @@ import {
   takeShop,
   toEffect,
   toInt,
+  toItem,
   toString as toStringAsh,
   totalTurnsPlayed,
   toUrl,
@@ -403,7 +404,7 @@ export function getBestFamiliar(): Familiar {
 }
 
 export function useBestFamiliar(): void {
-  useFamiliar($familiar`Shorter-Order Cook`);
+  useFamiliar(getBestFamiliar());
 }
 
 export function mapMacro(
@@ -609,4 +610,8 @@ export function hasNcBird(): boolean {
   return get("yourFavoriteBirdMods")
     .split(",")
     .some((mod) => mod.includes("Combat Rate: -"));
+}
+
+export function hasLoathingIdolCharge() : boolean {
+  return have(toItem(11263)) || have(toItem(11277)) || have(toItem(11278)) || have(toItem(11279));
 }
