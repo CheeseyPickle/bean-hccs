@@ -73,6 +73,7 @@ let noError = true;
 
 if (pvpAttacksLeft() > 0) {
   visitUrl("peevpee.php?action=smashstone&confirm=on");
+  cliExecute("breakfast"); // Uses punching mirror, and potentially more in the future
   noError = cliExecute("uberpvpoptimizer");
   noError = noError && cliExecute(`pvp ${getTarget()} ${PVP_STANCE[season]}`);
 }
