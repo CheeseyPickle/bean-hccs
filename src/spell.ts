@@ -1,7 +1,7 @@
 import { potionTask, restore, skillTask, songTask } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
-import { cliExecute, create, myMeat, use } from "kolmafia";
+import { cliExecute, create, myMeat, use, useSkill } from "kolmafia";
 import {
   $effect,
   $effects,
@@ -33,7 +33,16 @@ const Spell: CSQuest = {
     };
   },
   tasks: [
-    skillTask($skill`Simmer`),
+    {
+      name: "April Shower Thoughts: Simmer",
+      completed: () => have($effect`Simmering`),
+      ready: () => !get("_aprilShowerSimmer"),
+      do: () => useSkill($skill`Simmer`),
+      outfit: () => ({
+        offhand: $item`April Shower Thoughts shield`,
+      }),
+    },
+    skillTask($skill`Simmer`), // In case April Shower fails
     ...buffs.map(skillTask),
     songTask(
       $effect`Jackasses' Symphony of Destruction`,
