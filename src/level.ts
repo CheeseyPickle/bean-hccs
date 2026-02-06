@@ -56,7 +56,11 @@ const famWeightSkills = $skills`Blood Bond, Leash of Linguini, Empathy of the Ne
 
 const coldResSkills = $skills`Feel Peaceful, Elemental Saucesphere, Scarysauce, Astral Shell`;
 
-const buffSkills = $skills`Advanced Saucecrafting, Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Blessing of She-Who-Was, Manicotti Meditation, Blood Bubble, Carol of the Hells, Sauce Monocle, Ghostly Shell, Singer's Faithful Ocelot, Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise, Pride of the Puffin, Carol of the Thrills`;
+const expSkills = $skills`Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise, Pride of the Puffin, Carol of the Thrills`;
+
+const otherBuffs = $skills`Blood Bubble, Carol of the Hells, Sauce Monocle, Ghostly Shell, Singer's Faithful Ocelot`;
+
+const mystBuffs = $skills`Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Blessing of She-Who-Was, BCZ: Dial it up to 11`;
 
 const CastSkills = (skillz: Skill[]): Task[] =>
   skillz.map((s) => ({
@@ -204,7 +208,7 @@ const Level: CSQuest = {
     ...CastSkills(coldResSkills),
     ...CastSkills(famWeightSkills),
     aprilShieldTask($skill`Empathy of the Newt`),
-    ...CastSkills(buffSkills),
+    ...CastSkills(mystBuffs),
     aprilShieldTask($skill`Manicotti Meditation`),
     aprilShieldTask($skill`Moxie of the Mariachi`),
     // This doesn't seem to work out of CastSkills, for some reason
@@ -230,6 +234,7 @@ const Level: CSQuest = {
     },
     beachTask($effect`You Learned Something Maybe!`),
     beachTask($effect`We're All Made of Starfish`),
+    ...CastSkills($skills`Advanced Saucecrafting`),
     {
       name: "Make & Use Ointment",
       completed: () => have($effect`Mystically Oiled`),
@@ -305,6 +310,8 @@ const Level: CSQuest = {
         familiar: $familiar`Cooler Yeti`,
       }),
     },
+    ...CastSkills(expSkills),
+    ...CastSkills(otherBuffs),
     {
       name: "Get Love Potion",
       completed: () => $skill`Love Mixology`.timescast > 0,
