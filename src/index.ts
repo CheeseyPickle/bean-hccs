@@ -223,6 +223,9 @@ function doDailies() {
 
   AprilingBandHelmet.conduct("Apriling Band Celebration Bop");
 
+  MayamCalendar.submit("vessel", "yam2", "cheese", "explosion");
+  MayamCalendar.submit("yam1", "bottle", "wall", "clock");
+
   cliExecute(
     "pantogram mysticality|spooky|nail clippings|some self-respect|your hopes|silent"
   );

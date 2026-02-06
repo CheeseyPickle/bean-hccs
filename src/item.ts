@@ -71,6 +71,12 @@ const ItemDrop: CSQuest = {
       limit: { tries: 1 },
     },
     {
+      name: "Mayam Calendar Eyes",
+      ready: () => MayamCalendar.available("yam4"),
+      completed: () => !MayamCalendar.available("yam4"),
+      do: () => MayamCalendar.submit("eye", "meat", "yam3", "yam4"),
+    },
+    {
       name: "Get Sparkler",
       ready: () => !get("_fireworksShopEquipmentBought"),
       completed: () => availableAmount($item`oversized sparkler`) > 0,
