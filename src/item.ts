@@ -21,7 +21,7 @@ import {
   MayamCalendar,
 } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
-import { skillTask, potionTask, songTask, monkeyWishTask } from "./commons";
+import { skillTask, potionTask, songTask, monkeyWishTask, aprilShieldTask } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
 import { uniform } from "./outfit";
@@ -92,8 +92,10 @@ const ItemDrop: CSQuest = {
       $effect`Fat Leon's Phat Loot Lyric`,
       $effect`The Magical Mojomuscular Melody`
     ),
+    skillTask($skill`Who's Going to Pay This Drunken Sailor?`),
     skillTask($skill`Feel Lost`),
     skillTask($skill`Steely-Eyed Squint`),
+    aprilShieldTask($skill`Sauce Contemplation`),
   ],
   outfit: (): OutfitSpec => {
     if (!have($item`wad of used tape`)) cliExecute("fold wad of used tape");

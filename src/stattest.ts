@@ -1,4 +1,4 @@
-import { beachTask, potionTask, restore, skillTask, songTask } from "./commons";
+import { aprilShieldTask, beachTask, potionTask, restore, skillTask, songTask } from "./commons";
 import { CSQuest } from "./engine";
 import { buy, create, use } from "kolmafia";
 import {
@@ -7,6 +7,7 @@ import {
   $familiar,
   $item,
   $items,
+  $skill,
   CommunityService,
   have,
 } from "libram";
@@ -65,6 +66,8 @@ const Muscle: CSQuest = {
       limit: { tries: 1 },
     },
     ...skillBuffTasks("MUSCLE"),
+    aprilShieldTask($skill`Patience of the Tortoise`),
+    aprilShieldTask($skill`Disco Aerobics`),
     {
       name: "Go Get 'Em, Tiger!",
       completed: () => have($effect`Go Get 'Em, Tiger!`),
@@ -90,6 +93,8 @@ const Mysticality: CSQuest = {
       $effect`Ur-Kel's Aria of Annoyance`
     ),
     ...skillBuffTasks("MYSTICALITY"),
+    aprilShieldTask($skill`Manicotti Meditation`),
+    aprilShieldTask($skill`Moxie of the Mariachi`),
   ],
   outfit: () => ({
     modifier: ["Mysticality", "Mysticality Percent"].join(","),
@@ -112,6 +117,8 @@ const Moxie: CSQuest = {
   }),
   tasks: [
     ...skillBuffTasks("MOXIE"),
+    aprilShieldTask($skill`Seal Clubbing Frenzy`),
+    aprilShieldTask($skill`Sauce Contemplation`),
     ...$items`runproof mascara`.map(potionTask),
     potionTask($item`pocket maze`),
     beachTask($effect`Pomp & Circumsands`),
