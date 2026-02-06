@@ -8,6 +8,7 @@ import {
   equippedItem,
   getCampground,
   haveEffect,
+  myAdventures,
   myLevel,
   myMp,
   runChoice,
@@ -68,12 +69,13 @@ function doGuaranteedGoblin() {
   // kill a kramco for the sausage before coiling wire
   if (!haveEffect($effect`Feeling Lost`) && sausageFightGuaranteed()) {
     ensureMp(12);
-    useBestFamiliar();
     equipStatOutfit();
+    useBestFamiliar();
     const offHand = equippedItem($slot`off-hand`);
     equip($item`Kramco Sausage-o-Matic™`);
     if (myMp() < 20) {
-      cliExecute("rest free");
+      equip($item`bat wings`);
+      useSkill($skill`Rest upside down`);
     }
     adventureMacro(
       $location`Noob Cave`,
@@ -137,6 +139,7 @@ function setup() {
   // Buy things from 2002 Mr. Store
   use($item`2002 Mr. Store Catalog`);
   buy($coinmaster`Mr. Store 2002`, 1, $item`Charter: Nellyville`);
+  // buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
 
   if (getCampground()[$item`model train set`.name] !== 1) {
     use(toItem(`model train set`));
@@ -158,16 +161,6 @@ function setup() {
 
   setChoice(1340, 3); // Turn off Lil' Doctor quests.
   setChoice(1387, 3); // set saber to drop items
-
-  // pull and use borrowed time
-  if (
-    availableAmount($item`borrowed time`) === 0 &&
-    !get("_borrowedTimeUsed")
-  ) {
-    pullIfPossible(1, $item`borrowed time`, 40000);
-    if (!have($item`borrowed time`)) abort("Couldn't get borrowed time");
-    use($item`borrowed time`);
-  }
 
   // unlock shops
   visitUrl("shop.php?whichshop=meatsmith&action=talk");
@@ -276,6 +269,20 @@ function getSkellyFruits() {
   }
 }
 
+function get20MoreAdventures() {
+  if (myAdventures() >= 60) return;
+
+  // pull and use borrowed time
+  if (
+    availableAmount($item`borrowed time`) === 0 &&
+    !get("_borrowedTimeUsed")
+  ) {
+    pullIfPossible(1, $item`borrowed time`, 40000);
+    if (!have($item`borrowed time`)) abort("Couldn't get borrowed time");
+    use($item`borrowed time`);
+  }
+}
+
 export function main(): void {
   setAutoAttack(0);
   doDailies();
@@ -284,6 +291,7 @@ export function main(): void {
     setup();
     doGuaranteedGoblin();
     getSkellyFruits();
+    get20MoreAdventures();
   }, 60);
   if (coilWireStatus === "failed") {
     abort(`Didn't coil wire.`);
