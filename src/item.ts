@@ -18,6 +18,7 @@ import {
   CommunityService,
   get,
   have,
+  MayamCalendar,
 } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import { skillTask, potionTask, songTask, monkeyWishTask } from "./commons";
