@@ -1,7 +1,10 @@
 import { songTask } from "./commons";
 import { CSQuest } from "./engine";
-import { drink, use } from "kolmafia";
-import { $effect, $item, have } from "libram";
+import { drink, monkeyPaw, use } from "kolmafia";
+import { $effect, $item, get, have } from "libram";
+
+// Tests after are fam weight, hot res, weapon and spell
+const RESERVED_WISHES = 0;
 
 const Drink: CSQuest = {
   name: "Drink Pilsners",
@@ -15,6 +18,12 @@ const Drink: CSQuest = {
       do: () => use($item`astral six-pack`),
     },
     songTask($effect`Ode to Booze`, $effect`The Magical Mojomuscular Melody`),
+    {
+      name: "Wish for Salty Mouth",
+      ready: () => get("_monkeyPawWishesUsed") + RESERVED_WISHES < 5 && have($item`astral pilsner`),
+      completed: () => have($effect`Salty Mouth`),
+      do: () => monkeyPaw($effect`Salty Mouth`),
+    },
     {
       name: "Drink Pilsners",
       ready: () => have($item`astral pilsner`),
