@@ -239,7 +239,7 @@ function doDailies() {
   MayamCalendar.submit("yam1", "bottle", "wall", "clock");
 
   cliExecute(
-    "pantogram mysticality|spooky|nail clippings|some self-respect|your hopes|silent"
+    "pantogram mysticality|cold|nail clippings|some self-respect|your hopes|silent"
   );
 }
 
