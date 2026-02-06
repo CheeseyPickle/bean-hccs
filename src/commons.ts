@@ -7,7 +7,6 @@ import {
   myMp,
   mpCost,
   useSkill,
-  getProperty,
   effectModifier,
   Item,
   use,
@@ -47,6 +46,37 @@ export function skillTask(x: Skill | Effect): Task {
       completed: () => have(effect),
       ready: () => myMp() >= mpCost(skill),
       do: () => useSkill(skill),
+      outfit: () => ({
+        // Ensure that April Shower Thoughts shield isn't somehow equipped
+        familiar: $familiar`Cooler Yeti`,
+        offhand: $item`unbreakable umbrella`,
+      }),
+    };
+  }
+}
+
+export function aprilShieldTask(x: Skill): Task {
+    {
+    const APRIL_SHIELD_SKILL_TO_EFFECT: Record<number, Effect> = {
+      1000: $effect`Slippery as a Seal`,
+      2000: $effect`Strength of the Tortoise`,
+      3000: $effect`Tubes of Universal Meat`,
+      4000: $effect`Lubricating Sauce`,
+      5000: $effect`Disco over Matter`,
+      6000: $effect`Mariachi Moisture`,
+      2009: $effect`Thoughtful Empathy`,
+      3010: $effect`Leash of Linguini`,
+    };
+    if (APRIL_SHIELD_SKILL_TO_EFFECT[x.id] === undefined)
+      throw `Casting ${x.name} with the shower thoughts shield doesn't do anything`;
+    return {
+      name: "April Shower Thoughts Shield: " + x.name,
+      completed: () => have(APRIL_SHIELD_SKILL_TO_EFFECT[x.id]),
+      ready: () => myMp() >= mpCost(x),
+      do: () => useSkill(x),
+      outfit: () => ({
+        offhand: $item`April Shower Thoughts shield`,
+      }),
     };
   }
 }
@@ -56,7 +86,7 @@ export function beachTask(effect: Effect): Task {
   return {
     name: `Beach Head: ${effect}`,
     completed: () =>
-      getProperty("_beachHeadsUsed").split(",").includes(num.toFixed(0)),
+      get("_beachHeadsUsed").split(",").includes(num.toFixed(0)),
     ready: () =>
       get("_freeBeachWalksUsed") < 11 &&
       get("beachHeadsUnlocked").split(",").includes(num.toFixed(0)),
@@ -200,8 +230,10 @@ export function doYouCrush(): Task {
 }
 
 export function commonFamiliarWeightBuffs(): Task[] {
-  const buffs = $effects`Leash of Linguini, Empathy, Blood Bond`;
+  const buffs = $effects`Leash of Linguini, Empathy, Blood Bond, Only Dogs Love a Drunken Sailor`;
   return [
+    aprilShieldTask($skill`Empathy of the Newt`),
+    aprilShieldTask($skill`Leash of Linguini`),
     ...buffs.map(skillTask),
     restore(buffs),
     // {

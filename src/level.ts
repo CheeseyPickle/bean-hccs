@@ -1,5 +1,5 @@
 import { CSStrategy, Macro } from "./combatMacros";
-import { beachTask, potionTask, skillTask, monkeyWishTask } from "./commons";
+import { aprilShieldTask, beachTask, potionTask, skillTask } from "./commons";
 import { CSQuest } from "./engine";
 import { levelUniform, uniform } from "./outfit";
 import { OutfitSpec, Task } from "grimoire-kolmafia";
@@ -28,6 +28,7 @@ import {
 } from "kolmafia";
 import {
   $effect,
+  $familiar,
   $item,
   $items,
   $location,
@@ -36,7 +37,6 @@ import {
   $skills,
   $stat,
   AutumnAton,
-  ensureEffect,
   get,
   have,
   TrainSet,
@@ -52,7 +52,11 @@ const foldshirt = (): void => {
     cliExecute("fold makeshift garbage shirt");
 };
 
-const buffSkills = $skills`Advanced Saucecrafting, Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Blessing of She-Who-Was, Manicotti Meditation, Blood Bubble, Carol of the Hells, Sauce Monocle, Feel Peaceful, Elemental Saucesphere, Astral Shell, Ghostly Shell, Singer's Faithful Ocelot, Blood Bond, Leash of Linguini, Empathy of the Newt, Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise, Pride of the Puffin, Carol of the Thrills`;
+const famWeightSkills = $skills`Blood Bond, Leash of Linguini, Empathy of the Newt, Only Dogs Love a Drunken Sailor`;
+
+const coldResSkills = $skills`Feel Peaceful, Elemental Saucesphere, Scarysauce, Astral Shell`;
+
+const buffSkills = $skills`Advanced Saucecrafting, Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Blessing of She-Who-Was, Manicotti Meditation, Blood Bubble, Carol of the Hells, Sauce Monocle, Ghostly Shell, Singer's Faithful Ocelot, Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise, Pride of the Puffin, Carol of the Thrills`;
 
 const CastSkills = (skillz: Skill[]): Task[] =>
   skillz.map((s) => ({
@@ -70,6 +74,8 @@ const CastSkills = (skillz: Skill[]): Task[] =>
           changes: {
             offhand: $item`Abracandalabra`,
             pants: $item`Cargo Cultist Shorts`,
+            familiar: $familiar`Left-Hand Man`,
+            famequip: $item`unbreakable umbrella`,
           },
         }),
     }));
@@ -97,6 +103,7 @@ const Level: CSQuest = {
       do: (): void => {
         // Base configuration of trainset
         const baseTrainConfig = [
+          TrainSet.Station.TOWER_SEWAGE,
           TrainSet.Station.COAL_HOPPER,
           TrainSet.Station.BRAIN_SILO,
           TrainSet.Station.WATER_BRIDGE,
@@ -104,7 +111,6 @@ const Level: CSQuest = {
           TrainSet.Station.GAIN_MEAT,
           TrainSet.Station.GRAIN_SILO,
           TrainSet.Station.CANDY_FACTORY,
-          TrainSet.Station.ORE_HOPPER,
         ];
 
         // Rotate configuration due to turns spent before
@@ -123,7 +129,7 @@ const Level: CSQuest = {
       completed: () => !!get("_campAwayCloudBuffs"),
       do: () => visitUrl("place.php?whichplace=campaway&action=campaway_sky"),
     },
-    monkeyWishTask($effect`Different Way of Seeing Things`),
+    // monkeyWishTask($effect`Different Way of Seeing Things`),
     {
       name: "abstraction: category",
       completed: () => have($effect`Category`),
@@ -146,7 +152,7 @@ const Level: CSQuest = {
       completed: () => get("_daycareGymScavenges") > 0,
       do: () => cliExecute("daycare scavenge free"),
     },
-    monkeyWishTask($effect`A Contender`),
+    // monkeyWishTask($effect`A Contender`),
     {
       name: "Boxing Daybuff",
       completed: () => get("_daycareSpa"),
@@ -195,7 +201,12 @@ const Level: CSQuest = {
           },
         }),
     },
+    ...CastSkills(coldResSkills),
+    ...CastSkills(famWeightSkills),
+    aprilShieldTask($skill`Empathy of the Newt`),
     ...CastSkills(buffSkills),
+    aprilShieldTask($skill`Manicotti Meditation`),
+    aprilShieldTask($skill`Moxie of the Mariachi`),
     // This doesn't seem to work out of CastSkills, for some reason
     skillTask($effect`Feeling Excited`),
     {
@@ -286,16 +297,13 @@ const Level: CSQuest = {
       do: () => cliExecute("bastille myst brutalist gesture"),
     },
     {
-      name: "Bran Muffin",
-      ready: () => have($effect`Ready to Eat`) && have($item`bran muffin`),
-      completed: () => have($effect`All Branned Up`),
-      do: () => eat(1, $item`bran muffin`),
-    },
-    {
-      name: "Order Bran Muffin",
-      ready: () => have($item`earthenware muffin tin`),
-      completed: () => get("_muffinOrderedToday"),
-      do: () => cliExecute("muffin order bran"),
+      name: "Mouthwash",
+      completed: () => !have($item`Mmm-brr! brand mouthwash`),
+      do: () => use(1, $item`Mmm-brr! brand mouthwash`),
+      outfit: () => ({
+        modifier: "cold resistance -tie",
+        familiar: $familiar`Cooler Yeti`,
+      }),
     },
     {
       name: "Get Love Potion",
@@ -331,30 +339,6 @@ const Level: CSQuest = {
       name: "Lapdog",
       completed: () => get("_olympicSwimmingPool"),
       do: () => cliExecute("swim ml"),
-    },
-    {
-      name: "Peppermint Twist",
-      completed: () => have($effect`Peppermint Twisted`),
-      do: (): void => {
-        create(1, $item`peppermint twist`);
-        use(1, $item`peppermint twist`);
-      },
-    },
-    // {
-    //   name: "Eat Fire Crackers",
-    //   completed: () => have($effect`Fire cracked`),
-    //   do: (): void => {
-    //     ensureItem(1, $item`fire crackers`);
-    //     eat(1, $item`fire crackers`);
-    //   },
-    // },
-    {
-      name: "Drink Bee's Knees",
-      completed: () => have($effect`On the Trolley`),
-      do: (): void => {
-        ensureEffect($effect`Ode to Booze`);
-        cliExecute("drink 1 Bee's Knees");
-      },
     },
     {
       name: "Fold Shirt",
