@@ -195,12 +195,6 @@ const Level: CSQuest = {
           },
         }),
     },
-    {
-      name: "Rest Free Restore MP!",
-      ready: () => get("timesRested") < totalFreeRests() && myMp() < 80,
-      completed: () => myMp() >= 80,
-      do: () => cliExecute("rest free"),
-    },
     ...CastSkills(buffSkills),
     // This doesn't seem to work out of CastSkills, for some reason
     skillTask($effect`Feeling Excited`),
@@ -216,6 +210,12 @@ const Level: CSQuest = {
             modifier: "Maximum MP",
           },
         }),
+    },
+    {
+      name: "Rest Free Restore MP!",
+      ready: () => get("timesRested") < totalFreeRests() && myMp() < 80,
+      completed: () => myMp() >= 80,
+      do: () => cliExecute("rest free"),
     },
     beachTask($effect`You Learned Something Maybe!`),
     beachTask($effect`We're All Made of Starfish`),
