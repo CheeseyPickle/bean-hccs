@@ -210,6 +210,10 @@ function doDailies() {
     Clan.join("Redemption City");
   }
 
+  if (!have($item`McHugeLarge left ski`)) {
+    visitUrl("inventory.php?action=skiduffel&pwd");
+  }
+
   getBatteries();
 
   cliExecute("garden pick"); // Should be peppermint
