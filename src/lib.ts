@@ -396,7 +396,9 @@ export function multiFightAutoAttack(): void {
 }
 
 export function getBestFamiliar(): Familiar {
-  if (![$effect`Shortly Stacked`, $item`short stack of pancakes`].some((x) => have(x))
+  if (!have($item`overloaded Yule battery`) && !CommunityService.FamiliarWeight.isDone()) {
+    return $familiar`Mini-Trainbot`;
+  } else if (![$effect`Shortly Stacked`, $item`short stack of pancakes`].some((x) => have(x))
     && !CommunityService.FamiliarWeight.isDone()) {
     return $familiar`Shorter-Order Cook`;
   } else {
@@ -406,6 +408,11 @@ export function getBestFamiliar(): Familiar {
 
 export function useBestFamiliar(): void {
   useFamiliar(getBestFamiliar());
+  if (getBestFamiliar() === $familiar`Mini-Trainbot`) {
+    equip($item`toy Cupid bow`, $slot`familiar`);
+  } else {
+    equip($item`tiny stillsuit`, $slot`familiar`);
+  }
 }
 
 export function mapMacro(
