@@ -211,6 +211,14 @@ function doDailies() {
     Clan.join("Redemption City");
   }
 
+  if (get("_photoBoothEquipment") < 3) {
+    Clan.join("Bonus Adventures from Hell");
+    cliExecute("make Sheriff pistol");
+    cliExecute("make Sheriff moustache");
+    cliExecute("make Sheriff badge");
+    Clan.join("Redemption City");
+  }
+
   if (!have($item`McHugeLarge left ski`)) {
     visitUrl("inventory.php?action=skiduffel&pwd");
   }
