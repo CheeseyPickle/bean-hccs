@@ -50,6 +50,7 @@ import {
   ensureItem,
   ensureMp,
   ensureSewerItem,
+  peridotMacro,
   pullIfPossible,
   sausageFightGuaranteed,
   setChoice,
@@ -237,28 +238,21 @@ function getSkellyFruits() {
     ["100 mysticality experience percent, mysticality experience"],
     {
       forceEquip: [
-        $item`Lil' Doctor™ bag`,
+        $item`Peridot of Peril`,
         $item`latte lovers member's mug`,
         $item`Jurassic Parka`,
       ],
-      preventEquip: [$item`Daylight Shavings Helmet`],
+      preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
     }
   ).maximize();
 
   cliExecute("parka acid");
 
   while (!have($item`cherry`)) {
-    adventureMacro(
+    peridotMacro(
       $location`The Skeleton Store`,
+      $monster`novelty tropical skeleton`,
       Macro.trySkill($skill`Gulp Latte`)
-        .tryItem($item`red rocket`)
-        .if_(
-          `!monsterid ${$monster`novelty tropical skeleton`.id}`,
-          new Macro()
-            .trySkill($skill`Throw Latte on Opponent`)
-            .trySkill($skill`Reflex Hammer`)
-            .trySkill($skill`Feel Hatred`)
-        )
         .step(Macro.skill($skill`Spit jurassic acid`))
     );
   }

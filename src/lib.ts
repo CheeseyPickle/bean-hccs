@@ -64,6 +64,7 @@ import {
   have,
   Macro,
   set,
+  PeridotOfPeril,
 } from "libram";
 
 const FUDGE = $item`Crimbo fudge`;
@@ -420,6 +421,28 @@ export function mapMacro(
     while (get("mappingMonsters")) {
       visitUrl(toUrl(location));
       runChoice(1, `heyscriptswhatsupwinkwink=${monster.id}`);
+      runCombat(macro.toString());
+    }
+  }
+}
+
+export function peridotMacro(
+  location: Location,
+  monster: Monster,
+  macro: Macro
+): void {
+  macro.setAutoAttack();
+  // Potentially figure out how codpiece works
+  if (!PeridotOfPeril.canImperil(location))
+    throw`You can't use Peridot in this location!`;
+  else if (equippedAmount($item`Peridot of Peril`) == 0)
+    throw `You don't have Peridot equipped!`;
+  else if (PeridotOfPeril.zonesToday().includes(location))
+    throw `You've already periled here today!`;
+  else {
+    while (!PeridotOfPeril.zonesToday().includes(location)) {
+      visitUrl(toUrl(location));
+      runChoice(1, `bandersnatch=${monster.id}`);
       runCombat(macro.toString());
     }
   }
