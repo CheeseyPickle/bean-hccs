@@ -16,6 +16,7 @@ import {
   $item,
   $skill,
   $slot,
+  AprilingBandHelmet,
   CommunityService,
   ensureEffect,
   get,
@@ -47,9 +48,16 @@ const Noncombat: CSQuest = {
       ready:() => AprilingBandHelmet.canChangeSong(),
       do: () => AprilingBandHelmet.conduct("Apriling Band Patrol Beat"),
     },
+    {
+      name: "Clan Photo Booth Effect",
+      completed: () => have($effect`Wild and Westy!`),
+      ready: () => get("_photoBoothEffects") < 3,
+      do: () => cliExecute("photobooth effect wild"),
+    },
     ...commonFamiliarWeightBuffs(),
     skillTask($effect`Smooth Movements`),
     skillTask($effect`Feeling Lonely`),
+    skillTask($effect`Hiding From Seekers`),
     songTask(
       $effect`The Sonata of Sneakiness`,
       $effect`Fat Leon's Phat Loot Lyric`
