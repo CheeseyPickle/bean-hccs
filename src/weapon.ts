@@ -78,7 +78,7 @@ const Weapon: CSQuest = {
     beachTask($effect`Lack of Body-Building`),
     famPool(),
     {
-      name: "Kill Ungulith",
+      name: "Steal from Ungulith and Run Away",
       completed: () =>
         have($item`corrupted marrow`) || have($effect`Cowrruption`),
       do: (): void => {
@@ -88,8 +88,8 @@ const Weapon: CSQuest = {
       outfit: () =>
         uniform({
           changes: {
-            shirt: $item`Jurassic Parka`,
-            modes: { parka: "dilophosaur" },
+            back: $item`bat wings`,
+            offhand: $item`Roman Candelabra`,
           },
         }),
       post: (): void => {
@@ -104,8 +104,9 @@ const Weapon: CSQuest = {
         }
       },
       combat: new CSStrategy(() =>
-        Macro.trySkill($skill`Sing Along`)
-          .trySkill($skill`Spit jurassic acid`)
+        Macro.trySkill($skill`Swoop like a Bat`)
+          .trySkill($skill`Blow the Green Candle!`)
+          .trySkill($skill`Feel Hatred`)
           .kill()
       ),
     },
