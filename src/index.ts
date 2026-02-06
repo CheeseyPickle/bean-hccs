@@ -28,6 +28,7 @@ import {
   $skill,
   $slot,
   adventureMacro,
+  AprilingBandHelmet,
   AutumnAton,
   Clan,
   CommunityService,
@@ -219,6 +220,8 @@ function doDailies() {
 
   // Upgrade saber for fam wt
   cliExecute("saber fam");
+
+  AprilingBandHelmet.conduct("Apriling Band Celebration Bop");
 
   cliExecute(
     "pantogram mysticality|spooky|nail clippings|some self-respect|your hopes|silent"

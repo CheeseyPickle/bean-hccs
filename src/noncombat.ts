@@ -41,6 +41,12 @@ const Noncombat: CSQuest = {
       ready: () => !get("_fireworksShopHatBought"),
       do: () => retrieveItem(1, $item`porkpie-mounted popper`),
     },
+    {
+      name: "Apriling Band Intrinsic",
+      completed: () => have($effect`Apriling Band Patrol Beat`),
+      ready:() => AprilingBandHelmet.canChangeSong(),
+      do: () => AprilingBandHelmet.conduct("Apriling Band Patrol Beat"),
+    },
     ...commonFamiliarWeightBuffs(),
     skillTask($effect`Smooth Movements`),
     skillTask($effect`Feeling Lonely`),
