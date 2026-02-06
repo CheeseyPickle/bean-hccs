@@ -21,7 +21,7 @@ export class Macro extends LibramMacro {
     }
 
     static itemSkills(): Macro {
-        return new Macro().delevel();
+        return new Macro().itemSkills();
     }
 
     easyFight(): Macro {
