@@ -2,7 +2,7 @@ import { CSStrategy, Macro } from "./combatMacros";
 import { beachTask, potionTask, skillTask, monkeyWishTask } from "./commons";
 import { CSQuest } from "./engine";
 import { levelUniform, uniform } from "./outfit";
-import { OutfitSpec } from "grimoire-kolmafia";
+import { OutfitSpec, Task } from "grimoire-kolmafia";
 import {
   buy,
   chew,
@@ -19,6 +19,7 @@ import {
   myMp,
   numericModifier,
   runChoice,
+  Skill,
   toEffect,
   totalFreeRests,
   use,
@@ -51,10 +52,10 @@ const foldshirt = (): void => {
     cliExecute("fold makeshift garbage shirt");
 };
 
-const CastSkills =
-  // Ordered +myst buffs, survivability buffs, then +ml/stats
-  $skills`Advanced Saucecrafting, Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Blessing of She-Who-Was, Manicotti Meditation, Blood Bubble, Carol of the Hells, Sauce Monocle, Feel Peaceful, Elemental Saucesphere, Astral Shell, Ghostly Shell, Singer's Faithful Ocelot, Blood Bond, Leash of Linguini, Empathy of the Newt, Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise, Pride of the Puffin, Carol of the Thrills`
-    .map((s) => ({
+const buffSkills = $skills`Advanced Saucecrafting, Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Blessing of She-Who-Was, Manicotti Meditation, Blood Bubble, Carol of the Hells, Sauce Monocle, Feel Peaceful, Elemental Saucesphere, Astral Shell, Ghostly Shell, Singer's Faithful Ocelot, Blood Bond, Leash of Linguini, Empathy of the Newt, Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise, Pride of the Puffin, Carol of the Thrills`;
+
+const CastSkills = (skillz: Skill[]): Task[] =>
+  skillz.map((s) => ({
       name: s.name,
       ready: () => myMp() >= mpCost(s),
       do: (): void => {
@@ -188,7 +189,7 @@ const Level: CSQuest = {
       completed: () => myMp() >= 80,
       do: () => cliExecute("rest free"),
     },
-    ...CastSkills,
+    ...CastSkills(buffSkills),
     // This doesn't seem to work out of CastSkills, for some reason
     skillTask($effect`Feeling Excited`),
     {
