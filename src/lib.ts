@@ -415,6 +415,14 @@ export function useBestFamiliar(): void {
   }
 }
 
+export function chooseBestFamiliar(): { familiar: Familiar; famequip: Item } {
+  if (getBestFamiliar() === $familiar`Mini-Trainbot`) {
+    return { famequip: $item`toy Cupid bow`, familiar: getBestFamiliar() };
+  } else {
+    return { famequip: $item`tiny stillsuit`, familiar: getBestFamiliar() };
+  }
+}
+
 export function mapMacro(
   location: Location,
   monster: Monster,

@@ -22,7 +22,7 @@ const FamiliarWeight: CSQuest = {
   test: CommunityService.FamiliarWeight,
   outfit: () => ({
     modifier: MODIFIERS.join(","),
-    familiar: $familiar`Pocket Professor`,
+    familiar: $familiar`Mini-Trainbot`,
   }),
   turnsSpent: 0,
   maxTurns: 50,
