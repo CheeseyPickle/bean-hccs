@@ -396,14 +396,12 @@ const Level: CSQuest = {
     {
       name: "Freekill NEP",
       completed: () =>
-        get("_shatteringPunchUsed") >= 3 &&
-        get("_gingerbreadMobHitUsed") &&
-        get("_chestXRayUsed") >= 3,
+        get("_clubEmTimeUsed") >= 5,
       do: $location`The Neverending Party`,
       outfit: (): OutfitSpec => {
         foldshirt();
         const killSource =
-          get("_chestXRayUsed") < 3 ? { acc3: $item`Lil' Doctor™ bag` } : {};
+          get("_clubEmTimeUsed") < 5 ? { weapon: $item`legendary seal-clubbing club` } : {};
         const changes = {
           ...killSource,
         };
@@ -413,9 +411,7 @@ const Level: CSQuest = {
         Macro.if_($monster`sausage goblin`, Macro.default(true))
           .trySkill($skill`Bowl Sideways`)
           .skill($skill`Sing Along`)
-          .trySkill($skill`Chest X-Ray`)
-          .trySkill($skill`Shattering Punch`)
-          .trySkill($skill`Gingerbread Mob Hit`)
+          .trySkill($skill`Club 'Em Back in Time`)
           .abort()
       ),
       choices: { [1324]: 5 },
