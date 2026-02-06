@@ -184,6 +184,18 @@ const Level: CSQuest = {
       },
     },
     {
+      name: "Bat Wings Rest!",
+      ready: () => get("_batWingsRestUsed") < 11 && myMp() < 80,
+      completed: () => myMp() >= 80,
+      do: () => useSkill($skill`Rest upside down`),
+      outfit: () =>
+        uniform({
+          changes: {
+            back: $item`bat wings`
+          },
+        }),
+    },
+    {
       name: "Rest Free Restore MP!",
       ready: () => get("timesRested") < totalFreeRests() && myMp() < 80,
       completed: () => myMp() >= 80,
