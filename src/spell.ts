@@ -51,6 +51,7 @@ const Spell: CSQuest = {
     restore(buffs),
     skillTask($skill`Spirit of Cayenne`),
     potionTask($item`battery (AAA)`),
+    potionTask($item`tobiko marble soda`),
     {
       name: "Play Pool",
       completed: () =>

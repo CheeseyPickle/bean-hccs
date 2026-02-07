@@ -4,6 +4,7 @@ import {
   availableAmount,
   buy,
   cliExecute,
+  eatsilent,
   equip,
   equippedItem,
   getCampground,
@@ -15,14 +16,12 @@ import {
   setAutoAttack,
   toItem,
   use,
-  useFamiliar,
   useSkill,
   visitUrl,
 } from "kolmafia";
 import {
   $coinmaster,
   $effect,
-  $familiar,
   $item,
   $location,
   $monster,
@@ -133,9 +132,8 @@ function setup() {
     autosell(availableAmount($item`porquoise`) - 2, $item`porquoise`);
   }
 
-  // Numberology 14 & Sell
-  cliExecute("numberology 14");
-  autosell(14, $item`moxie weed`);
+  // Numberology 69
+  cliExecute("numberology 69");
 
   // Buy things from 2002 Mr. Store
   use($item`2002 Mr. Store Catalog`);
@@ -180,7 +178,7 @@ function setup() {
   AutumnAton.sendTo($location`The Sleazy Back Alley`);
 
   pullIfPossible(1, $item`abstraction: category`, 2000);
-  pullIfPossible(1, $item`wasabi marble soda`, 5000);
+  pullIfPossible(1, $item`tobiko marble soda`, 5000);
   pullIfPossible(1, $item`Staff of Kitchen Royalty`, 0);
   pullIfPossible(1, $item`witch's bra`, 0);
 
@@ -254,7 +252,7 @@ function getSkellyFruits() {
   ensureEffect($effect`The Magical Mojomuscular Melody`);
   ensureEffect($effect`Pasta Oneness`);
 
-  useFamiliar($familiar`Pocket Professor`);
+  useBestFamiliar(false);
   new Requirement(
     ["100 mysticality experience percent, mysticality experience"],
     {
@@ -282,15 +280,25 @@ function getSkellyFruits() {
 function get20MoreAdventures() {
   if (myAdventures() >= 60) return;
 
-  // pull and use borrowed time
+  // pull and eat Calzone of Legend
   if (
-    availableAmount($item`borrowed time`) === 0 &&
-    !get("_borrowedTimeUsed")
+    availableAmount($item`Calzone of Legend`) === 0 &&
+    !get("calzoneOfLegendEaten")
   ) {
-    pullIfPossible(1, $item`borrowed time`, 40000);
-    if (!have($item`borrowed time`)) abort("Couldn't get borrowed time");
-    use($item`borrowed time`);
+    pullIfPossible(1, $item`Calzone of Legend`, 0);
+    if (!have($item`Calzone of Legend`)) abort("Couldn't get Calzone of Legend");
+    eatsilent($item`Calzone of Legend`);
   }
+
+  // pull and use borrowed time
+  // if (
+  //   availableAmount($item`borrowed time`) === 0 &&
+  //   !get("_borrowedTimeUsed")
+  // ) {
+  //   pullIfPossible(1, $item`borrowed time`, 40000);
+  //   if (!have($item`borrowed time`)) abort("Couldn't get borrowed time");
+  //   use($item`borrowed time`);
+  // }
 }
 
 export function main(): void {
