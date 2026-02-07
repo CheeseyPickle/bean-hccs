@@ -119,7 +119,7 @@ function equipStatOutfit() {
 }
 
 function setup() {
-  if (have($item`McHugeLarge left ski`) || myLevel() > 1) return;
+  if (have($item`toy accordion`) || myLevel() > 1) return;
 
   // Sell pork gems + tent
   visitUrl("tutorial.php?action=toot");
@@ -153,11 +153,6 @@ function setup() {
   cliExecute("backupcamera reverser on");
   cliExecute("backupcamera ml");
 
-  ensureItem(1, $item`toy accordion`);
-  ensureSewerItem(1, $item`saucepan`);
-  ensureSewerItem(1, $item`turtle totem`);
-  cliExecute("mcd 10");
-
   setChoice(1340, 3); // Turn off Lil' Doctor quests.
   setChoice(1387, 3); // set saber to drop items
 
@@ -169,8 +164,14 @@ function setup() {
   visitUrl("shop.php?whichshop=armory&action=talk");
   runChoice(1);
   
-  // 1 = Rocks, 2 = Insects, 3 = Plants
-  withChoice(1494, 2, () => use($item`S.I.T. Course Completion Certificate`));
+  if (!get("_sitCourseCompleted")) {
+    // 1 = Rocks, 2 = Insects, 3 = Plants
+    withChoice(1494, 2, () => use($item`S.I.T. Course Completion Certificate`));
+  }
+
+  if (!have($item`McHugeLarge left ski`)) {
+    visitUrl("inventory.php?action=skiduffel&pwd");
+  }
 
   // Not seeded, so just hope you get lucky lol
   Leprecondo.setFurniture("cupcake treadmill", "UltraDance karaoke machine", "programmable blender", "four-poster bed");
@@ -182,9 +183,10 @@ function setup() {
   pullIfPossible(1, $item`Staff of Kitchen Royalty`, 0);
   pullIfPossible(1, $item`witch's bra`, 0);
 
-  if (!have($item`McHugeLarge left ski`)) {
-    visitUrl("inventory.php?action=skiduffel&pwd");
-  }
+  cliExecute("mcd 10");
+  ensureSewerItem(1, $item`saucepan`);
+  ensureSewerItem(1, $item`turtle totem`);
+  ensureItem(1, $item`toy accordion`);
 }
 
 function doDailies() {
