@@ -1,4 +1,4 @@
-import { potionTask, restore, skillTask, songTask } from "./commons";
+import { buskTasks, potionTask, restore, skillTask, songTask } from "./commons";
 import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
 import { cliExecute, create, myMeat, use, useSkill } from "kolmafia";
@@ -57,6 +57,7 @@ const Spell: CSQuest = {
         get("_poolGames") >= 3 || have($effect`Mental A-cue-ity`),
       do: () => cliExecute("pool 1"),
     },
+    ...buskTasks(5, $item`prismatic beret`, $item`Jurassic Parka`, $item`old sweatpants`), // Human-Elf Hybrid (100 % spell dmg)
     {
       name: "Make & Use Cordial",
       completed: () => have($effect`Concentration`),

@@ -1,6 +1,7 @@
 import { CSStrategy, Macro } from "./combatMacros";
 import {
   beachTask,
+  buskTasks,
   famPool,
   potionTask,
   restore,
@@ -110,6 +111,10 @@ const Weapon: CSQuest = {
           .kill()
       ),
     },
+    ...buskTasks(1, $item`prismatic beret`, $item`Jurassic Parka`, $item`tinsel tights`), // Filled with Magic (100 % spell dmg)
+    ...buskTasks(2, $item`prismatic beret`, $item`makeshift garbage shirt`, $item`alpha-mail pants`), // Sparkly (200 % spell dmg)
+    ...buskTasks(3, $item`prismatic beret`, $item`makeshift garbage shirt`, $item`troutpiece`), // Feline Ferocity (100 % weapon dmg)
+    ...buskTasks(4, $item`prismatic beret`, $item`Jurassic Parka`, $item`chain-mail monokini`), // Nigh-Invincible (100 % weapon & spell dmg)
     potionTask($item`corrupted marrow`),
     {
       name: "Swagger",

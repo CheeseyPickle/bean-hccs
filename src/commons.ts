@@ -20,6 +20,8 @@ import {
   myThrall,
   availableAmount,
   monkeyPaw,
+  equip,
+  useFamiliar,
 } from "kolmafia";
 import {
   $effect,
@@ -28,10 +30,12 @@ import {
   $item,
   $location,
   $skill,
+  $slot,
   BeachComb,
   get,
   have,
   set,
+  unequip,
 } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import { horsery, horse, wishEffect } from "./lib";
@@ -252,4 +256,87 @@ export function famPool(): Task {
     completed: () => have($effect`Billiards Belligerence`),
     do: () => cliExecute("pool 1"),
   };
+}
+
+export function buskTasks(cast: number, hat: Item | null, shirt: Item | null, pants: Item | null): Task[] {
+  const taskList: Task[] = [];
+
+  if (hat !== null && hat !== $item`prismatic beret`) {
+    taskList.push({
+      name: `Acquire ${hat.name}`,
+      ready: () => get("_beretBuskingUses") === cast - 1,
+      completed: () => availableAmount(hat) > 0,
+      do: () => {
+        if (hat === $item`wad of used tape`) {
+          cliExecute("fold wad of used tape");
+        } else {
+          cliExecute(`acquire ${hat.name}`);
+        }
+      }
+    });
+  }
+
+  if (shirt !== null) {
+    taskList.push({
+      name: `Acquire ${shirt.name}`,
+      ready: () => get("_beretBuskingUses") === cast - 1,
+      completed: () => availableAmount(shirt) > 0,
+      do: () => {
+        if (shirt === $item`makeshift garbage shirt`) {
+          cliExecute("fold makeshift garbage shirt");
+        } else {
+          cliExecute(`acquire ${shirt.name}`);
+        }
+      }
+    });
+  }
+
+  if (pants !== null) {
+    taskList.push({
+      name: `Acquire ${pants.name}`,
+      ready: () => get("_beretBuskingUses") === cast - 1,
+      completed: () => availableAmount(pants) > 0,
+      do: () => {
+        if (pants === $item`tinsel tights`) {
+          cliExecute("fold tinsel tights");
+        } else {
+          cliExecute(`acquire ${pants.name}`);
+        }
+      }
+    });
+  }
+
+  taskList.push({
+      name: `Beret Busk #${cast}`,
+      ready: () => get("_beretBuskingUses") === cast - 1,
+      completed: () => get("_beretBuskingUses") >= cast,
+      do: () => {
+        if (hat === null) {
+          unequip($slot`hat`);
+          useFamiliar($familiar`Mad Hatrack`);
+          equip($slot`familiar`, $item`prismatic beret`);
+        } else if (hat !== $item`prismatic beret`) {
+          equip($slot`hat`, hat);
+          useFamiliar($familiar`Mad Hatrack`);
+          equip($slot`familiar`, $item`prismatic beret`);
+        } else {
+          equip($slot`hat`, $item`prismatic beret`);
+        }
+
+        if (shirt === null) {
+          unequip($slot`shirt`);
+        } else {
+          equip($slot`shirt`, shirt);
+        }
+
+        if (pants === null) {
+          unequip($slot`pants`);
+        } else {
+          equip($slot`pants`, pants);
+        }
+
+        useSkill($skill`Beret Busking`);
+      },
+  });
+  return taskList;
 }
