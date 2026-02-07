@@ -220,6 +220,14 @@ function doDailies() {
     visitUrl("inventory.php?action=skiduffel&pwd");
   }
 
+  while (!get("_septEmberBalanceChecked") || get("availableSeptEmbers") >= 2) {
+    cliExecute("make Mmm-brr! brand mouthwash");
+  }
+
+  if (get("availableSeptEmbers") === 1) {
+    cliExecute("make bembershoot");
+  }
+
   getBatteries();
 
   cliExecute("garden pick"); // Should be peppermint
