@@ -36,6 +36,7 @@ import {
   ensureEffect,
   get,
   have,
+  Leprecondo,
   MayamCalendar,
   Requirement,
   set,
@@ -170,14 +171,18 @@ function setup() {
   visitUrl("shop.php?whichshop=armory&action=talk");
   runChoice(1);
 
-  // 1 = Rocks, 2 = Insects, 3 = Plants
-  withChoice(1494, 1, () => use($item`S.I.T. Course Completion Certificate`));
+  // Not seeded, so just hope you get lucky lol
+  Leprecondo.setFurniture("cupcake treadmill", "UltraDance karaoke machine", "programmable blender", "four-poster bed");
 
   AutumnAton.sendTo($location`The Sleazy Back Alley`);
 
   pullIfPossible(1, $item`abstraction: category`, 2000);
   pullIfPossible(1, $item`wasabi marble soda`, 5000);
   pullIfPossible(1, $item`Staff of Kitchen Royalty`, 0);
+  pullIfPossible(1, $item`witch's bra`, 0);
+  
+  // 1 = Rocks, 2 = Insects, 3 = Plants
+  withChoice(1494, 1, () => use($item`S.I.T. Course Completion Certificate`));
 }
 
 function doDailies() {
