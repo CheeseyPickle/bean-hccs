@@ -182,22 +182,11 @@ export class CSEngine extends Engine<never, Task> {
         print("Talk to Gerald/ine!");
       }
 
-      print("Pulling stuff from storage... This will take a while...");
-      visitUrl("inventory.php?action=pullall&pwd=");
-
       // Post-CS run stuff personalized to me
-      if (buy(1, $item`clockwork maid`, get("valueOfAdventure") * 8) > 0) {
-        use(1, $item`clockwork maid`);
-      }
-
-      if (buy(1, $item`essential tofu`, get("valueOfAdventure") * 5) > 0) {
-        use(1, $item`essential tofu`);
-      }
-
       chatPrivate("Buffy", "1000 Jingle Bells");
 
       cliExecute(
-        "restart; scripts/login.ash; acquire 1 bitchin' meatcar; breakfast; spoon wombat; boombox meat;"
+        "restart; scripts/login.ash;"
       );
 
       CommunityService.printLog("green");
