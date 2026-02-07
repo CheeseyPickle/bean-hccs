@@ -1,14 +1,14 @@
 import { OutfitSpec } from "grimoire-kolmafia";
-import { cliExecute, Familiar, Item } from "kolmafia";
+import { cliExecute, equip, Familiar, Item, useFamiliar } from "kolmafia";
 import {
     $effect,
     $familiar,
     $item,
     $items,
+    $slot,
     CommunityService,
     have,
 } from "libram";
-import { chooseBestFamiliar } from "./lib";
 
 const DEFAULT_UNIFORM = (): OutfitSpec => ({
     hat: $item`Daylight Shavings Helmet`,
@@ -22,26 +22,32 @@ const DEFAULT_UNIFORM = (): OutfitSpec => ({
     },
 });
 
-const FAMILIAR_PICKS = [
-    {
-        familiar: $familiar`Shorter-Order Cook`,
-        condition: () =>
-            ![$effect`Shortly Stacked`, $item`short stack of pancakes`].some((x) => have(x)) &&
-            !CommunityService.FamiliarWeight.isDone(),
-    },
-];
+function getBestFamiliar(canAttack: boolean): Familiar {
+  if (canAttack && !have($item`overloaded Yule battery`) && !CommunityService.FamiliarWeight.isDone()) {
+    return $familiar`Mini-Trainbot`;
+  } else if (canAttack && ![$effect`Shortly Stacked`, $item`short stack of pancakes`].some((x) => have(x))
+    && !CommunityService.FamiliarWeight.isDone()) {
+    return $familiar`Shorter-Order Cook`;
+  } else {
+    return $familiar`Pocket Professor`;
+  }
+}
 
-export function chooseFamiliar(canAttack?: boolean): { familiar: Familiar; famequip: Item } {
-    const pick = FAMILIAR_PICKS.find(
-        ({ condition, familiar }) =>
-            condition() &&
-            have(familiar) &&
-            (canAttack || !(familiar.elementalDamage || familiar.physicalDamage))
-    );
-    if (pick) {
-        return { famequip: $item`tiny stillsuit`, familiar: pick.familiar };
-    }
-    return { famequip: $item`tiny stillsuit`, familiar: $familiar`Pocket Professor` };
+export function useBestFamiliar(canAttack: boolean): void {
+  useFamiliar(getBestFamiliar(canAttack));
+  if (getBestFamiliar(canAttack) === $familiar`Mini-Trainbot`) {
+    equip($item`toy Cupid bow`, $slot`familiar`);
+  } else {
+    equip($item`tiny stillsuit`, $slot`familiar`);
+  }
+}
+
+export function chooseBestFamiliar(canAttack: boolean): { familiar: Familiar; famequip: Item } {
+  if (getBestFamiliar(canAttack) === $familiar`Mini-Trainbot`) {
+    return { famequip: $item`toy Cupid bow`, familiar: getBestFamiliar(canAttack) };
+  } else {
+    return { famequip: $item`tiny stillsuit`, familiar: getBestFamiliar(canAttack) };
+  }
 }
 
 type UniformOptions = { changes: OutfitSpec; canAttack: boolean };
@@ -49,13 +55,13 @@ const DEFAULT_OPTIONS = { changes: {} as OutfitSpec, canAttack: true };
 export function uniform(options: Partial<UniformOptions> = {}): OutfitSpec {
     const { changes, canAttack } = { ...DEFAULT_OPTIONS, ...options };
     if ("familiar" in changes && !("famequip" in changes)) changes.famequip = $item`tiny stillsuit`;
-    return { ...DEFAULT_UNIFORM(), ...chooseFamiliar(canAttack), ...changes };
+    return { ...DEFAULT_UNIFORM(), ...chooseBestFamiliar(canAttack), ...changes };
 }
 
 export function levelUniform(options: Partial<{ changes: OutfitSpec }> = {}): OutfitSpec {
     cliExecute('fold garbage shirt');
     return {
-        ...chooseBestFamiliar(), ...{
+        ...chooseBestFamiliar(true), ...{
             hat: $item`Daylight Shavings Helmet`,
             weapon: $item`Fourth of May Cosplay Saber`,
             offhand: $item`unbreakable umbrella`,

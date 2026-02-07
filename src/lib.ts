@@ -13,7 +13,6 @@ import {
   equip,
   equippedAmount,
   equippedItem,
-  Familiar,
   familiarWeight,
   getProperty,
   haveEffect,
@@ -58,7 +57,6 @@ import {
   $location,
   $skill,
   $slot,
-  CommunityService,
   ensureEffect,
   get,
   have,
@@ -392,34 +390,6 @@ export function synthItem(): void {
 export function multiFightAutoAttack(): void {
   while (choiceFollowsFight() || inMultiFight()) {
     visitUrl("choice.php");
-  }
-}
-
-export function getBestFamiliar(): Familiar {
-  if (!have($item`overloaded Yule battery`) && !CommunityService.FamiliarWeight.isDone()) {
-    return $familiar`Mini-Trainbot`;
-  } else if (![$effect`Shortly Stacked`, $item`short stack of pancakes`].some((x) => have(x))
-    && !CommunityService.FamiliarWeight.isDone()) {
-    return $familiar`Shorter-Order Cook`;
-  } else {
-    return $familiar`Pocket Professor`;
-  }
-}
-
-export function useBestFamiliar(): void {
-  useFamiliar(getBestFamiliar());
-  if (getBestFamiliar() === $familiar`Mini-Trainbot`) {
-    equip($item`toy Cupid bow`, $slot`familiar`);
-  } else {
-    equip($item`tiny stillsuit`, $slot`familiar`);
-  }
-}
-
-export function chooseBestFamiliar(): { familiar: Familiar; famequip: Item } {
-  if (getBestFamiliar() === $familiar`Mini-Trainbot`) {
-    return { famequip: $item`toy Cupid bow`, familiar: getBestFamiliar() };
-  } else {
-    return { famequip: $item`tiny stillsuit`, familiar: getBestFamiliar() };
   }
 }
 
