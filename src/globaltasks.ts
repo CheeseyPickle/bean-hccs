@@ -18,11 +18,10 @@ import {
 } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import {
-  getBestFamiliar,
   sausageFightGuaranteed,
   voterMonsterNow,
 } from "./lib";
-import { levelUniform } from "./outfit";
+import { getBestFamiliar, levelUniform } from "./outfit";
 
 const PRE_QUEST: Quest<Task> = {
   name: "Pre-Quest Global",
@@ -104,7 +103,7 @@ const POST_QUEST: Quest<Task> = {
       outfit: (): OutfitSpec => {
         return {
           acc3: $item`"I Voted!" sticker`,
-          familiar: getBestFamiliar(),
+          familiar: getBestFamiliar(true),
         };
       },
       do: $location`Noob Cave`,

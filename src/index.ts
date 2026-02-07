@@ -59,19 +59,19 @@ import {
   sausageFightGuaranteed,
   setChoice,
   tryUse,
-  useBestFamiliar,
 } from "./lib";
 import Noncombat from "./noncombat";
 import Spell from "./spell";
 import { Hitpoints, Moxie, Muscle, Mysticality } from "./stattest";
 import Weapon from "./weapon";
+import { useBestFamiliar } from "./outfit";
 
 function doGuaranteedGoblin() {
   // kill a kramco for the sausage before coiling wire
   if (!haveEffect($effect`Feeling Lost`) && sausageFightGuaranteed()) {
     ensureMp(12);
     equipStatOutfit();
-    useBestFamiliar();
+    useBestFamiliar(true);
     const offHand = equippedItem($slot`off-hand`);
     equip($item`Kramco Sausage-o-Matic™`);
     if (myMp() < 20) {

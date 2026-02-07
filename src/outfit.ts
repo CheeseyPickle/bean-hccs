@@ -22,7 +22,7 @@ const DEFAULT_UNIFORM = (): OutfitSpec => ({
     },
 });
 
-function getBestFamiliar(canAttack: boolean): Familiar {
+export function getBestFamiliar(canAttack: boolean): Familiar {
   if (canAttack && !have($item`overloaded Yule battery`) && !CommunityService.FamiliarWeight.isDone()) {
     return $familiar`Mini-Trainbot`;
   } else if (canAttack && ![$effect`Shortly Stacked`, $item`short stack of pancakes`].some((x) => have(x))
