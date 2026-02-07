@@ -120,7 +120,7 @@ function equipStatOutfit() {
 }
 
 function setup() {
-  if (get("_sitCourseCompleted") || myLevel() > 1) return;
+  if (have($item`McHugeLarge left ski`) || myLevel() > 1) return;
 
   // Sell pork gems + tent
   visitUrl("tutorial.php?action=toot");
@@ -170,6 +170,9 @@ function setup() {
   runChoice(1);
   visitUrl("shop.php?whichshop=armory&action=talk");
   runChoice(1);
+  
+  // 1 = Rocks, 2 = Insects, 3 = Plants
+  withChoice(1494, 2, () => use($item`S.I.T. Course Completion Certificate`));
 
   // Not seeded, so just hope you get lucky lol
   Leprecondo.setFurniture("cupcake treadmill", "UltraDance karaoke machine", "programmable blender", "four-poster bed");
@@ -180,9 +183,10 @@ function setup() {
   pullIfPossible(1, $item`wasabi marble soda`, 5000);
   pullIfPossible(1, $item`Staff of Kitchen Royalty`, 0);
   pullIfPossible(1, $item`witch's bra`, 0);
-  
-  // 1 = Rocks, 2 = Insects, 3 = Plants
-  withChoice(1494, 1, () => use($item`S.I.T. Course Completion Certificate`));
+
+  if (!have($item`McHugeLarge left ski`)) {
+    visitUrl("inventory.php?action=skiduffel&pwd");
+  }
 }
 
 function doDailies() {
@@ -214,10 +218,6 @@ function doDailies() {
     cliExecute("make Sheriff moustache");
     cliExecute("make Sheriff badge");
     Clan.join("Redemption City");
-  }
-
-  if (!have($item`McHugeLarge left ski`)) {
-    visitUrl("inventory.php?action=skiduffel&pwd");
   }
 
   while (!get("_septEmberBalanceChecked") || get("availableSeptEmbers") >= 2) {
