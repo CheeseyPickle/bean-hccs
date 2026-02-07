@@ -62,7 +62,7 @@ const Noncombat: CSQuest = {
       $effect`The Sonata of Sneakiness`,
       $effect`Fat Leon's Phat Loot Lyric`
     ),
-    restore($effects`Smooth Movements, The Sonata of Sneakiness`),
+    restore($effects`Smooth Movements, The Sonata of Sneakiness, Hiding From Seekers`),
     potionTask($item`shady shades`),
     monkeyWishTask($effect`Disquiet Riot`),
     // {

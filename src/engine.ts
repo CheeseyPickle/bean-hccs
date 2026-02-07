@@ -8,19 +8,15 @@ import {
   Task,
 } from "grimoire-kolmafia";
 import {
-  buy,
   chatPrivate,
   cliExecute,
   print,
   readCcs,
   setAutoAttack,
-  use,
-  visitUrl,
   writeCcs,
 } from "kolmafia";
 import {
   $effect,
-  $item,
   CommunityService,
   get,
   PropertiesManager,
@@ -168,6 +164,7 @@ export class CSEngine extends Engine<never, Task> {
       CommunityService.donate();
       cliExecute("refresh all");
       uneffect($effect`Feeling Lost`);
+      uneffect($effect`Cowrruption`);
       cliExecute(get("kingLiberatedScript"));
 
       if (get("_cloudTalkSmoker")) {
