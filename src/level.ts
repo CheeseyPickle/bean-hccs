@@ -4,6 +4,7 @@ import { CSQuest } from "./engine";
 import { levelUniform, uniform } from "./outfit";
 import { OutfitSpec, Task } from "grimoire-kolmafia";
 import {
+  availableAmount,
   buy,
   chew,
   cliExecute,
@@ -306,7 +307,7 @@ const Level: CSQuest = {
     {
       name: "Mouthwash",
       completed: () => !have($item`Mmm-brr! brand mouthwash`),
-      do: () => use(1, $item`Mmm-brr! brand mouthwash`),
+      do: () => use(availableAmount($item`Mmm-brr! brand mouthwash`), $item`Mmm-brr! brand mouthwash`),
       outfit: () => ({
         modifier: "cold resistance -tie",
         familiar: $familiar`Cooler Yeti`,

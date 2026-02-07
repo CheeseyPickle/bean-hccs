@@ -83,7 +83,7 @@ function doGuaranteedGoblin() {
       Macro.if_(
         `!monsterid ${$monster`sausage goblin`.id}`,
         new Macro().step("abort")
-      ).step(Macro.itemSkills().easyFight().kill())
+      ).step(Macro.easyFight().itemSkills().kill())
     );
     equip(offHand);
   }
@@ -250,9 +250,6 @@ function doDailies() {
 }
 
 function getSkellyFruits() {
-  if (!have($effect`Ready to Eat`)) {
-    ensureItem(1, $item`red rocket`);
-  }
   ensureEffect($effect`Feeling Excited`);
   ensureEffect($effect`The Magical Mojomuscular Melody`);
   ensureEffect($effect`Pasta Oneness`);
