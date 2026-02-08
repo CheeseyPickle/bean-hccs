@@ -13,6 +13,7 @@ import {
   print,
   readCcs,
   setAutoAttack,
+  visitUrl,
   writeCcs,
 } from "kolmafia";
 import {
@@ -178,6 +179,9 @@ export class CSEngine extends Engine<never, Task> {
       if (["food", "booze"].includes(get("_questPartyFairQuest"))) {
         print("Talk to Gerald/ine!");
       }
+
+      print("Pulling stuff from storage... This will take a while...");
+      visitUrl("inventory.php?action=pullall&pwd=");
 
       // Post-CS run stuff personalized to me
       chatPrivate("Buffy", "1000 Jingle Bells");
