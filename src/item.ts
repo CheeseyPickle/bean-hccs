@@ -2,10 +2,8 @@ import { OutfitSpec } from "grimoire-kolmafia";
 import {
   availableAmount,
   cliExecute,
-  create,
   handlingChoice,
   runChoice,
-  use,
 } from "kolmafia";
 import {
   $effect,
@@ -57,21 +55,6 @@ const ItemDrop: CSQuest = {
     ...$items`lavender candy heart, bag of grain`.map(potionTask),
     monkeyWishTask($effect`Infernal Thirst`),
     {
-      // TODO: Cut this once you get any additional item skills
-      name: "Eyedrops of the Ermine",
-      completed: () => have($effect`Ermine Eyes`),
-      ready: () => have($item`strawberry`),
-      do: (): void => {
-        if (!have($item`eyedrops of the ermine`)) {
-          create(1, $item`eyedrops of the ermine`);
-        }
-        if (have($item`eyedrops of the ermine`)) {
-          use(1, $item`eyedrops of the ermine`);
-        }
-      },
-      limit: { tries: 1 },
-    },
-    {
       name: "Mayam Calendar Eyes",
       ready: () => MayamCalendar.available("yam4"),
       completed: () => !MayamCalendar.available("yam4"),
@@ -92,6 +75,7 @@ const ItemDrop: CSQuest = {
       $effect`Fat Leon's Phat Loot Lyric`,
       $effect`The Magical Mojomuscular Melody`
     ),
+    skillTask($skill`The Spirit of Taking`),
     skillTask($skill`Who's Going to Pay This Drunken Sailor?`),
     skillTask($skill`Feel Lost`),
     skillTask($skill`Steely-Eyed Squint`),
