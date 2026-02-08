@@ -63,7 +63,7 @@ const expSkills = $skills`Ur-Kel's Aria of Annoyance, Drescher's Annoying Noise,
 
 const otherBuffs = $skills`Blood Bubble, Carol of the Hells, Sauce Monocle, Ghostly Shell, Singer's Faithful Ocelot`;
 
-const mystBuffs = $skills`Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Song of Bravado, Blessing of She-Who-Was, BCZ: Dial it up to 11`;
+const mystBuffs = $skills`Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Song of Bravado, Blessing of She-Who-Was, BCZ: Dial it up to 11, Heartstone: %buff`;
 
 const CastSkills = (skillz: Skill[]): Task[] =>
   skillz.map((s) => ({

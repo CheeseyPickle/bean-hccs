@@ -1,4 +1,4 @@
-import { commonFamiliarWeightBuffs, famPool, potionTask } from "./commons";
+import { commonFamiliarWeightBuffs, famPool, potionTask, skillTask } from "./commons";
 import { CSQuest } from "./engine";
 import { equip, useSkill } from "kolmafia";
 import {
@@ -27,6 +27,7 @@ const FamiliarWeight: CSQuest = {
   maxTurns: 45,
   tasks: [
     ...commonFamiliarWeightBuffs(),
+    skillTask($skill`Heartstone: %pals`),
     potionTask($item`short stack of pancakes`),
     potionTask($item`silver face paint`),
     potionTask($item`lump of loyal latite`),
