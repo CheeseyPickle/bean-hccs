@@ -29,9 +29,18 @@ const Noncombat: CSQuest = {
   test: CommunityService.Noncombat,
   modifiers: ["Combat Rate"],
   outfit: () => ({
-    modifier: "-combat -tie",
-    familiar: $familiar`Disgeist`,
     hat: $item`porkpie-mounted popper`,
+    shirt: $item`Jurassic Parka`,
+    weapon: $item`fish hatchet`,
+    offhand: $item`unbreakable umbrella`,
+    pants: $item`pantogram pants`,
+    acc1: $item`McHugeLarge left ski`,
+    familiar: $familiar`Disgeist`,
+    famequip: $item`tiny stillsuit`,
+    modes: {
+      parka: "pterodactyl",
+      umbrella: "cocoon"
+    }
   }),
   turnsSpent: 0,
   maxTurns: 6,
