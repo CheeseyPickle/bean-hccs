@@ -73,7 +73,7 @@ const Noncombat: CSQuest = {
     ),
     restore($effects`Smooth Movements, The Sonata of Sneakiness, Hiding From Seekers`),
     potionTask($item`shady shades`),
-    monkeyWishTask($effect`Disquiet Riot`),
+    // monkeyWishTask($effect`Disquiet Riot`),
     // {
     //     name: "Swim Sprints",
     //     completed: () => get("_olympicSwimmingPool"),
