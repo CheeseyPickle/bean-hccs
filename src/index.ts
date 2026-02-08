@@ -180,7 +180,7 @@ function setup() {
 
   pullIfPossible(1, $item`abstraction: category`, 2000);
   pullIfPossible(1, $item`tobiko marble soda`, 5000);
-  pullIfPossible(1, $item`Staff of Kitchen Royalty`, 0);
+  pullIfPossible(1, $item`Stick-Knife of Loathing`, 0);
   pullIfPossible(1, $item`witch's bra`, 0);
   pullIfPossible(1, $item`Belt of Loathing`, 0);
 
