@@ -31,15 +31,15 @@ const FamiliarWeight: CSQuest = {
     potionTask($item`short stack of pancakes`),
     potionTask($item`silver face paint`),
     potionTask($item`lump of loyal latite`),
-    {
-      name: "Drink Hot Socks",
-      ready: () => get("_speakeasyDrinksDrunk") < 3,
-      completed: () => have($effect`[1701]Hip to the Jive`),
-      do: (): void => {
-        ensureEffect($effect`Ode to Booze`);
-        cliExecute("drink 1 Hot Socks");
-      },
-    },
+    // {
+    //   name: "Drink Hot Socks",
+    //   ready: () => get("_speakeasyDrinksDrunk") < 3,
+    //   completed: () => have($effect`[1701]Hip to the Jive`),
+    //   do: (): void => {
+    //     ensureEffect($effect`Ode to Booze`);
+    //     cliExecute("drink 1 Hot Socks");
+    //   },
+    // },
     {
       name: "Cincho: Party Soundtrack",
       ready: () => get("_cinchUsed", 0) <= 75,
