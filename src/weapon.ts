@@ -51,7 +51,7 @@ const Weapon: CSQuest = {
     };
   },
   turnsSpent: 0,
-  maxTurns: 20,
+  maxTurns: 1,
   tasks: [
     {
       name: "Deep Dark Visions",

@@ -5,7 +5,6 @@ import {
   restore,
   skillTask,
   songTask,
-  monkeyWishTask,
 } from "./commons";
 import { CSQuest } from "./engine";
 import { availableAmount, cliExecute, equip, retrieveItem, useSkill } from "kolmafia";
@@ -18,7 +17,6 @@ import {
   $slot,
   AprilingBandHelmet,
   CommunityService,
-  ensureEffect,
   get,
   have,
 } from "libram";
@@ -35,6 +33,8 @@ const Noncombat: CSQuest = {
     offhand: $item`unbreakable umbrella`,
     pants: $item`pantogram pants`,
     acc1: $item`McHugeLarge left ski`,
+    acc2: $item`Beach Comb`,
+    acc3: $item`hewn moon-rune spoon`,
     familiar: $familiar`Disgeist`,
     famequip: $item`tiny stillsuit`,
     modes: {
@@ -43,7 +43,7 @@ const Noncombat: CSQuest = {
     }
   }),
   turnsSpent: 0,
-  maxTurns: 6,
+  maxTurns: 1,
   tasks: [
     {
       name: "Firework Hat",
@@ -91,15 +91,6 @@ const Noncombat: CSQuest = {
         equip($slot`acc3`, $item`Cincho de Mayo`);
         useSkill($skill`Cincho: Party Soundtrack`);
       }
-    },
-    {
-      name: "Drink Hot Socks",
-      ready: () => get("_speakeasyDrinksDrunk") < 3,
-      completed: () => have($effect`[1701]Hip to the Jive`),
-      do: (): void => {
-        ensureEffect($effect`Ode to Booze`);
-        cliExecute("drink 1 Hot Socks");
-      },
     },
     famPool(),
   ],

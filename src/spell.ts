@@ -21,7 +21,7 @@ const Spell: CSQuest = {
   type: "SERVICE",
   test: CommunityService.SpellDamage,
   turnsSpent: 1,
-  maxTurns: 50,
+  maxTurns: 30,
   modifiers: ["Spell Damage", "Spell Damage Percent"],
   outfit: () => {
     return {

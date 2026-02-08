@@ -1,6 +1,6 @@
 import { commonFamiliarWeightBuffs, famPool, potionTask } from "./commons";
 import { CSQuest } from "./engine";
-import { cliExecute, equip, useSkill } from "kolmafia";
+import { equip, useSkill } from "kolmafia";
 import {
   $effect,
   $familiar,
@@ -8,7 +8,6 @@ import {
   $skill,
   $slot,
   CommunityService,
-  ensureEffect,
   get,
   have,
 } from "libram";
@@ -25,7 +24,7 @@ const FamiliarWeight: CSQuest = {
     familiar: $familiar`Mini-Trainbot`,
   }),
   turnsSpent: 0,
-  maxTurns: 50,
+  maxTurns: 45,
   tasks: [
     ...commonFamiliarWeightBuffs(),
     potionTask($item`short stack of pancakes`),
