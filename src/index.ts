@@ -282,14 +282,20 @@ function getSkellyFruits() {
 function get20MoreAdventures() {
   if (myAdventures() >= 60) return;
 
-  // pull and eat Calzone of Legend
-  if (
-    availableAmount($item`Calzone of Legend`) === 0 &&
-    !get("calzoneOfLegendEaten")
-  ) {
-    pullIfPossible(1, $item`Calzone of Legend`, 0);
-    if (!have($item`Calzone of Legend`)) abort("Couldn't get Calzone of Legend");
-    eatsilent($item`Calzone of Legend`);
+  // Eat bowl full of jelly & peppermint patty
+  if (!get("_bowlFullOfJellyUsed")) {
+    useSkill($skill`Bowl Full of Jelly`);
+  }
+  if (availableAmount($item`peppermint sprout`) >= 2) {
+    cliExecute("make peppermint patty");
+  }
+
+  if (availableAmount($item`bowl full of jelly`) > 0) {
+    eatsilent($item`bowl full of jelly`);
+  }
+
+  if (availableAmount($item`peppermint patty`) > 0) {
+    eatsilent($item`peppermint patty`);
   }
 
   // pull and use borrowed time
