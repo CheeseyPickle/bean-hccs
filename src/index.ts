@@ -7,14 +7,13 @@ import {
   eatsilent,
   equip,
   equippedItem,
-  getCampground,
+  getWorkshed,
   haveEffect,
   myAdventures,
   myLevel,
   myMp,
   runChoice,
   setAutoAttack,
-  toItem,
   use,
   useSkill,
   visitUrl,
@@ -40,6 +39,7 @@ import {
   Requirement,
   set,
   SongBoom,
+  TakerSpace,
   withChoice,
 } from "libram";
 import { Macro } from "./combatMacros";
@@ -140,8 +140,18 @@ function setup() {
   buy($coinmaster`Mr. Store 2002`, 1, $item`Charter: Nellyville`);
   buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
 
-  if (getCampground()[$item`model train set`.name] !== 1) {
-    use(toItem(`model train set`));
+  // Use TakerSpace first then switch to model train set
+  if (getWorkshed() === $item.none && !get("_workshedItemUsed")) {
+    use($item`TakerSpace letter of Marque`);
+    TakerSpace.make($item`pirate dinghy`);
+    TakerSpace.make($item`tankard of spiced Goldschlepper`);
+    TakerSpace.make($item`harpoon`);
+    TakerSpace.make($item`cursed Aztec tamale`);
+    TakerSpace.make($item`spices`);
+  }
+
+  if (getWorkshed() !== $item`model train set`) {
+    use($item`model train set`);
     // Trainset configuration is set later at levelling
   }
 

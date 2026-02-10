@@ -586,7 +586,7 @@ export function unequip(item: Item): void {
   while (equippedAmount(item) > 0) {
     const slot = Slot.all().find((equipmentSlot) => equippedItem(equipmentSlot) === item);
     if (!slot) return;
-    equip(slot, $item`none`);
+    equip(slot, $item.none);
   }
 }
 
