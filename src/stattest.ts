@@ -14,10 +14,10 @@ import {
 import { Task } from "grimoire-kolmafia";
 
 const SKILL_BUFFS = {
-  MUSCLE: $effects`Feeling Excited, Big, Rage of the Reindeer`,
+  MUSCLE: $effects`Rage of the Reindeer, Quiet Determination`,
   MYSTICALITY: $effects`Feeling Excited, Big`,
-  MOXIE: $effects`Feeling Excited, Big, Quiet Desperation, Disco Fever`,
-  HP: $effects`Feeling Excited, Big`,
+  MOXIE: $effects`Disco Fever, Quiet Desperation`,
+  HP: $effects`Rage of the Reindeer, Quiet Determination`,
 };
 
 function skillBuffTasks(key: keyof typeof SKILL_BUFFS): Task[] {
