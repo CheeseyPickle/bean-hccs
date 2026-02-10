@@ -24,7 +24,7 @@ import { CSQuest } from "./engine";
 import { ensureItem } from "./lib";
 import { uniform } from "./outfit";
 
-const MODIFIERS = ["item drop", "booze drop"];
+const MODIFIERS = ["item drop", "2booze drop"];
 
 const ItemDrop: CSQuest = {
   name: "Booze Drop",
@@ -53,7 +53,7 @@ const ItemDrop: CSQuest = {
     },
     skillTask($skill`Singer's Faithful Ocelot`),
     ...$items`lavender candy heart, bag of grain`.map(potionTask),
-    monkeyWishTask($effect`Infernal Thirst`),
+    // monkeyWishTask($effect`Infernal Thirst`),
     {
       name: "Mayam Calendar Eyes",
       ready: () => MayamCalendar.available("yam4"),
