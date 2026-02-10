@@ -29,7 +29,7 @@ export function getBestFamiliar(canAttack: boolean): Familiar {
     && !CommunityService.FamiliarWeight.isDone()) {
     return $familiar`Shorter-Order Cook`;
   } else {
-    return $familiar`Pocket Professor`;
+    return $familiar`Cookbookbat`;
   }
 }
 
