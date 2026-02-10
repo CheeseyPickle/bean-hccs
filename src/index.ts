@@ -138,7 +138,7 @@ function setup() {
   // Buy things from 2002 Mr. Store
   use($item`2002 Mr. Store Catalog`);
   buy($coinmaster`Mr. Store 2002`, 1, $item`Charter: Nellyville`);
-  // buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
+  buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
 
   if (getCampground()[$item`model train set`.name] !== 1) {
     use(toItem(`model train set`));

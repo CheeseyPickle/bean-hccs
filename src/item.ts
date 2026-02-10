@@ -19,9 +19,9 @@ import {
   MayamCalendar,
 } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
-import { skillTask, potionTask, songTask, monkeyWishTask, aprilShieldTask } from "./commons";
+import { skillTask, potionTask, songTask, aprilShieldTask } from "./commons";
 import { CSQuest } from "./engine";
-import { ensureItem } from "./lib";
+import { ensureItem, hasLoathingIdolCharge } from "./lib";
 import { uniform } from "./outfit";
 
 const MODIFIERS = ["item drop", "2booze drop"];
@@ -59,6 +59,12 @@ const ItemDrop: CSQuest = {
       ready: () => MayamCalendar.available("yam4"),
       completed: () => !MayamCalendar.available("yam4"),
       do: () => MayamCalendar.submit("eye", "meat", "yam3", "yam4"),
+    },
+    {
+      name: "Loathing Idol Item",
+      ready: () => hasLoathingIdolCharge(),
+      completed: () => have($effect`Spitting Rhymes`),
+      do: () => cliExecute("loathingidol item"),
     },
     {
       name: "Get Sparkler",
