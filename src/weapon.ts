@@ -37,7 +37,7 @@ import {
 } from "libram";
 import { ensureMp } from "./lib";
 
-const buffs = $effects`Carol of the Bulls, Rage of the Reindeer, Scowl of the Auk, Tenacity of the Snapper, Disdain of the War Snapper, Bloodbathed`;
+const buffs = $effects`Carol of the Bulls, Rage of the Reindeer, Scowl of the Auk, Tenacity of the Snapper, Disdain of the War Snapper, Bloodbathed, Song of the North`;
 
 const Weapon: CSQuest = {
   name: "Weapon Damage",

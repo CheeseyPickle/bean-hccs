@@ -173,6 +173,9 @@ export function restore(effects: Effect[]): Task {
       }
       if (have($item`magical sausage`)) {
         eat(1, $item`magical sausage`);
+      } else if (get("_batWingsRestUsed") < 11) {
+        equip($item`bat wings`);
+        useSkill($skill`Rest upside down`);
       }
     },
     limit: {
@@ -240,11 +243,7 @@ export function commonFamiliarWeightBuffs(): Task[] {
     aprilShieldTask($skill`Leash of Linguini`),
     ...buffs.map(skillTask),
     restore(buffs),
-    // {
-    //     name: "Suzie's Blessing",
-    //     completed: () => get("_clanFortuneBuffUsed"),
-    //     do: () => cliExecute("fortune buff familiar"),
-    // },
+    restore($effects`Thoughtful Empathy`),
     beachTask($effect`Do I Know You From Somewhere?`),
   ];
 }
