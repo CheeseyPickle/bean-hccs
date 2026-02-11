@@ -99,7 +99,7 @@ const Level: CSQuest = {
       ready: () => myHp() < 0.8 * myMaxhp(),
       completed: () => myHp() > 0.8 * myMaxhp(),
       do: (): void => {
-        if (get("_hotTubSoaks") < 5) cliExecute("hottub");
+        if (get("_hotTubSoaks") < 5 && myMp() < 100) cliExecute("hottub");
         else useSkill($skill`Cannelloni Cocoon`);
       },
     },
