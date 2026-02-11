@@ -143,6 +143,7 @@ function setup() {
   // Use TakerSpace first then switch to model train set
   if (getWorkshed() === $item.none && !get("_workshedItemUsed")) {
     use($item`TakerSpace letter of Marque`);
+    TakerSpace.collect();
     TakerSpace.make($item`pirate dinghy`);
     TakerSpace.make($item`tankard of spiced Goldschlepper`);
     TakerSpace.make($item`harpoon`);
