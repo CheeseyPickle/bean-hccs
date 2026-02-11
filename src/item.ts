@@ -16,7 +16,6 @@ import {
   CommunityService,
   get,
   have,
-  MayamCalendar,
 } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
 import { skillTask, potionTask, songTask, aprilShieldTask } from "./commons";
@@ -54,12 +53,6 @@ const ItemDrop: CSQuest = {
     skillTask($skill`Singer's Faithful Ocelot`),
     ...$items`lavender candy heart, bag of grain`.map(potionTask),
     // monkeyWishTask($effect`Infernal Thirst`),
-    {
-      name: "Mayam Calendar Eyes",
-      ready: () => MayamCalendar.available("yam4"),
-      completed: () => !MayamCalendar.available("yam4"),
-      do: () => MayamCalendar.submit("eye", "meat", "yam3", "yam4"),
-    },
     {
       name: "Loathing Idol Item",
       ready: () => hasLoathingIdolCharge(),

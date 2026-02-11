@@ -42,6 +42,7 @@ import {
   ensureEffect,
   get,
   have,
+  MayamCalendar,
   TrainSet,
 } from "libram";
 
@@ -237,21 +238,6 @@ const Level: CSQuest = {
     },
     beachTask($effect`You Learned Something Maybe!`),
     beachTask($effect`We're All Made of Starfish`),
-    ...CastSkills($skills`Advanced Saucecrafting`),
-    {
-      name: "Make & Use Ointment",
-      completed: () => have($effect`Mystically Oiled`),
-      ready: () => have($item`grapefruit`) && have($item`scrumptious reagent`),
-      do: (): void => {
-        if (!have($item`ointment of the occult`)) {
-          create(1, $item`ointment of the occult`);
-        }
-        if (have($item`ointment of the occult`)) {
-          use(1, $item`ointment of the occult`);
-        }
-      },
-      limit: { tries: 1 },
-    },
     {
       name: "NEP Quest",
       completed: () => get("_questPartyFair") !== "unstarted",
@@ -307,11 +293,32 @@ const Level: CSQuest = {
     {
       name: "Mouthwash",
       completed: () => !have($item`Mmm-brr! brand mouthwash`),
-      do: () => use(availableAmount($item`Mmm-brr! brand mouthwash`), $item`Mmm-brr! brand mouthwash`),
+      do: () => use(1, $item`Mmm-brr! brand mouthwash`),
       outfit: () => ({
         modifier: "cold resistance -tie",
         familiar: $familiar`Cooler Yeti`,
       }),
+    },
+    {
+      name: "Mayam Calendar Eyes & Meat",
+      ready: () => MayamCalendar.available("yam4"),
+      completed: () => !MayamCalendar.available("yam4"),
+      do: () => MayamCalendar.submit("eye", "meat", "yam3", "yam4"),
+    },
+    ...CastSkills($skills`Advanced Saucecrafting`),
+    {
+      name: "Make & Use Ointment",
+      completed: () => have($effect`Mystically Oiled`),
+      ready: () => have($item`grapefruit`) && have($item`scrumptious reagent`),
+      do: (): void => {
+        if (!have($item`ointment of the occult`)) {
+          create(1, $item`ointment of the occult`);
+        }
+        if (have($item`ointment of the occult`)) {
+          use(1, $item`ointment of the occult`);
+        }
+      },
+      limit: { tries: 1 },
     },
     ...CastSkills(expSkills),
     ...CastSkills(otherBuffs),
@@ -349,13 +356,6 @@ const Level: CSQuest = {
           use(1, lovePotion);
         }
       },
-    },
-    {
-      // not strictly necessary
-      name: "Acquire Casting Items",
-      completed: () => $items`saucepan`.every((i) => have(i)),
-      do: () =>
-        $items`saucepan`.forEach((i) => !have(i) && cliExecute(`acquire ${i}`)),
     },
     {
       name: "Lapdog",

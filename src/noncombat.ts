@@ -80,7 +80,7 @@ const Noncombat: CSQuest = {
     //     do: () => cliExecute("swim sprints"),
     // },
 
-    // I still need all the fam weight buffs to cap this test :(
+    // Having fam weight buffs can't hurt
     potionTask($item`short stack of pancakes`),
     potionTask($item`lump of loyal latite`),
     {
