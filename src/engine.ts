@@ -176,6 +176,8 @@ export class CSEngine extends Engine<never, Task> {
         );
       }
 
+      CommunityService.printLog("green");
+      
       if (["food", "booze"].includes(get("_questPartyFairQuest"))) {
         print("Talk to Gerald/ine!");
       }
@@ -189,8 +191,6 @@ export class CSEngine extends Engine<never, Task> {
       cliExecute(
         "restart; scripts/login.ash;"
       );
-
-      CommunityService.printLog("green");
     } finally {
       CSEngine.propertyManager.resetAll();
     }
