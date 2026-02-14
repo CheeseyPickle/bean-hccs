@@ -155,6 +155,11 @@ function setup() {
     TakerSpace.make($item`spices`);
   }
 
+  // Unlock Mysterious Island of Mysterious Mystery
+  if (!get("_pirateDinghyUsed")) {
+    use($item`pirate dinghy`);
+  }
+
   if (getWorkshed() !== $item`model train set`) {
     use($item`model train set`);
     // Trainset configuration is set later at levelling
