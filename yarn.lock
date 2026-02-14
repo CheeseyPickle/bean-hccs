@@ -2299,10 +2299,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-libram@^0.11.16:
-  version "0.11.16"
-  resolved "https://registry.yarnpkg.com/libram/-/libram-0.11.16.tgz#a2a6d331f6f6bc17f24fcdac49c294574627717d"
-  integrity sha512-Ydym35o5hEuPUKI2Ove/lLqVaImfTuaAO47CSecXNcKjnLbnkj72+ongIdNjG0bzGh1xIw1aGFHT7x9+6QKPgA==
+libram@^0.11.18:
+  version "0.11.18"
+  resolved "https://registry.yarnpkg.com/libram/-/libram-0.11.18.tgz#ee76ab5309d74d735359c78f5b8cabdd085eb565"
+  integrity sha512-ShJ6x/6n/9ZNwqM+w3FdcwBEq4JumGFTwRUy8EY+P7JYRFPCLKxi3vHpRDdOUP8ps9Evbg280RpcFiwpt7h6/w==
   dependencies:
     core-js "^3.47.0"
     entities "^7.0.0"
