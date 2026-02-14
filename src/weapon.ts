@@ -9,7 +9,7 @@ import {
   songTask,
 } from "./commons";
 import { CSQuest } from "./engine";
-import { uniform } from "./outfit";
+import { getBestFamiliar, uniform } from "./outfit";
 import {
   availableAmount,
   cliExecute,
@@ -25,6 +25,7 @@ import {
   $effects,
   $familiar,
   $item,
+  $location,
   $monster,
   $skill,
   CombatLoversLocket,
@@ -35,7 +36,7 @@ import {
   set,
   SongBoom,
 } from "libram";
-import { ensureMp } from "./lib";
+import { ensureMp, peridotMacro } from "./lib";
 
 const buffs = $effects`Carol of the Bulls, Rage of the Reindeer, Scowl of the Auk, Tenacity of the Snapper, Disdain of the War Snapper, Bloodbathed, Song of the North`;
 
@@ -110,6 +111,25 @@ const Weapon: CSQuest = {
           .trySkill($skill`Feel Hatred`)
           .kill()
       ),
+    },
+    {
+      name: "Heartstone: SPIT upon",
+      ready: () => !have($effect`Feeling Lost`) && get("heartstoneLetters") === "SPI",
+      completed: () => have($effect`Spit Upon`),
+      do: () => {
+        peridotMacro(
+          $location`The Haunted Conservatory`,
+          $monster`skeletal cat`,
+          Macro.trySkill($skill`Steal Monster's Heart`)
+            .step(Macro.skill($skill`Reflex Hammer`))
+        );
+      },
+      outfit: () => ({
+        acc1: $item`Peridot of Peril`,
+        acc2: $item`Heartstone`,
+        acc3: $item`Lil' Doctor™ bag`,
+        familiar: getBestFamiliar(false),
+      }),
     },
     ...buskTasks(1, $item`prismatic beret`, $item`Jurassic Parka`, $item`tinsel tights`), // Filled with Magic (100 % spell dmg)
     ...buskTasks(2, $item`prismatic beret`, $item`makeshift garbage shirt`, $item`alpha-mail pants`), // Sparkly (200 % spell dmg)

@@ -15,12 +15,14 @@ import {
   runChoice,
   setAutoAttack,
   use,
+  useFamiliar,
   useSkill,
   visitUrl,
 } from "kolmafia";
 import {
   $coinmaster,
   $effect,
+  $familiar,
   $item,
   $location,
   $monster,
@@ -261,6 +263,65 @@ function doDailies() {
   );
 }
 
+function getHeartstoneSP() {
+  ensureEffect($effect`Feeling Excited`);
+  ensureEffect($effect`The Magical Mojomuscular Melody`);
+  ensureEffect($effect`Pasta Oneness`);
+
+  // Get S from fantaSy ourk
+  // Runaway with Roman Candelabra green candle
+  if (!have($item`FantasyRealm G. E. M.`)) {
+    cliExecute("make FantasyRealm Mage's Hat");
+  }
+
+  useFamiliar($familiar.none);
+  new Requirement(
+    ["init"],
+    {
+      forceEquip: [
+        $item`FantasyRealm G. E. M.`,
+        $item`Heartstone`,
+        $item`Roman Candelabra`,
+        $item`unwrapped knock-off retro superhero cape`,
+      ],
+      preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
+    }
+  ).maximize();
+  cliExecute("retrocape heck hold");
+  if (!have($effect`Everything Looks Green`) && get("heartstoneLetters") === "") {
+    adventureMacro(
+      $location`The Towering Mountains`,
+      Macro.trySkill($skill`Steal Monster's Heart`)
+      .step(Macro.skill($skill`Blow the Green Candle!`))
+    );
+  }
+
+  // Get P from sassy Pirate
+  // Runaway with latte banish
+  useBestFamiliar(false);
+  new Requirement(
+    ["init"],
+    {
+      forceEquip: [
+        $item`Peridot of Peril`,
+        $item`Heartstone`,
+        $item`latte lovers member's mug`,
+        $item`unwrapped knock-off retro superhero cape`,
+      ],
+      preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
+    }
+  ).maximize();
+  cliExecute("retrocape heck hold");
+  if (!get("_latteBanishUsed") && have($item`pirate dinghy`) && get("heartstoneLetters") === "S") {
+    peridotMacro(
+      $location`The Obligatory Pirate's Cove`, 
+      $monster`sassy pirate`, 
+      Macro.trySkill($skill`Steal Monster's Heart`)
+      .step(Macro.skill($skill`Throw Latte on Opponent`))
+    );
+  }
+}
+
 function getSkellyFruits() {
   ensureEffect($effect`Feeling Excited`);
   ensureEffect($effect`The Magical Mojomuscular Melody`);
@@ -272,6 +333,7 @@ function getSkellyFruits() {
     {
       forceEquip: [
         $item`Peridot of Peril`,
+        $item`Heartstone`,
         $item`latte lovers member's mug`,
         $item`Jurassic Parka`,
       ],
@@ -286,6 +348,7 @@ function getSkellyFruits() {
       $location`The Skeleton Store`,
       $monster`novelty tropical skeleton`,
       Macro.trySkill($skill`Gulp Latte`)
+        .trySkill($skill`Steal Monster's Heart`)
         .step(Macro.skill($skill`Spit jurassic acid`))
     );
   }
@@ -328,6 +391,7 @@ export function main(): void {
   const coilWireStatus = CommunityService.CoilWire.run(() => {
     setup();
     doGuaranteedGoblin();
+    getHeartstoneSP();
     getSkellyFruits();
     get20MoreAdventures();
   }, 60);
