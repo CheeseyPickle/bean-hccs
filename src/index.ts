@@ -281,21 +281,22 @@ function getHeartstoneSP() {
     cliExecute("make FantasyRealm Mage's Hat");
   }
 
-  useFamiliar($familiar.none);
-  new Requirement(
-    ["init"],
-    {
-      forceEquip: [
-        $item`FantasyRealm G. E. M.`,
-        $item`Heartstone`,
-        $item`Roman Candelabra`,
-        $item`unwrapped knock-off retro superhero cape`,
-      ],
-      preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
-    }
-  ).maximize();
-  cliExecute("retrocape heck hold");
   if (!have($effect`Everything Looks Green`) && get("heartstoneLetters") === "") {
+    useFamiliar($familiar.none);
+    new Requirement(
+      ["init"],
+      {
+        forceEquip: [
+          $item`FantasyRealm G. E. M.`,
+          $item`Heartstone`,
+          $item`Roman Candelabra`,
+          $item`unwrapped knock-off retro superhero cape`,
+        ],
+        preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
+      }
+    ).maximize();
+    cliExecute("retrocape heck hold");
+
     adventureMacro(
       $location`The Towering Mountains`,
       Macro.trySkill($skill`Steal Monster's Heart`)
@@ -305,21 +306,22 @@ function getHeartstoneSP() {
 
   // Get P from sassy Pirate
   // Runaway with latte banish
-  useBestFamiliar(false);
-  new Requirement(
-    ["init"],
-    {
-      forceEquip: [
-        $item`Peridot of Peril`,
-        $item`Heartstone`,
-        $item`latte lovers member's mug`,
-        $item`unwrapped knock-off retro superhero cape`,
-      ],
-      preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
-    }
-  ).maximize();
-  cliExecute("retrocape heck hold");
-  if (!get("_latteBanishUsed") && have($item`pirate dinghy`) && get("heartstoneLetters") === "S") {
+  if (!get("_latteBanishUsed") && get("heartstoneLetters") === "S") {
+    useBestFamiliar(false);
+    new Requirement(
+      ["init"],
+      {
+        forceEquip: [
+          $item`Peridot of Peril`,
+          $item`Heartstone`,
+          $item`latte lovers member's mug`,
+          $item`unwrapped knock-off retro superhero cape`,
+        ],
+        preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
+      }
+    ).maximize();
+    cliExecute("retrocape heck hold");
+    
     peridotMacro(
       $location`The Obligatory Pirate's Cove`, 
       $monster`sassy pirate`, 

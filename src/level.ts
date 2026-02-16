@@ -257,6 +257,7 @@ const Level: CSQuest = {
       combat: new CSStrategy(() =>
         Macro.skill($skill`Launch spikolodon spikes`)
           .easyFight()
+          .trySkill($skill`Heartstone: %kill`)
           .skill($skill`Stuffed Mortar Shell`)
           .trySkillRepeat($skill`Saucestorm`)
           .attack()
@@ -266,6 +267,7 @@ const Level: CSQuest = {
         levelUniform({
           changes: {
             shirt: $item`Jurassic Parka`,
+            acc3: $item`Heartstone`,
             modes: {
               parka: "spikolodon",
             },
