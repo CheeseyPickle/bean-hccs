@@ -15,7 +15,7 @@ import { Task } from "grimoire-kolmafia";
 
 const SKILL_BUFFS = {
   MUSCLE: $effects`Rage of the Reindeer, Quiet Determination`,
-  MYSTICALITY: $effects`Feeling Excited, Big`,
+  MYSTICALITY: $effects`Quiet Judgement`,
   MOXIE: $effects`Disco Fever, Quiet Desperation`,
   HP: $effects`Rage of the Reindeer, Quiet Determination`,
 };
