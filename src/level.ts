@@ -1,10 +1,10 @@
 import { CSStrategy, Macro } from "./combatMacros";
 import { aprilShieldTask, beachTask, potionTask, skillTask } from "./commons";
 import { CSQuest } from "./engine";
-import { levelUniform, uniform } from "./outfit";
+import { peridotMacro, sausageFightGuaranteed } from "./lib";
+import { chooseBestFamiliar, levelUniform, uniform } from "./outfit";
 import { OutfitSpec, Task } from "grimoire-kolmafia";
 import {
-  availableAmount,
   buy,
   chew,
   cliExecute,
@@ -24,6 +24,7 @@ import {
   Skill,
   toEffect,
   totalFreeRests,
+  totalTurnsPlayed,
   use,
   useSkill,
   visitUrl,
@@ -43,6 +44,7 @@ import {
   get,
   have,
   MayamCalendar,
+  PeridotOfPeril,
   TrainSet,
 } from "libram";
 
@@ -67,7 +69,8 @@ const otherBuffs = $skills`Blood Bubble, Carol of the Hells, Sauce Monocle, Ghos
 const mystBuffs = $skills`Get Big, Stevedave's Shanty of Superiority, Feel Excitement, The Magical Mojomuscular Melody, Song of Bravado, Blessing of She-Who-Was, BCZ: Dial it up to 11, Heartstone: %buff`;
 
 const CastSkills = (skillz: Skill[]): Task[] =>
-  skillz.map((s) => ({
+  skillz
+    .map((s) => ({
       name: s.name,
       ready: () => myMp() >= mpCost(s),
       do: (): void => {
@@ -148,7 +151,7 @@ const Level: CSQuest = {
       name: "Go to Nellyville",
       ready: () => have($item`Charter: Nellyville`),
       completed: () => have($effect`Hot in Herre`),
-      do: () => use(1, $item`Charter: Nellyville`)
+      do: () => use(1, $item`Charter: Nellyville`),
     },
     {
       name: "April Shower",
@@ -186,7 +189,7 @@ const Level: CSQuest = {
       },
     },
     ...$items`votive of confidence, natural magick candle, gummi snake`.map(
-      potionTask
+      potionTask,
     ),
     {
       name: "Lantern Battery",
@@ -205,7 +208,7 @@ const Level: CSQuest = {
       outfit: () =>
         uniform({
           changes: {
-            back: $item`bat wings`
+            back: $item`bat wings`,
           },
         }),
     },
@@ -250,24 +253,61 @@ const Level: CSQuest = {
       },
     },
     {
-      name: "Oliver's Place: First free fight",
-      completed: () => get("_speakeasyFreeFights") > 0,
-      ready: () => get("_speakeasyFreeFights") === 0,
-      do: $location`An Unusually Quiet Barroom Brawl`,
+      name: "Heartstone get V",
+      completed: () =>
+        get("heartstoneLetters") === "JIV" ||
+        have($effect`[1701]Hip to the Jive`),
+      ready: () =>
+        get("heartstoneLetters") === "JI" &&
+        PeridotOfPeril.canImperil($location`The Haunted Kitchen`),
+      do: () => {
+        peridotMacro(
+          $location`The Haunted Kitchen`,
+          $monster`possessed silverware drawer`,
+          Macro.trySkill($skill`Steal Monster's Heart`).skill(
+            $skill`Throw Latte on Opponent`,
+          ),
+        );
+      },
+      outfit: () =>
+        levelUniform({
+          changes: {
+            offhand: $item`latte lovers member's mug`,
+            back: $item`unwrapped knock-off retro superhero cape`,
+            acc1: $item`Peridot of Peril`,
+            acc3: $item`Heartstone`,
+            ...chooseBestFamiliar(false),
+            modes: {
+              retrocape: ["heck", "hold"],
+            },
+          },
+        }),
+    },
+    {
+      name: "Sausage goblin free fight",
+      completed: () => totalTurnsPlayed() === get("_lastSausageMonsterTurn"),
+      ready: () => sausageFightGuaranteed(),
+      do: $location`Noob Cave`,
       combat: new CSStrategy(() =>
-        Macro.skill($skill`Launch spikolodon spikes`)
+        Macro.externalIf(
+          get("heartstoneLetters") === "JIV",
+          Macro.skill($skill`Steal Monster's Heart`),
+        )
+          .skill($skill`Launch spikolodon spikes`)
           .easyFight()
           .trySkill($skill`Heartstone: %kill`)
           .skill($skill`Stuffed Mortar Shell`)
           .trySkillRepeat($skill`Saucestorm`)
           .attack()
-          .repeat()
+          .repeat(),
       ),
       outfit: () =>
         levelUniform({
           changes: {
             shirt: $item`Jurassic Parka`,
+            offhand: $item`Kramco Sausage-o-Matic™`,
             acc3: $item`Heartstone`,
+            ...chooseBestFamiliar(false),
             modes: {
               parka: "spikolodon",
             },
@@ -328,8 +368,10 @@ const Level: CSQuest = {
     ...CastSkills($skills`Prevent Scurvy and Sobriety`),
     {
       name: "Drink Perfect Cocktail",
-      ready: () => myLevel() >= 5 && 
-      ((have($item`perfect ice cube`) && have($item`bottle of rum`)) || have($item`perfect dark and stormy`)),
+      ready: () =>
+        myLevel() >= 5 &&
+        ((have($item`perfect ice cube`) && have($item`bottle of rum`)) ||
+          have($item`perfect dark and stormy`)),
       completed: () => myAdventures() >= 20,
       do: (): void => {
         ensureEffect($effect`Ode to Booze`);
@@ -374,7 +416,7 @@ const Level: CSQuest = {
       ready: () =>
         AutumnAton.available() &&
         AutumnAton.availableLocations().includes(
-          $location`The Neverending Party`
+          $location`The Neverending Party`,
         ),
       completed: () => !AutumnAton.available(),
       do: () => {
@@ -393,34 +435,34 @@ const Level: CSQuest = {
               acc3: $item`Cincho de Mayo`,
             },
           });
-        else
-          return levelUniform();
+        else return levelUniform();
       },
       combat: new CSStrategy(() =>
         Macro.trySkill($skill`Entangling Noodles`)
           .externalIf(
             get("_neverendingPartyFreeTurns") > 1 && get("_feelPrideUsed") < 3, // make sure bowling sideways before feel pride
             Macro.trySkill($skill`Feel Pride`).trySkill(
-              $skill`Cincho: Confetti Extravaganza`
-            )
+              $skill`Cincho: Confetti Extravaganza`,
+            ),
           )
           .externalIf(
             haveEffect($effect`Wolfish Form`) < 1,
-            Macro.trySkill($skill`Become a Wolf`)
+            Macro.trySkill($skill`Become a Wolf`),
           )
-          .default(true)
+          .default(true),
       ),
       choices: { [1324]: 5 },
     },
     {
       name: "Freekill NEP",
-      completed: () =>
-        get("_clubEmTimeUsed") >= 5,
+      completed: () => get("_clubEmTimeUsed") >= 5,
       do: $location`The Neverending Party`,
       outfit: (): OutfitSpec => {
         foldshirt();
         const killSource =
-          get("_clubEmTimeUsed") < 5 ? { weapon: $item`legendary seal-clubbing club` } : {};
+          get("_clubEmTimeUsed") < 5
+            ? { weapon: $item`legendary seal-clubbing club` }
+            : {};
         const changes = {
           ...killSource,
         };
@@ -431,7 +473,7 @@ const Level: CSQuest = {
           .trySkill($skill`Bowl Sideways`)
           .skill($skill`Sing Along`)
           .trySkill($skill`Club 'Em Back in Time`)
-          .abort()
+          .abort(),
       ),
       choices: { [1324]: 5 },
     },

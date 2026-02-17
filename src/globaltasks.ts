@@ -13,6 +13,7 @@ import {
   $location,
   $skill,
   AutumnAton,
+  CommunityService,
   get,
   have,
 } from "libram";
@@ -74,8 +75,9 @@ const POST_QUEST: Quest<Task> = {
       ready: () =>
         sausageFightGuaranteed() &&
         !have($effect`Feeling Lost`) &&
-        !haveEffect($effect`Meteor Showered`) &&
-        !haveEffect($effect`Fireproof Foam Suit`),
+        !have($effect`Meteor Showered`) &&
+        !have($effect`Fireproof Foam Suit`) &&
+        (CommunityService.FamiliarWeight.isDone() || have($effect`[1701]Hip to the Jive`)), // We use post-wire guarenteed goblin to get E for heartstone
       outfit: (): OutfitSpec => {
         return levelUniform({
           changes: {

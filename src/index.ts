@@ -16,14 +16,12 @@ import {
   runChoice,
   setAutoAttack,
   use,
-  useFamiliar,
   useSkill,
   visitUrl,
 } from "kolmafia";
 import {
   $coinmaster,
   $effect,
-  $familiar,
   $item,
   $location,
   $monster,
@@ -84,8 +82,8 @@ function doGuaranteedGoblin() {
       $location`Noob Cave`,
       Macro.if_(
         `!monsterid ${$monster`sausage goblin`.id}`,
-        new Macro().step("abort")
-      ).step(Macro.easyFight().itemSkills().kill())
+        new Macro().step("abort"),
+      ).step(Macro.easyFight().itemSkills().kill()),
     );
     equip(offHand);
   }
@@ -104,7 +102,7 @@ function vote() {
   if (!get("_voteToday")) {
     visitUrl("place.php?whichplace=town_right&action=townright_vote");
     visitUrl(
-      "choice.php?option=1&whichchoice=1331&g=2&local%5B%5D=2&local%5B%5D=3"
+      "choice.php?option=1&whichchoice=1331&g=2&local%5B%5D=2&local%5B%5D=3",
     );
     visitUrl("place.php?whichplace=town_right&action=townright_vote"); // Let mafia see the voted values
   }
@@ -117,7 +115,7 @@ function equipStatOutfit() {
     {
       forceEquip: [$item`makeshift garbage shirt`, $item`unbreakable umbrella`],
       preventEquip: [$item`Daylight Shavings Helmet`],
-    }
+    },
   ).maximize();
 }
 
@@ -134,14 +132,6 @@ function setup() {
   if (availableAmount($item`porquoise`) > 2) {
     autosell(availableAmount($item`porquoise`) - 2, $item`porquoise`);
   }
-
-  // Numberology 69
-  cliExecute("numberology 69");
-
-  // Buy things from 2002 Mr. Store
-  use($item`2002 Mr. Store Catalog`);
-  buy($coinmaster`Mr. Store 2002`, 1, $item`Charter: Nellyville`);
-  buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
 
   // Use TakerSpace first then switch to model train set
   if (getWorkshed() === $item.none && !get("_workshedItemUsed")) {
@@ -183,7 +173,12 @@ function setup() {
   runChoice(1);
   visitUrl("shop.php?whichshop=armory&action=talk");
   runChoice(1);
-  
+
+  // unlock FantasyRealm
+  if (!have($item`FantasyRealm G. E. M.`)) {
+    cliExecute("make FantasyRealm Mage's Hat");
+  }
+
   if (!get("_sitCourseCompleted")) {
     // 1 = Rocks, 2 = Insects, 3 = Plants
     withChoice(1494, 2, () => use($item`S.I.T. Course Completion Certificate`));
@@ -194,7 +189,12 @@ function setup() {
   }
 
   // Not seeded, so just hope you get lucky lol
-  Leprecondo.setFurniture("cupcake treadmill", "UltraDance karaoke machine", "programmable blender", "four-poster bed");
+  Leprecondo.setFurniture(
+    "cupcake treadmill",
+    "UltraDance karaoke machine",
+    "programmable blender",
+    "four-poster bed",
+  );
 
   AutumnAton.sendTo($location`The Sleazy Back Alley`);
 
@@ -219,7 +219,7 @@ function doDailies() {
   visitUrl("clan_viplounge.php?action=fwshop"); // manual visit to fireworks shop to allow purchases
   visitUrl("clan_viplounge.php?action=lookingglass&whichfloor=2"); // get DRINK ME potion
   visitUrl(
-    "shop.php?whichshop=lathe&action=buyitem&quantity=1&whichrow=1162&pwd"
+    "shop.php?whichshop=lathe&action=buyitem&quantity=1&whichrow=1162&pwd",
   ); // lathe wand
 
   vote();
@@ -265,68 +265,46 @@ function doDailies() {
   MayamCalendar.submit("vessel", "yam2", "cheese", "explosion");
   MayamCalendar.submit("yam1", "bottle", "wall", "clock");
 
+  // Numberology 69
+  cliExecute("numberology 69");
+
+  // Buy things from 2002 Mr. Store
+  use($item`2002 Mr. Store Catalog`);
+  buy($coinmaster`Mr. Store 2002`, 1, $item`Charter: Nellyville`);
+  buy($coinmaster`Mr. Store 2002`, 1, $item`Loathing Idol Microphone`);
+
   cliExecute(
-    "pantogram mysticality|cold|nail clippings|some self-respect|your hopes|silent"
+    "pantogram mysticality|cold|nail clippings|some self-respect|your hopes|silent",
   );
 }
 
-function getHeartstoneSP() {
+function getHeartstoneJ() {
   ensureEffect($effect`Feeling Excited`);
   ensureEffect($effect`The Magical Mojomuscular Melody`);
   ensureEffect($effect`Pasta Oneness`);
 
-  // Get S from fantaSy ourk
-  // Runaway with Roman Candelabra green candle
-  if (!have($item`FantasyRealm G. E. M.`)) {
-    cliExecute("make FantasyRealm Mage's Hat");
-  }
-
-  if (!have($effect`Everything Looks Green`) && get("heartstoneLetters") === "") {
-    useFamiliar($familiar.none);
-    new Requirement(
-      ["init"],
-      {
-        forceEquip: [
-          $item`FantasyRealm G. E. M.`,
-          $item`Heartstone`,
-          $item`Roman Candelabra`,
-          $item`unwrapped knock-off retro superhero cape`,
-        ],
-        preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
-      }
-    ).maximize();
-    cliExecute("retrocape heck hold");
-
-    adventureMacro(
-      $location`The Towering Mountains`,
-      Macro.trySkill($skill`Steal Monster's Heart`)
-      .step(Macro.skill($skill`Blow the Green Candle!`))
-    );
-  }
-
-  // Get P from sassy Pirate
-  // Runaway with latte banish
-  if (!get("_latteBanishUsed") && get("heartstoneLetters") === "S") {
+  // Get J from filthy hippy jewelry maker
+  if (
+    !have($effect`Everything Looks Green`) &&
+    get("heartstoneLetters") === ""
+  ) {
     useBestFamiliar(false);
-    new Requirement(
-      ["init"],
-      {
-        forceEquip: [
-          $item`Peridot of Peril`,
-          $item`Heartstone`,
-          $item`latte lovers member's mug`,
-          $item`unwrapped knock-off retro superhero cape`,
-        ],
-        preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
-      }
-    ).maximize();
+    new Requirement(["init"], {
+      forceEquip: [
+        $item`Heartstone`,
+        $item`Roman Candelabra`,
+        $item`unwrapped knock-off retro superhero cape`,
+      ],
+      preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
+    }).maximize();
     cliExecute("retrocape heck hold");
-    
+
     peridotMacro(
-      $location`The Obligatory Pirate's Cove`, 
-      $monster`sassy pirate`, 
-      Macro.trySkill($skill`Steal Monster's Heart`)
-      .step(Macro.skill($skill`Throw Latte on Opponent`))
+      $location`The Hippy Camp`,
+      $monster`filthy hippy jewelry maker`,
+      Macro.trySkill($skill`Steal Monster's Heart`).skill(
+        $skill`Blow the Green Candle!`,
+      ),
     );
   }
 }
@@ -347,7 +325,7 @@ function getSkellyFruits() {
         $item`Jurassic Parka`,
       ],
       preventEquip: [$item`Daylight Shavings Helmet`, $item`bat wings`],
-    }
+    },
   ).maximize();
 
   cliExecute("parka acid");
@@ -358,7 +336,7 @@ function getSkellyFruits() {
       $monster`novelty tropical skeleton`,
       Macro.trySkill($skill`Gulp Latte`)
         .trySkill($skill`Steal Monster's Heart`)
-        .step(Macro.skill($skill`Spit jurassic acid`))
+        .step(Macro.skill($skill`Spit jurassic acid`)),
     );
   }
 }
@@ -400,7 +378,7 @@ export function main(): void {
   const coilWireStatus = CommunityService.CoilWire.run(() => {
     setup();
     doGuaranteedGoblin();
-    getHeartstoneSP();
+    getHeartstoneJ();
     getSkellyFruits();
     get20MoreAdventures();
   }, 60);
@@ -420,6 +398,6 @@ export function main(): void {
     FamiliarWeight,
     HotRes,
     Weapon,
-    Spell
+    Spell,
   );
 }

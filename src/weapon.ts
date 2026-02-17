@@ -33,6 +33,7 @@ import {
   ensureEffect,
   get,
   have,
+  Latte,
   set,
   SongBoom,
 } from "libram";
@@ -75,7 +76,7 @@ const Weapon: CSQuest = {
     skillTask($effect`Frenzied, Bloody`),
     songTask(
       $effect`Jackasses' Symphony of Destruction`,
-      $effect`Ode to Booze`
+      $effect`Ode to Booze`,
     ),
     beachTask($effect`Lack of Body-Building`),
     famPool(),
@@ -109,19 +110,87 @@ const Weapon: CSQuest = {
         Macro.trySkill($skill`Swoop like a Bat`)
           .trySkill($skill`Blow the Green Candle!`)
           .trySkill($skill`Feel Hatred`)
-          .kill()
+          .kill(),
       ),
     },
     {
+      name: "Heartstone: get S",
+      ready: () =>
+        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "",
+      completed: () => have($effect`Spit Upon`),
+      do: $location`The Towering Mountains`,
+      combat: new CSStrategy(() =>
+        Macro.skill($skill`Steal Monster's Heart`).skill($skill`Reflex Hammer`),
+      ),
+      outfit: () => ({
+        back: $item`unwrapped knock-off retro superhero cape`,
+        acc1: $item`FantasyRealm G. E. M.`,
+        acc2: $item`Heartstone`,
+        acc3: $item`Lil' Doctor™ bag`,
+        familiar: $familiar.none,
+        modes: {
+          retrocape: ["heck", "hold"],
+        },
+      }),
+    },
+    {
+      name: "Heartstone: get SP",
+      ready: () =>
+        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "S",
+      completed: () => have($effect`Spit Upon`),
+      do: () => {
+        if (get("_latteBanishUsed")) {
+          Latte.fill("pumpkin", "cinnamon", "vanilla");
+        }
+
+        peridotMacro(
+          $location`The Obligatory Pirate's Cove`,
+          $monster`sassy pirate`,
+          Macro.trySkill($skill`Steal Monster's Heart`).skill(
+            $skill`Throw Latte on Opponent`,
+          ),
+        );
+      },
+      outfit: () => ({
+        offhand: $item`latte lovers member's mug`,
+        acc1: $item`Peridot of Peril`,
+        acc2: $item`Heartstone`,
+        familiar: getBestFamiliar(false),
+      }),
+    },
+    {
+      name: "Heartstone: get SPI",
+      ready: () =>
+        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "SP",
+      completed: () => have($effect`Spit Upon`),
+      do: () => {
+        peridotMacro(
+          $location`An Unusually Quiet Barroom Brawl`,
+          $monster`traveling hobo`,
+          Macro.trySkill($skill`Steal Monster's Heart`)
+            .easyFight()
+            .trySkill($skill`Heartstone: %kill`)
+            .kill(),
+        );
+      },
+      outfit: () => ({
+        acc1: $item`Peridot of Peril`,
+        acc2: $item`Heartstone`,
+        familiar: getBestFamiliar(false),
+      }),
+    },
+    {
       name: "Heartstone: SPIT upon",
-      ready: () => !have($effect`Feeling Lost`) && get("heartstoneLetters") === "SPI",
+      ready: () =>
+        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "SPI",
       completed: () => have($effect`Spit Upon`),
       do: () => {
         peridotMacro(
           $location`The Haunted Conservatory`,
           $monster`skeletal cat`,
-          Macro.trySkill($skill`Steal Monster's Heart`)
-            .step(Macro.skill($skill`Reflex Hammer`))
+          Macro.trySkill($skill`Steal Monster's Heart`).skill(
+            $skill`Reflex Hammer`,
+          ),
         );
       },
       outfit: () => ({
@@ -131,10 +200,30 @@ const Weapon: CSQuest = {
         familiar: getBestFamiliar(false),
       }),
     },
-    ...buskTasks(1, $item`prismatic beret`, $item`Jurassic Parka`, $item`tinsel tights`), // Filled with Magic (100 % spell dmg)
-    ...buskTasks(2, $item`prismatic beret`, $item`makeshift garbage shirt`, $item`alpha-mail pants`), // Sparkly (200 % spell dmg)
-    ...buskTasks(3, $item`prismatic beret`, $item`makeshift garbage shirt`, $item`troutpiece`), // Feline Ferocity (100 % weapon dmg)
-    ...buskTasks(4, $item`prismatic beret`, $item`Jurassic Parka`, $item`chain-mail monokini`), // Nigh-Invincible (100 % weapon & spell dmg)
+    ...buskTasks(
+      1,
+      $item`prismatic beret`,
+      $item`Jurassic Parka`,
+      $item`tinsel tights`,
+    ), // Filled with Magic (100 % spell dmg)
+    ...buskTasks(
+      2,
+      $item`prismatic beret`,
+      $item`makeshift garbage shirt`,
+      $item`alpha-mail pants`,
+    ), // Sparkly (200 % spell dmg)
+    ...buskTasks(
+      3,
+      $item`prismatic beret`,
+      $item`makeshift garbage shirt`,
+      $item`troutpiece`,
+    ), // Feline Ferocity (100 % weapon dmg)
+    ...buskTasks(
+      4,
+      $item`prismatic beret`,
+      $item`Jurassic Parka`,
+      $item`chain-mail monokini`,
+    ), // Nigh-Invincible (100 % weapon & spell dmg)
     potionTask($item`corrupted marrow`),
     {
       name: "Swagger",
