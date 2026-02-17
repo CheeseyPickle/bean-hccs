@@ -20,7 +20,9 @@ const Drink: CSQuest = {
     songTask($effect`Ode to Booze`, $effect`The Magical Mojomuscular Melody`),
     {
       name: "Wish for Salty Mouth",
-      ready: () => get("_monkeyPawWishesUsed") + RESERVED_WISHES < 5 && have($item`astral pilsner`),
+      ready: () =>
+        get("_monkeyPawWishesUsed") + RESERVED_WISHES < 5 &&
+        have($item`astral pilsner`),
       completed: () => have($effect`Salty Mouth`),
       do: () => monkeyPaw($effect`Salty Mouth`),
     },

@@ -125,7 +125,7 @@ export class CSEngine extends Engine<never, Task> {
         if (this.csOptions.type === "SERVICE") {
           Outfit.from(
             this.csOptions.outfit(),
-            new Error(`Failed to equip outfit for ${this.name}`)
+            new Error(`Failed to equip outfit for ${this.name}`),
           ).dress();
         }
 
@@ -140,7 +140,7 @@ export class CSEngine extends Engine<never, Task> {
 
       if (result === "already completed")
         throw new Error(
-          `Libram thinks we already completed ${this.name} but we beg to differ`
+          `Libram thinks we already completed ${this.name} but we beg to differ`,
         );
     } finally {
       this.destruct();
@@ -171,13 +171,13 @@ export class CSEngine extends Engine<never, Task> {
       if (get("_cloudTalkSmoker")) {
         print(
           `${get("_cloudTalkSmoker").slice(10)} has a message for you: ${get(
-            "_cloudTalkMessage"
-          )}`
+            "_cloudTalkMessage",
+          )}`,
         );
       }
 
       CommunityService.printLog("green");
-      
+
       if (["food", "booze"].includes(get("_questPartyFairQuest"))) {
         print("Talk to Gerald/ine!");
       }
@@ -188,9 +188,7 @@ export class CSEngine extends Engine<never, Task> {
       // Post-CS run stuff personalized to me
       chatPrivate("Buffy", "1000 Jingle Bells");
 
-      cliExecute(
-        "restart; scripts/login.ash;"
-      );
+      cliExecute("restart; scripts/login.ash;");
     } finally {
       CSEngine.propertyManager.resetAll();
     }

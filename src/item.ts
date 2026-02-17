@@ -72,7 +72,7 @@ const ItemDrop: CSQuest = {
     },
     songTask(
       $effect`Fat Leon's Phat Loot Lyric`,
-      $effect`The Magical Mojomuscular Melody`
+      $effect`The Magical Mojomuscular Melody`,
     ),
     skillTask($skill`The Spirit of Taking`),
     skillTask($skill`Who's Going to Pay This Drunken Sailor?`),

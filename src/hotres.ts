@@ -27,7 +27,7 @@ const HotRes: CSQuest = {
   outfit: () => ({
     modifiers: MODIFIERS.join(","),
     familiar: $familiar`Exotic Parrot`,
-    modes: {retrocape: ["vampire", "hold"]},
+    modes: { retrocape: ["vampire", "hold"] },
   }),
   turnsSpent: 0,
   maxTurns: 1,
@@ -67,13 +67,13 @@ const HotRes: CSQuest = {
       combat: new CSStrategy(() =>
         Macro.skill($skill`Become a Cloud of Mist`)
           .skill($skill`Fire Extinguisher: Foam Yourself`)
-          .skill($skill`Use the Force`)
+          .skill($skill`Use the Force`),
       ),
       post: () =>
         visitUrl(
           `desc_item.php?whichitem=${
             $item`industrial fire extinguisher`.descid
-          }`
+          }`,
         ),
     },
   ],

@@ -18,10 +18,7 @@ import {
   have,
 } from "libram";
 import { CSStrategy, Macro } from "./combatMacros";
-import {
-  sausageFightGuaranteed,
-  voterMonsterNow,
-} from "./lib";
+import { sausageFightGuaranteed, voterMonsterNow } from "./lib";
 import { getBestFamiliar, levelUniform } from "./outfit";
 
 const PRE_QUEST: Quest<Task> = {
@@ -77,7 +74,8 @@ const POST_QUEST: Quest<Task> = {
         !have($effect`Feeling Lost`) &&
         !have($effect`Meteor Showered`) &&
         !have($effect`Fireproof Foam Suit`) &&
-        (CommunityService.FamiliarWeight.isDone() || have($effect`[1701]Hip to the Jive`)), // We use post-wire guarenteed goblin to get E for heartstone
+        (CommunityService.FamiliarWeight.isDone() ||
+          have($effect`[1701]Hip to the Jive`)), // We use post-wire guarenteed goblin to get E for heartstone
       outfit: (): OutfitSpec => {
         return levelUniform({
           changes: {
@@ -90,7 +88,7 @@ const POST_QUEST: Quest<Task> = {
         Macro.if_('!monstername "sausage goblin"', new Macro().step("abort"))
           .itemSkills()
           .easyFight()
-          .kill()
+          .kill(),
       ),
       limit: { tries: 1 },
     },

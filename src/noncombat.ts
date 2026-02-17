@@ -7,7 +7,13 @@ import {
   songTask,
 } from "./commons";
 import { CSQuest } from "./engine";
-import { availableAmount, cliExecute, equip, retrieveItem, useSkill } from "kolmafia";
+import {
+  availableAmount,
+  cliExecute,
+  equip,
+  retrieveItem,
+  useSkill,
+} from "kolmafia";
 import {
   $effect,
   $effects,
@@ -39,8 +45,8 @@ const Noncombat: CSQuest = {
     famequip: $item`tiny stillsuit`,
     modes: {
       parka: "pterodactyl",
-      umbrella: "cocoon"
-    }
+      umbrella: "cocoon",
+    },
   }),
   turnsSpent: 0,
   maxTurns: 1,
@@ -54,7 +60,7 @@ const Noncombat: CSQuest = {
     {
       name: "Apriling Band Intrinsic",
       completed: () => have($effect`Apriling Band Patrol Beat`),
-      ready:() => AprilingBandHelmet.canChangeSong(),
+      ready: () => AprilingBandHelmet.canChangeSong(),
       do: () => AprilingBandHelmet.conduct("Apriling Band Patrol Beat"),
     },
     {
@@ -69,9 +75,11 @@ const Noncombat: CSQuest = {
     skillTask($effect`Hiding From Seekers`),
     songTask(
       $effect`The Sonata of Sneakiness`,
-      $effect`Fat Leon's Phat Loot Lyric`
+      $effect`Fat Leon's Phat Loot Lyric`,
     ),
-    restore($effects`Smooth Movements, The Sonata of Sneakiness, Hiding From Seekers`),
+    restore(
+      $effects`Smooth Movements, The Sonata of Sneakiness, Hiding From Seekers`,
+    ),
     potionTask($item`shady shades`),
     // monkeyWishTask($effect`Disquiet Riot`),
     // {
@@ -90,7 +98,7 @@ const Noncombat: CSQuest = {
       do: (): void => {
         equip($slot`acc3`, $item`Cincho de Mayo`);
         useSkill($skill`Cincho: Party Soundtrack`);
-      }
+      },
     },
     famPool(),
   ],

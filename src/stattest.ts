@@ -1,4 +1,11 @@
-import { aprilShieldTask, beachTask, potionTask, restore, skillTask, songTask } from "./commons";
+import {
+  aprilShieldTask,
+  beachTask,
+  potionTask,
+  restore,
+  skillTask,
+  songTask,
+} from "./commons";
 import { CSQuest } from "./engine";
 import { buy, create, use } from "kolmafia";
 import {
@@ -34,7 +41,7 @@ const Muscle: CSQuest = {
   outfit: () => ({
     modifier: ["Muscle", "Muscle Percent"].join(","),
     familiar: $familiar`Left-Hand Man`,
-    modes: {retrocape: ["vampire", "thrill"]},
+    modes: { retrocape: ["vampire", "thrill"] },
   }),
   tasks: [
     {
@@ -90,7 +97,7 @@ const Mysticality: CSQuest = {
   tasks: [
     songTask(
       $effect`The Magical Mojomuscular Melody`,
-      $effect`Ur-Kel's Aria of Annoyance`
+      $effect`Ur-Kel's Aria of Annoyance`,
     ),
     ...skillBuffTasks("MYSTICALITY"),
     aprilShieldTask($skill`Manicotti Meditation`),
@@ -99,7 +106,7 @@ const Mysticality: CSQuest = {
   outfit: () => ({
     modifier: ["Mysticality", "Mysticality Percent"].join(","),
     familiar: $familiar`Left-Hand Man`,
-    modes: {retrocape: ["heck", "thrill"]},
+    modes: { retrocape: ["heck", "thrill"] },
   }),
 };
 
@@ -113,7 +120,7 @@ const Moxie: CSQuest = {
   outfit: () => ({
     modifier: ["Moxie", "Moxie Percent"].join(","),
     familiar: $familiar`Left-Hand Man`,
-    modes: {retrocape: ["robot", "thrill"]},
+    modes: { retrocape: ["robot", "thrill"] },
   }),
   tasks: [
     ...skillBuffTasks("MOXIE"),

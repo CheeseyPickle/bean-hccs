@@ -46,7 +46,7 @@ const Spell: CSQuest = {
     ...buffs.map(skillTask),
     songTask(
       $effect`Jackasses' Symphony of Destruction`,
-      $effect`Ode to Booze`
+      $effect`Ode to Booze`,
     ),
     restore(buffs),
     skillTask($skill`Spirit of Cayenne`),
@@ -58,7 +58,12 @@ const Spell: CSQuest = {
         get("_poolGames") >= 3 || have($effect`Mental A-cue-ity`),
       do: () => cliExecute("pool 1"),
     },
-    ...buskTasks(5, $item`prismatic beret`, $item`Jurassic Parka`, $item`old sweatpants`), // Human-Elf Hybrid (100 % spell dmg)
+    ...buskTasks(
+      5,
+      $item`prismatic beret`,
+      $item`Jurassic Parka`,
+      $item`old sweatpants`,
+    ), // Human-Elf Hybrid (100 % spell dmg)
     {
       name: "Make & Use Cordial",
       completed: () => have($effect`Concentration`),

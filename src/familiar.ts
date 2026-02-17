@@ -1,4 +1,9 @@
-import { commonFamiliarWeightBuffs, famPool, potionTask, skillTask } from "./commons";
+import {
+  commonFamiliarWeightBuffs,
+  famPool,
+  potionTask,
+  skillTask,
+} from "./commons";
 import { CSQuest } from "./engine";
 import { equip, useSkill } from "kolmafia";
 import {
@@ -38,7 +43,7 @@ const FamiliarWeight: CSQuest = {
       do: (): void => {
         equip($slot`acc3`, $item`Cincho de Mayo`);
         useSkill($skill`Cincho: Party Soundtrack`);
-      }
+      },
     },
     famPool(),
   ],
