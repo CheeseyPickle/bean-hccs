@@ -291,6 +291,7 @@ function getHeartstoneJ() {
     useBestFamiliar(false);
     new Requirement(["init"], {
       forceEquip: [
+        $item`Peridot of Peril`,
         $item`Heartstone`,
         $item`Roman Candelabra`,
         $item`unwrapped knock-off retro superhero cape`,
