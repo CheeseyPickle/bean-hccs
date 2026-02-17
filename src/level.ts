@@ -143,6 +143,7 @@ const Level: CSQuest = {
     // monkeyWishTask($effect`Different Way of Seeing Things`),
     {
       name: "abstraction: category",
+      ready: () => have($item`abstraction: category`),
       completed: () => have($effect`Category`),
       do: () => chew(1, $item`abstraction: category`),
     },

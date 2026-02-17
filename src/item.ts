@@ -23,7 +23,7 @@ import { CSQuest } from "./engine";
 import { ensureItem, hasLoathingIdolCharge } from "./lib";
 import { uniform } from "./outfit";
 
-const MODIFIERS = ["item drop", "2 booze drop"];
+const MODIFIERS = ["item drop", "booze drop"];
 
 const ItemDrop: CSQuest = {
   name: "Booze Drop",

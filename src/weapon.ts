@@ -56,8 +56,9 @@ const Weapon: CSQuest = {
   maxTurns: 1,
   tasks: [
     {
+      // Get this before HP is nerfed by Cowrruption
       name: "Deep Dark Visions",
-      completed: () => have($effect`Visions of the Deep Dark Deeps`, 40),
+      completed: () => have($effect`Visions of the Deep Dark Deeps`),
       do: (): void => {
         while (myHp() < myMaxhp()) {
           ensureMp(20);
@@ -116,8 +117,11 @@ const Weapon: CSQuest = {
     {
       name: "Heartstone: get S",
       ready: () =>
-        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "",
-      completed: () => have($effect`Spit Upon`),
+        !have($effect`Feeling Lost`) &&
+        (get("heartstoneLetters") === "" ||
+          get("heartstoneLetters").length === 4),
+      completed: () =>
+        get("heartstoneLetters") === "S" || have($effect`Spit Upon`),
       do: $location`The Towering Mountains`,
       combat: new CSStrategy(() =>
         Macro.skill($skill`Steal Monster's Heart`).skill($skill`Reflex Hammer`),
