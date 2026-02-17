@@ -365,20 +365,6 @@ const Level: CSQuest = {
     },
     ...CastSkills(expSkills),
     ...CastSkills(otherBuffs),
-    ...CastSkills($skills`Perfect Freeze`),
-    ...CastSkills($skills`Prevent Scurvy and Sobriety`),
-    {
-      name: "Drink Perfect Cocktail",
-      ready: () =>
-        myLevel() >= 5 &&
-        ((have($item`perfect ice cube`) && have($item`bottle of rum`)) ||
-          have($item`perfect dark and stormy`)),
-      completed: () => myAdventures() >= 20,
-      do: (): void => {
-        ensureEffect($effect`Ode to Booze`);
-        cliExecute("drink 1 perfect dark and stormy");
-      },
-    },
     {
       name: "Get Love Potion",
       completed: () => $skill`Love Mixology`.timescast > 0,

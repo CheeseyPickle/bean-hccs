@@ -389,13 +389,13 @@ export function main(): void {
 
   CSEngine.runTests(
     Level,
+    Drink,
     Muscle,
     Hitpoints,
     Mysticality,
     Moxie,
     ItemDrop,
     Noncombat,
-    Drink,
     FamiliarWeight,
     HotRes,
     Weapon,
