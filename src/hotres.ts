@@ -51,7 +51,7 @@ const HotRes: CSQuest = {
     {
       name: "Extinguisher + Cloake + Fax",
       completed: () => have($effect`Fireproof Foam Suit`),
-      ready: () => get("_saberForceUses") < 5 && !get("_photocopyUsed"),
+      ready: () => get("_saberForceUses") < 5,
       do: $location`The Dire Warren`,
       choices: { [1387]: 3 },
       outfit: () =>

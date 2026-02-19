@@ -41,7 +41,7 @@ const Noncombat: CSQuest = {
     acc1: $item`McHugeLarge left ski`,
     acc2: $item`Beach Comb`,
     acc3: $item`hewn moon-rune spoon`,
-    familiar: $familiar`Disgeist`,
+    familiar: $familiar`Peace Turkey`,
     famequip: $item`tiny stillsuit`,
     modes: {
       parka: "pterodactyl",
