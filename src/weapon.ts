@@ -115,33 +115,35 @@ const Weapon: CSQuest = {
       ),
     },
     {
-      name: "Heartstone: get S",
+      name: "Heartstone: get U",
       ready: () =>
         !have($effect`Feeling Lost`) &&
         (get("heartstoneLetters") === "" ||
           get("heartstoneLetters").length === 4),
       completed: () =>
-        get("heartstoneLetters") === "S" || have($effect`Spit Upon`),
-      do: $location`The Towering Mountains`,
-      combat: new CSStrategy(() =>
-        Macro.skill($skill`Steal Monster's Heart`).skill($skill`Reflex Hammer`),
-      ),
+        get("heartstoneLetters") === "U" || have($effect`Spit Upon`),
+      do: () => {
+        peridotMacro(
+          $location`The Overgrown Lot`,
+          $monster`malt liquor golem`,
+          Macro.trySkill($skill`Steal Monster's Heart`).skill(
+            $skill`Reflex Hammer`,
+          ),
+        );
+      },
       outfit: () => ({
-        back: $item`unwrapped knock-off retro superhero cape`,
-        acc1: $item`FantasyRealm G. E. M.`,
+        acc1: $item`Peridot of Peril`,
         acc2: $item`Heartstone`,
         acc3: $item`Lil' Doctor™ bag`,
-        familiar: $familiar.none,
-        modes: {
-          retrocape: ["heck", "hold"],
-        },
+        familiar: getBestFamiliar(false),
       }),
     },
     {
-      name: "Heartstone: get SP",
+      name: "Heartstone: get UP",
       ready: () =>
-        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "S",
-      completed: () => have($effect`Spit Upon`),
+        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "U",
+      completed: () =>
+        get("heartstoneLetters") === "UP" || have($effect`Spit Upon`),
       do: () => {
         if (get("_latteBanishUsed")) {
           Latte.fill("pumpkin", "cinnamon", "vanilla");
@@ -163,35 +165,36 @@ const Weapon: CSQuest = {
       }),
     },
     {
-      name: "Heartstone: get SPI",
+      name: "Heartstone: get UPO",
       ready: () =>
-        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "SP",
-      completed: () => have($effect`Spit Upon`),
+        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "UP",
+      completed: () =>
+        get("heartstoneLetters") === "UPO" || have($effect`Spit Upon`),
       do: () => {
         peridotMacro(
-          $location`An Unusually Quiet Barroom Brawl`,
-          $monster`traveling hobo`,
-          Macro.trySkill($skill`Steal Monster's Heart`)
-            .easyFight()
-            .trySkill($skill`Heartstone: %kill`)
-            .kill(),
+          $location`The Haunted Pantry`,
+          $monster`undead elbow macaroni`,
+          Macro.trySkill($skill`Steal Monster's Heart`).skill(
+            $skill`Reflex Hammer`,
+          ),
         );
       },
       outfit: () => ({
         acc1: $item`Peridot of Peril`,
         acc2: $item`Heartstone`,
+        acc3: $item`Lil' Doctor™ bag`,
         familiar: getBestFamiliar(false),
       }),
     },
     {
-      name: "Heartstone: SPIT upon",
+      name: "Heartstone: spit UPON",
       ready: () =>
-        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "SPI",
+        !have($effect`Feeling Lost`) && get("heartstoneLetters") === "UPO",
       completed: () => have($effect`Spit Upon`),
       do: () => {
         peridotMacro(
-          $location`The Haunted Conservatory`,
-          $monster`skeletal cat`,
+          $location`The Haiku Dungeon`,
+          $monster`ancient insane monk`,
           Macro.trySkill($skill`Steal Monster's Heart`).skill(
             $skill`Reflex Hammer`,
           ),
