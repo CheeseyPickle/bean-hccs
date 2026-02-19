@@ -345,20 +345,23 @@ function getSkellyFruits() {
 function get20MoreAdventures() {
   if (myAdventures() >= 60) return;
 
-  // Eat bowl full of jelly & peppermint patty
-  if (!get("_bowlFullOfJellyUsed")) {
-    useSkill($skill`Bowl Full of Jelly`);
-  }
+  // Eat peppermint patty & bowl full of jelly
   if (availableAmount($item`peppermint sprout`) >= 2) {
     cliExecute("make peppermint patty");
   }
 
-  if (availableAmount($item`bowl full of jelly`) > 0) {
-    eatsilent($item`bowl full of jelly`);
-  }
-
   if (availableAmount($item`peppermint patty`) > 0) {
     eatsilent($item`peppermint patty`);
+  }
+
+  if (myAdventures() >= 60) return;
+
+  if (!get("_bowlFullOfJellyUsed")) {
+    useSkill($skill`Bowl Full of Jelly`);
+  }
+
+  if (availableAmount($item`bowl full of jelly`) > 0) {
+    eatsilent($item`bowl full of jelly`);
   }
 
   // pull and use borrowed time
