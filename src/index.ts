@@ -202,10 +202,12 @@ function setup() {
   pullIfPossible(1, $item`Great Wolf's beastly trousers`, 0);
   pullIfPossible(1, $item`Stick-Knife of Loathing`, 0);
   pullIfPossible(1, $item`witch's bra`, 0);
-  if (!pullIfPossible(1, $item`meteorite necklace`, 0))
-    pullIfPossible(1, $item`Belt of Loathing`, 0);
+  // needs to be pulled from clan, so might not be there
+  pullIfPossible(1, $item`meteorite necklace`, 5000);
+  // pull this instead if meteorite necklace isn't there
+  pullIfPossible(1, $item`Belt of Loathing`, 0);
 
-  cliExecute("mcd 10");
+  cliExecute("mcd 11");
   ensureSewerItem(1, $item`saucepan`);
   ensureSewerItem(1, $item`turtle totem`);
   ensureItem(1, $item`toy accordion`);
@@ -400,8 +402,8 @@ export function main(): void {
     Moxie,
     ItemDrop,
     Noncombat,
-    FamiliarWeight,
     HotRes,
+    FamiliarWeight,
     Weapon,
     Spell,
   );

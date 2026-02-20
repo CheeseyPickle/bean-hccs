@@ -38,7 +38,7 @@ const HotRes: CSQuest = {
     {
       name: "Daylight Shavings Buff",
       completed: () => have($effect`Gull-Wing Moustache`),
-      ready: () => get("_speakeasyFreeFights") < 3,
+      ready: () => get("_speakeasyFreeFights") < 3 && !have($effect`Feeling Lost`),
       do: $location`An Unusually Quiet Barroom Brawl`,
       combat: new CSStrategy(() => Macro.easyFight().attack().repeat()),
       outfit: () =>
