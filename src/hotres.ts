@@ -35,19 +35,22 @@ const HotRes: CSQuest = {
     ...buffs.map(skillTask),
     ...commonFamiliarWeightBuffs(),
     beachTask($effect`Hot-Headed`),
-    {
-      name: "Daylight Shavings Buff",
-      completed: () => have($effect`Gull-Wing Moustache`),
-      ready: () => get("_speakeasyFreeFights") < 3 && !have($effect`Feeling Lost`),
-      do: $location`An Unusually Quiet Barroom Brawl`,
-      combat: new CSStrategy(() => Macro.easyFight().attack().repeat()),
-      outfit: () =>
-        uniform({
-          changes: {
-            hat: $item`Daylight Shavings Helmet`,
-          },
-        }),
-    },
+    // {
+    //   name: "Daylight Shavings Buff",
+    //   completed: () => have($effect`Gull-Wing Moustache`),
+    //   ready: () =>
+    //     get("_speakeasyFreeFights") < 3 &&
+    //     !have($effect`Feeling Lost`) &&
+    //     !have($effect`Grizzly Beard`),
+    //   do: $location`An Unusually Quiet Barroom Brawl`,
+    //   combat: new CSStrategy(() => Macro.easyFight().attack().repeat()),
+    //   outfit: () =>
+    //     uniform({
+    //       changes: {
+    //         hat: $item`Daylight Shavings Helmet`,
+    //       },
+    //     }),
+    // },
     {
       name: "Extinguisher + Cloake + Fax",
       completed: () => have($effect`Fireproof Foam Suit`),

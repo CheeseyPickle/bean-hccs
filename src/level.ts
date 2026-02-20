@@ -305,6 +305,7 @@ const Level: CSQuest = {
       outfit: () =>
         levelUniform({
           changes: {
+            hat: $item`Daylight Shavings Helmet`,
             shirt: $item`Jurassic Parka`,
             offhand: $item`Kramco Sausage-o-Matic™`,
             acc3: $item`Heartstone`,
