@@ -89,6 +89,7 @@ const Noncombat: CSQuest = {
     // },
 
     // Having fam weight buffs can't hurt
+    skillTask($skill`Heartstone: %pals`),
     potionTask($item`short stack of pancakes`),
     potionTask($item`lump of loyal latite`),
     {

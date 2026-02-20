@@ -322,6 +322,7 @@ const Level: CSQuest = {
       do: $location`The Neverending Party`,
       choices: { 1324: 1, 1325: 2 },
       limit: { tries: 1 },
+      outfit: () => levelUniform(),
     },
     {
       name: "Ten-Percent Bonus",
