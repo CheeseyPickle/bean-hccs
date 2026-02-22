@@ -82,22 +82,25 @@ const Weapon: CSQuest = {
     beachTask($effect`Lack of Body-Building`),
     famPool(),
     {
-      name: "Steal from Ungulith and Run Away",
+      name: "Steal from furious giant cow and Run Away",
       completed: () =>
         have($item`corrupted marrow`) || have($effect`Cowrruption`),
       do: (): void => {
-        CombatLoversLocket.reminisce($monster`ungulith`);
+        CombatLoversLocket.reminisce($monster`furious giant cow`);
         if (handlingChoice()) runChoice(-1);
       },
       outfit: () =>
         uniform({
           changes: {
-            back: $item`bat wings`,
+            back: $item`unwrapped knock-off retro superhero cape`,
             offhand: $item`Roman Candelabra`,
+            modes: {
+              retrocape: ["heck", "hold"],
+            }
           },
         }),
       post: (): void => {
-        const ungId = $monster`ungulith`.id.toFixed(0);
+        const ungId = $monster`furious giant cow`.id.toFixed(0);
         const locketIdStrings = get("_locketMonstersFought")
           .split(",")
           .map((x) => x.trim())
@@ -108,7 +111,7 @@ const Weapon: CSQuest = {
         }
       },
       combat: new CSStrategy(() =>
-        Macro.trySkill($skill`Swoop like a Bat`)
+        Macro.trySkill($skill`Perpetrate Mild Evil`)
           .trySkill($skill`Blow the Green Candle!`)
           .trySkill($skill`Feel Hatred`)
           .kill(),
