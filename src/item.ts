@@ -4,6 +4,7 @@ import {
   cliExecute,
   handlingChoice,
   runChoice,
+  use,
 } from "kolmafia";
 import {
   $effect,
@@ -12,6 +13,7 @@ import {
   $items,
   $monster,
   $skill,
+  AprilingBandHelmet,
   CombatLoversLocket,
   CommunityService,
   get,
@@ -49,6 +51,20 @@ const ItemDrop: CSQuest = {
           },
         }),
       combat: new CSStrategy(() => Macro.skill($skill`Become a Bat`).kill()),
+    },
+    {
+      name: "Lantern Battery",
+      completed: () => have($effect`Lantern-Charged`),
+      do: (): void => {
+        cliExecute("acquire 1 battery (lantern)");
+        use(1, $item`battery (lantern)`);
+      },
+    },
+    {
+      name: "Apriling Band Intrinsic",
+      completed: () => have($effect`Apriling Band Celebration Bop`),
+      ready: () => AprilingBandHelmet.canChangeSong(),
+      do: () => AprilingBandHelmet.conduct("Apriling Band Celebration Bop"),
     },
     skillTask($skill`Singer's Faithful Ocelot`),
     ...$items`lavender candy heart, bag of grain`.map(potionTask),

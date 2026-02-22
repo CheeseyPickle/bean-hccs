@@ -263,7 +263,7 @@ function doDailies() {
   // Upgrade saber for fam wt
   cliExecute("saber fam");
 
-  AprilingBandHelmet.conduct("Apriling Band Celebration Bop");
+  AprilingBandHelmet.conduct("Apriling Band Patrol Beat");
 
   MayamCalendar.submit("vessel", "yam2", "cheese", "explosion");
   MayamCalendar.submit("yam1", "bottle", "wall", "clock");
@@ -400,11 +400,11 @@ export function main(): void {
     Hitpoints,
     Mysticality,
     Moxie,
-    ItemDrop,
     Noncombat,
     HotRes,
     FamiliarWeight,
     Weapon,
     Spell,
+    ItemDrop,
   );
 }

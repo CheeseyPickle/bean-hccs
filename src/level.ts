@@ -193,15 +193,6 @@ const Level: CSQuest = {
       potionTask,
     ),
     {
-      name: "Lantern Battery",
-      ready: () => myMaxmp() - myMp() >= 70,
-      completed: () => have($effect`Lantern-Charged`),
-      do: (): void => {
-        cliExecute("acquire 1 battery (lantern)");
-        use(1, $item`battery (lantern)`);
-      },
-    },
-    {
       name: "Bat Wings Rest!",
       ready: () => get("_batWingsRestUsed") < 11 && myMp() < 80,
       completed: () => myMp() >= 80,
