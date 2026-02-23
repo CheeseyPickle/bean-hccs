@@ -317,18 +317,24 @@ const Level: CSQuest = {
       name: "Ten-Percent Bonus",
       completed: () => !have($item`a ten-percent bonus`),
       do: () => use(1, $item`a ten-percent bonus`),
+      outfit: () => ({
+        modifier: "Mysticality Experience Percent -tie",
+      }),
     },
     {
       name: "Bastille",
       completed: () => get("_bastilleGames") > 0,
       do: () => cliExecute("bastille myst brutalist gesture"),
+      outfit: () => ({
+        modifier: "Mysticality Experience Percent -tie",
+      }),
     },
     {
       name: "Mouthwash",
       completed: () => !have($item`Mmm-brr! brand mouthwash`),
       do: () => use(1, $item`Mmm-brr! brand mouthwash`),
       outfit: () => ({
-        modifier: "cold resistance -tie",
+        modifier: "cold resistance, 10 Mysticality Experience Percent -tie",
         familiar: $familiar`Cooler Yeti`,
       }),
     },
@@ -432,7 +438,8 @@ const Level: CSQuest = {
     },
     {
       name: "Freekill NEP",
-      completed: () => get("_clubEmTimeUsed") >= 5,
+      completed: () =>
+        get("_clubEmTimeUsed") >= 5 && get("_bczSweatBulletsCasts") >= 3,
       do: $location`The Neverending Party`,
       outfit: (): OutfitSpec => {
         foldshirt();

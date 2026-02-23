@@ -68,9 +68,9 @@ import { useBestFamiliar } from "./outfit";
 
 function doGuaranteedGoblin() {
   // kill a kramco for the sausage before coiling wire
-  if (!haveEffect($effect`Feeling Lost`) && sausageFightGuaranteed()) {
+  while (!haveEffect($effect`Feeling Lost`) && sausageFightGuaranteed()) {
     ensureMp(12);
-    equipStatOutfit();
+    equipKramcoOutfit();
     useBestFamiliar(true);
     const offHand = equippedItem($slot`off-hand`);
     equip($item`Kramco Sausage-o-Matic™`);
@@ -82,7 +82,10 @@ function doGuaranteedGoblin() {
       $location`Noob Cave`,
       Macro.if_(
         `!monsterid ${$monster`sausage goblin`.id}`,
-        new Macro().step("abort"),
+        new Macro().if_(
+          `!monsterid ${$monster`time cop`.id}`,
+          new Macro().step("abort"),
+        ),
       ).step(Macro.easyFight().itemSkills().kill()),
     );
     equip(offHand);
@@ -108,12 +111,16 @@ function vote() {
   }
 }
 
-function equipStatOutfit() {
+function equipKramcoOutfit() {
   cliExecute("umbrella ml");
   new Requirement(
     ["100 mysticality experience percent, mysticality experience"],
     {
-      forceEquip: [$item`makeshift garbage shirt`, $item`unbreakable umbrella`],
+      forceEquip: [
+        $item`makeshift garbage shirt`,
+        $item`unbreakable umbrella`,
+        $item`Möbius ring`,
+      ],
       preventEquip: [$item`Daylight Shavings Helmet`],
     },
   ).maximize();
