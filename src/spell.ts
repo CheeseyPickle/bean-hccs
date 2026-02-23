@@ -53,6 +53,15 @@ const Spell: CSQuest = {
     potionTask($item`battery (AAA)`),
     potionTask($item`tobiko marble soda`),
     {
+      name: "Lantern Battery",
+      ready: () => have($item`battery (AAA)`, 4),
+      completed: () => have($effect`Lantern-Charged`),
+      do: (): void => {
+        cliExecute("acquire 1 battery (lantern)");
+        use(1, $item`battery (lantern)`);
+      },
+    },
+    {
       name: "Play Pool",
       completed: () =>
         get("_poolGames") >= 3 || have($effect`Mental A-cue-ity`),

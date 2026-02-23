@@ -54,6 +54,7 @@ const ItemDrop: CSQuest = {
     },
     {
       name: "Lantern Battery",
+      ready: () => have($item`battery (AAA)`, 4),
       completed: () => have($effect`Lantern-Charged`),
       do: (): void => {
         cliExecute("acquire 1 battery (lantern)");
