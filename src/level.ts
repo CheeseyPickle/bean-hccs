@@ -15,9 +15,7 @@ import {
   myAdventures,
   myBasestat,
   myHp,
-  myLevel,
   myMaxhp,
-  myMaxmp,
   myMp,
   numericModifier,
   runChoice,
@@ -40,7 +38,6 @@ import {
   $skills,
   $stat,
   AutumnAton,
-  ensureEffect,
   get,
   have,
   MayamCalendar,
@@ -442,7 +439,9 @@ const Level: CSQuest = {
         const killSource =
           get("_clubEmTimeUsed") < 5
             ? { weapon: $item`legendary seal-clubbing club` }
-            : {};
+            : get("_bczSweatBulletsCasts") < 3
+              ? { acc1: $item`blood cubic zirconia` }
+              : {};
         const changes = {
           ...killSource,
         };
@@ -450,9 +449,11 @@ const Level: CSQuest = {
       },
       combat: new CSStrategy(() =>
         Macro.if_($monster`sausage goblin`, Macro.default(true))
+          .if_($monster`time cop`, Macro.default(true))
           .trySkill($skill`Bowl Sideways`)
           .skill($skill`Sing Along`)
           .trySkill($skill`Club 'Em Back in Time`)
+          .trySkill($skill`BCZ: Sweat Bullets`)
           .abort(),
       ),
       choices: { [1324]: 5 },
