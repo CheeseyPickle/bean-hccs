@@ -311,7 +311,12 @@ const Level: CSQuest = {
       do: $location`The Neverending Party`,
       choices: { 1324: 1, 1325: 2 },
       limit: { tries: 1 },
-      outfit: () => levelUniform(),
+      outfit: () =>
+        levelUniform({
+          changes: {
+            acc1: $item.none,
+          },
+        }),
     },
     {
       name: "Ten-Percent Bonus",
@@ -463,7 +468,7 @@ const Level: CSQuest = {
           .trySkill($skill`BCZ: Sweat Bullets`)
           .abort(),
       ),
-      choices: { [1324]: 5 },
+      choices: { [1324]: 5, [1562]: 19 },
     },
   ],
 };

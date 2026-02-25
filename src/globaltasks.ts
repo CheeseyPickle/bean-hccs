@@ -4,6 +4,7 @@ import {
   haveEffect,
   myHp,
   myMaxhp,
+  myParadoxicity,
   totalTurnsPlayed,
   useSkill,
 } from "kolmafia";
@@ -85,12 +86,12 @@ const POST_QUEST: Quest<Task> = {
       },
       do: $location`Noob Cave`,
       combat: new CSStrategy(() =>
-        Macro.if_('!monstername "sausage goblin"', new Macro().step("abort"))
-          .itemSkills()
+        Macro.itemSkills()
           .easyFight()
           .kill(),
       ),
-      limit: { tries: 1 },
+      choices: { [1562]: myParadoxicity() >= 1 ? 7 : 19 },
+      limit: { turns: 1 },
     },
     {
       name: "Voting Monster",
@@ -108,7 +109,8 @@ const POST_QUEST: Quest<Task> = {
       },
       do: $location`Noob Cave`,
       combat: new CSStrategy(() => Macro.default()),
-      limit: { tries: 1 },
+      choices: { [1562]: myParadoxicity() >= 1 ? 7 : 19 },
+      limit: { turns: 1 },
     },
   ],
 };

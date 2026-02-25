@@ -48,7 +48,7 @@ export class Macro extends LibramMacro {
             .skill($skill`Sing Along`)
             .kill();
     }
-    static default(bowlSideways?: boolean): Macro {
+    static default(bowlSideways: boolean = false): Macro {
         return new Macro().default(bowlSideways);
     }
 
