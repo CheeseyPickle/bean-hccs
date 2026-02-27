@@ -91,7 +91,7 @@ const POST_QUEST: Quest<Task> = {
           .kill(),
       ),
       choices: { [1562]: myParadoxicity() >= 1 ? 7 : 19 },
-      limit: { turns: 1 },
+      limit: { tries: 3 },
     },
     {
       name: "Voting Monster",
@@ -110,7 +110,7 @@ const POST_QUEST: Quest<Task> = {
       do: $location`Noob Cave`,
       combat: new CSStrategy(() => Macro.default()),
       choices: { [1562]: myParadoxicity() >= 1 ? 7 : 19 },
-      limit: { turns: 1 },
+      limit: { tries: 3 },
     },
   ],
 };
