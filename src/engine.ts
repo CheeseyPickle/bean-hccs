@@ -187,6 +187,10 @@ export class CSEngine extends Engine<never, Task> {
 
       // Post-CS run stuff personalized to me
       chatPrivate("Buffy", "1000 Jingle Bells");
+      chatPrivate("Buffy", "30 Reptilian Fortitude");
+      chatPrivate("Buffy", "30 Ghostly Shell");
+      chatPrivate("Buffy", "30 Astral Shell");
+      chatPrivate("Buffy", "30 Elemental Saucesphere");
 
       cliExecute("restart; scripts/login.ash;");
     } finally {
