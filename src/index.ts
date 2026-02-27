@@ -145,8 +145,7 @@ function setup() {
     use($item`TakerSpace letter of Marque`);
     TakerSpace.collect();
     TakerSpace.make($item`pirate dinghy`);
-    create($item`tankard of spiced Goldschlepper`);
-    // TakerSpace.make($item`tankard of spiced Goldschlepper`);
+    TakerSpace.make($item`tankard of spiced Goldschlepper`);
     TakerSpace.make($item`harpoon`);
     TakerSpace.make($item`cursed Aztec tamale`);
     TakerSpace.make($item`spices`);
