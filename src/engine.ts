@@ -165,7 +165,6 @@ export class CSEngine extends Engine<never, Task> {
       CommunityService.donate();
       cliExecute("refresh all");
       uneffect($effect`Feeling Lost`);
-      uneffect($effect`Cowrruption`);
       cliExecute(get("kingLiberatedScript"));
 
       if (get("_cloudTalkSmoker")) {
