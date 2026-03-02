@@ -280,9 +280,15 @@ const Level: CSQuest = {
       combat: new CSStrategy(() =>
         Macro.externalIf(
           get("heartstoneLetters") === "JIV",
-          Macro.skill($skill`Steal Monster's Heart`),
+          Macro.if_(
+            $monster`sausage goblin`,
+            Macro.skill($skill`Steal Monster's Heart`),
+          ),
         )
-          .skill($skill`Launch spikolodon spikes`)
+          .externalIf(
+            !get("noncombatForcerActive"),
+            Macro.skill($skill`Launch spikolodon spikes`),
+          )
           .easyFight()
           .trySkill($skill`Heartstone: %kill`)
           .skill($skill`Stuffed Mortar Shell`)
@@ -314,7 +320,7 @@ const Level: CSQuest = {
       outfit: () =>
         levelUniform({
           changes: {
-            acc1: $item.none,
+            acc2: $item.none,
           },
         }),
     },
@@ -420,7 +426,7 @@ const Level: CSQuest = {
           return levelUniform({
             changes: {
               back: $item`vampyric cloake`,
-              acc3: $item`Cincho de Mayo`,
+              acc1: $item`Cincho de Mayo`,
             },
           });
         else return levelUniform();

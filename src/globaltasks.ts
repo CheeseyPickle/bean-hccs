@@ -102,10 +102,11 @@ const POST_QUEST: Quest<Task> = {
         !haveEffect($effect`Meteor Showered`) &&
         !haveEffect($effect`Fireproof Foam Suit`),
       outfit: (): OutfitSpec => {
-        return {
-          acc3: $item`"I Voted!" sticker`,
-          familiar: getBestFamiliar(true),
-        };
+        return levelUniform({
+          changes: {
+            acc1: $item`"I Voted!" sticker`,
+          },
+        });
       },
       do: $location`Noob Cave`,
       combat: new CSStrategy(() => Macro.default()),

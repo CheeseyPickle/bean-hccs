@@ -10,7 +10,8 @@ const Drink: CSQuest = {
   name: "Drink Pilsners",
   type: "MISC",
   completed: () =>
-    !have($item`astral pilsner`) && !have($item`astral six-pack`),
+    !(have($item`astral pilsner`) || have($effect`Salty Mouth`)) &&
+    !have($item`astral six-pack`),
   tasks: [
     {
       name: "Open Pilsners",
@@ -28,7 +29,7 @@ const Drink: CSQuest = {
     },
     {
       name: "Drink Pilsners",
-      ready: () => have($item`astral pilsner`),
+      ready: () => have($item`astral pilsner`) && have($effect`Salty Mouth`),
       completed: () => !have($item`astral pilsner`),
       do: () => drink($item`astral pilsner`),
     },
