@@ -37,6 +37,7 @@
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-libram": "^0.5.3",
+    "jiti": "^2.6.1",
     "install": "^0.13.0",
     "patch-package": "^8.0.1",
     "prettier": "^3.8.1",
